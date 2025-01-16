@@ -20,6 +20,7 @@ fn ArticleList() -> impl IntoView {
 }
 
 type ArticleId = String;
+type ArticleContent = String;
 
 #[derive(Params, PartialEq)]
 struct ArticleParams {
@@ -39,8 +40,17 @@ fn Article() -> impl IntoView {
             .unwrap_or_default()
     };
 
+    let once = Resource::new(id, |id| async move { get_article(id).await });
+
     view! {
         <h2>"Some Article " { id }</h2>
+
+        <Suspense
+            fallback=move || view! { <p>"Loading..."</p> }
+        >
+            {move || once.get().map(|a| view! { <p> {a} </p> })}
+        </Suspense>
+
     }
 }
 
@@ -49,6 +59,12 @@ fn NoArticle() -> impl IntoView {
     view! {
         <h3>"No article"</h3>
     }
+}
+
+#[server]
+pub async fn get_article(article_id: ArticleId) -> Result<ArticleContent, ServerFnError> {
+    tokio::time::sleep(std::time::Duration::from_secs(2)).await;
+    Ok(format!("Loaded article ID {article_id}"))
 }
 
 #[component(transparent)]
