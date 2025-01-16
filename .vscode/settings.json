@@ -2,7 +2,8 @@
     "conventionalCommits.scopes": [
         "readme.md",
         "frontend+backend",
-        "vscode"
+        "vscode",
+        "articles"
     ],
     "rust-analyzer.cargo.features": [
         "ssr"

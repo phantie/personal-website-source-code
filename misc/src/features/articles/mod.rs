@@ -60,12 +60,21 @@ fn Article() -> impl IntoView {
     let get_article_content_resource =
         Resource::new(id, |id| async move { get_article_content(id).await });
 
+    let get_article_resource = Resource::new(id, |id| async move { get_article(id).await });
+
     view! {
         <div class="articles-article">
-            <h1>"Some Article "{ id }</h1>
+            <Suspense fallback=move || view! { <p>"Loading..."</p> }>
+                {move || get_article_resource.get().map(|article|
+                    match article {
+                        Ok(article) => view! { <h1> {article.title} </h1> }.into_any(),
+                        Err(_) => view! {}.into_any()
+                    }
+                )}
+            </Suspense>
 
             <Suspense fallback=move || view! { <p>"Loading..."</p> }>
-                {move || get_article_content_resource.get().map(|a| view! { <p> {a} </p> })}
+                {move || get_article_content_resource.get().map(|content| view! { <p> {content} </p> })}
             </Suspense>
         </div>
 
@@ -78,22 +87,30 @@ fn NoArticle() -> impl IntoView {
 }
 
 #[server]
+pub async fn get_article(article_id: ArticleId) -> Result<Article, ServerFnError> {
+    let articles = Articles::default();
+    let article = articles.get_by_id(article_id).clone();
+    Ok(article)
+}
+
+#[server]
 pub async fn get_article_content(article_id: ArticleId) -> Result<ArticleContent, ServerFnError> {
     // tokio::time::sleep(std::time::Duration::from_millis(500)).await;
-    // TODO get from env
 
-    let relative_sources = RelativeLocalArticleSources::default();
+    let articles = Articles::default();
+
+    let article = articles.get_by_id(article_id);
+
+    let relative_source = article.relative_source.clone();
 
     let local_source = LocalArticleSource {
         base_path: get_base_path().into(),
-        relative_source: relative_sources.get_by_id(&article_id).clone(),
+        relative_source,
     };
 
     let content = local_source.load_article_content();
 
-    Ok(format!(
-        "Loaded article ID {article_id}\nContent: {content}"
-    ))
+    Ok(content)
 }
 
 #[component(transparent)]
@@ -108,5 +125,6 @@ pub fn ArticleRoutes() -> impl MatchNestedRoutes + Clone {
 }
 
 fn get_base_path() -> &'static str {
+    // TODO get from env
     "/Users/phantie/Projects/misc/misc/src/features/articles/md"
 }

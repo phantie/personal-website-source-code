@@ -1,3 +1,4 @@
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
@@ -10,7 +11,7 @@ pub trait ArticleSource {
     fn load_article_content(&self) -> ArticleContent;
 }
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct RelativeLocalArticleSource {
     relative_path: String,
 }
@@ -30,42 +31,15 @@ impl ArticleSource for LocalArticleSource {
     }
 }
 
-pub struct RelativeLocalArticleSources {
-    first: RelativeLocalArticleSource,
-    not_found: RelativeLocalArticleSource,
+#[derive(Clone, Serialize, Deserialize)]
+pub struct Article {
+    pub relative_source: RelativeLocalArticleSource,
+    pub id: ArticleId,
+    pub title: ArticleTitle,
+    pub tags: Vec<ArticleTag>,
 }
 
-impl Default for RelativeLocalArticleSources {
-    fn default() -> Self {
-        Self {
-            first: RelativeLocalArticleSource {
-                relative_path: "first.md".into(),
-            },
-            not_found: RelativeLocalArticleSource {
-                relative_path: "not_found.md".into(),
-            },
-        }
-    }
-}
-
-impl RelativeLocalArticleSources {
-    pub fn get_by_id(&self, article_id: &ArticleId) -> &RelativeLocalArticleSource {
-        match article_id.as_ref() {
-            "first" => &self.first,
-            _ => &self.not_found,
-        }
-    }
-}
-
-#[derive(Clone)]
-struct Article {
-    relative_source: RelativeLocalArticleSource,
-    id: ArticleId,
-    title: ArticleTitle,
-    tags: Vec<ArticleTag>,
-}
-
-struct Articles {
+pub struct Articles {
     pub inner: Vec<Article>,
 
     not_found: Article,
