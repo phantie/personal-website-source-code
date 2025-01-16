@@ -25,6 +25,18 @@ body {
     font-size: 2rem;
 }
 
-.articles-article h1 {
-    font-size: 2rem;
+
+.articles-article {
+    display: flex;
+    flex-direction: column;
+}
+
+.articles-article .markdown-body {
+    text-align: left;
+}
+
+.articles-article .markdown-body {
+    padding: 5% 5%;
+    height: 100vh;
+    overflow: auto;
 }
