@@ -1,5 +1,6 @@
 {
     "conventionalCommits.scopes": [
-        "readme.md"
+        "readme.md",
+        "frontend+backend"
     ]
 }
