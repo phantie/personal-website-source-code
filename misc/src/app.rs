@@ -36,6 +36,8 @@ pub fn App() -> impl IntoView {
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
         <Stylesheet id="leptos" href="/pkg/misc.css"/>
+        <Stylesheet href="https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css"/>
+
 
         // sets the document title
         <Title text="Welcome to Leptos"/>

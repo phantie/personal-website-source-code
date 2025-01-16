@@ -1,12 +1,13 @@
 #![allow(unused)]
 
+use leptos::html::article;
 use leptos::prelude::*;
 use leptos::Params;
 use leptos_router::components::Outlet;
 use leptos_router::hooks::{use_params, use_query};
 use leptos_router::params::Params;
 use leptos_router::{
-    components::{ParentRoute, Route, Router, Routes},
+    components::{ParentRoute, Route, Router, Routes, A},
     path, MatchNestedRoutes, StaticSegment,
 };
 mod defs;
@@ -15,9 +16,26 @@ use defs::*;
 /// Renders the article list
 #[component]
 fn ArticleList() -> impl IntoView {
+    let article_list = vec!["first", "not_found"]
+        .into_iter()
+        .map(|article_id| {
+            let url = format!("/articles/{article_id}");
+            view! {
+                <div class="articles-list-item">
+                    <A href=url>{article_id}</A>
+                </div>
+            }
+        })
+        .collect::<Vec<_>>();
+
     view! {
-        <h1>"Article list"</h1>
-        <Outlet/>
+        <div class="articles">
+            <div class="articles-list">
+                <h1>"Article list"</h1>
+                {article_list}
+            </div>
+            <Outlet/>
+        </div>
     }
 }
 
@@ -43,34 +61,31 @@ fn Article() -> impl IntoView {
         Resource::new(id, |id| async move { get_article_content(id).await });
 
     view! {
-        <h2>"Some Article "{ id }</h2>
+        <div class="articles-article">
+            <h1>"Some Article "{ id }</h1>
 
-        <Suspense
-            fallback=move || view! { <p>"Loading..."</p> }
-        >
-            {move || get_article_content_resource.get().map(|a| view! { <p> {a} </p> })}
-        </Suspense>
+            <Suspense fallback=move || view! { <p>"Loading..."</p> }>
+                {move || get_article_content_resource.get().map(|a| view! { <p> {a} </p> })}
+            </Suspense>
+        </div>
 
     }
 }
 
 #[component]
 fn NoArticle() -> impl IntoView {
-    view! {
-        <h3>"No article"</h3>
-    }
+    view! {}
 }
 
 #[server]
 pub async fn get_article_content(article_id: ArticleId) -> Result<ArticleContent, ServerFnError> {
     // tokio::time::sleep(std::time::Duration::from_millis(500)).await;
     // TODO get from env
-    let base_path: String = "/Users/phantie/Projects/misc/misc/src/features/articles/md".into();
 
     let relative_sources = RelativeLocalArticleSources::default();
 
     let local_source = LocalArticleSource {
-        base_path,
+        base_path: get_base_path().into(),
         relative_source: relative_sources.get_by_id(&article_id).clone(),
     };
 
@@ -90,4 +105,8 @@ pub fn ArticleRoutes() -> impl MatchNestedRoutes + Clone {
         </ParentRoute>
     }
     .into_inner()
+}
+
+fn get_base_path() -> &'static str {
+    "/Users/phantie/Projects/misc/misc/src/features/articles/md"
 }

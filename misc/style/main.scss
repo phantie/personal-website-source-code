@@ -1,4 +1,30 @@
+html {
+    font-size: 16px;
+}
+
 body {
     font-family: sans-serif;
     text-align: center;
+}
+
+.articles {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.articles-list {
+    flex: 1;
+}
+
+.articles-article {
+    flex: 3;
+}
+
+.articles-list h1 {
+    font-size: 2rem;
+}
+
+.articles-article h1 {
+    font-size: 2rem;
 }
