@@ -3,7 +3,7 @@
 use leptos::prelude::*;
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
 use leptos_router::{
-    components::{ParentRoute, Route, Router, Routes},
+    components::{ParentRoute, Redirect, Route, Router, Routes},
     path, MatchNestedRoutes, StaticSegment,
 };
 
@@ -20,10 +20,16 @@ fn HomePage() -> impl IntoView {
     }
 }
 
+#[component]
+fn RedirectToArticles() -> impl IntoView {
+    view! { <Redirect path="/articles" /> }
+}
+
 #[component(transparent)]
 pub fn HomeRoutes() -> impl MatchNestedRoutes + Clone {
     view! {
-        <Route path=StaticSegment("/") view=HomePage/>
+        // <Route path=StaticSegment("/") view=HomePage/>
+        <Route path=StaticSegment("/") view=RedirectToArticles />
     }
     .into_inner()
 }

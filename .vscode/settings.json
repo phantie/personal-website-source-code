@@ -4,7 +4,8 @@
         "frontend+backend",
         "vscode",
         "articles",
-        "articles/photography"
+        "articles/photography",
+        "home"
     ],
     "rust-analyzer.cargo.features": [
         "ssr"
