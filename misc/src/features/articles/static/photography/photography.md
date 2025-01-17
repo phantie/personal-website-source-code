@@ -7,3 +7,6 @@
 
 # Elephant
 ![Elephant](https://files.worldwildlife.org/wwfcmsprod/images/African_elephant_YE2021_Karine_Aigner_5kzx389mvt/magazine_small/1s803ne5x2_elephantv2.jpg)
+
+# Night
+![](/static/articles/photography/night.jpg)
