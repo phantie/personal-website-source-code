@@ -26,7 +26,7 @@ pub async fn get_article_content(article_id: ArticleId) -> Result<ArticleContent
     let relative_source = article.relative_source.clone();
 
     let local_source = LocalArticleSource {
-        base_path: get_base_path().into(),
+        base_path: get_articles_base_path().into(),
         relative_source,
     };
 
@@ -35,7 +35,10 @@ pub async fn get_article_content(article_id: ArticleId) -> Result<ArticleContent
     Ok(content)
 }
 
-fn get_base_path() -> &'static str {
-    // TODO get from env
-    "/Users/phantie/Projects/misc/misc/src/features/articles/static"
+fn get_articles_base_path() -> &'static str {
+    use std::path::PathBuf;
+    let mut base = PathBuf::from(".");
+    base.push("src/features/articles/static");
+    let result = base.to_str().unwrap().to_owned().leak();
+    result
 }
