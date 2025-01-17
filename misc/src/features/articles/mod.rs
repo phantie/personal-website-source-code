@@ -17,13 +17,20 @@ use defs::*;
 /// Renders the article list
 #[component]
 fn ArticleList() -> impl IntoView {
-    let article_list = vec!["first", "not_found"]
+    let articles = Articles::default();
+
+    let article_list = articles
+        .inner
         .into_iter()
-        .map(|article_id| {
-            let url = format!("/articles/{article_id}");
+        .map(|article| {
+            let url = format!("/articles/{}", article.id);
             view! {
                 <div class="articles-list-item">
-                    <A href=url>{article_id}</A>
+                    <A href=url>
+                        <div class="articles-list-item-link">
+                            {article.title}
+                        </div>
+                    </A>
                 </div>
             }
         })
@@ -32,8 +39,10 @@ fn ArticleList() -> impl IntoView {
     view! {
         <div class="articles">
             <div class="articles-list">
-                <h1>"Article list"</h1>
+            <h1>"Posts"</h1>
+                <div class="articles-list-items">
                 {article_list}
+                </div>
             </div>
             <Outlet/>
         </div>
