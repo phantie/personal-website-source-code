@@ -18,6 +18,7 @@ fn parse_md(markdown_input: &str) -> String {
 
     let mut options = Options::empty();
     options.insert(Options::ENABLE_STRIKETHROUGH);
+    options.insert(Options::ENABLE_HEADING_ATTRIBUTES);
     let parser = Parser::new_ext(markdown_input, options);
 
     let mut html_output = String::new();
@@ -38,6 +39,7 @@ pub fn Article() -> impl IntoView {
             .and_then(|params| params.id.clone())
     };
 
+    // let get_article_content_resource = Resource::new_blocking(id_memo, |id| async move {
     let get_article_content_resource = Resource::new(id_memo, |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
@@ -102,6 +104,35 @@ mod hljs {
     }
 }
 
+fn scroll_to_hash_element() {
+    use web_sys::{window, Document, ScrollBehavior, ScrollIntoViewOptions};
+
+    // Get the current URL hash (the part after #)
+    let location = window().unwrap().location();
+    let hash = location.hash();
+
+    // Check if there's a hash (non-empty)
+    if let Ok(hash) = hash {
+        if hash.is_empty() {
+            return;
+        }
+
+        // Remove the "#" from the hash
+        let id = &hash[1..];
+
+        // Get the document
+        let document = window().unwrap().document().unwrap();
+
+        // Try to find the element with the ID
+        if let Some(element) = document.get_element_by_id(id) {
+            // Scroll the element into view
+            let mut options = ScrollIntoViewOptions::new();
+            options.set_behavior(ScrollBehavior::Instant);
+            element.scroll_into_view_with_scroll_into_view_options(&options);
+        }
+    }
+}
+
 /// Thanks to https://github.com/metatoaster/leptos_axum_js_ssr/
 #[component]
 fn HighlightCode() -> impl IntoView {
@@ -111,12 +142,13 @@ fn HighlightCode() -> impl IntoView {
             move || Suspend::new(async move {
                 Effect::new(move |_| {
                     request_animation_frame(move || {
-                        leptos::logging::log!("request_animation_frame invoking hljs and anchors");
+                        leptos::logging::log!("applying js calls");
                         // under SSR this is an noop, but it wouldn't be called under there anyway because
                         // it isn't the isomorphic version, i.e. Effect::new_isomorphic(...).
                         hljs_highlight_all();
                         anchors_add();
                         anchors_add_arg(".articles-article h1".into());
+                        scroll_to_hash_element();
                     });
                 });
                 view! {}
