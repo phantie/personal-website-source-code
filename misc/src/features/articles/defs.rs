@@ -70,6 +70,14 @@ fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
+                relative_path: "animals/article.md".into(),
+            },
+            id: "animals".into(),
+            title: "Animals".into(),
+            tags: vec![],
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
                 relative_path: "photography/photography.md".into(),
             },
             id: "photography".into(),
