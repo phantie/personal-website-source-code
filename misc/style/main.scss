@@ -80,6 +80,10 @@ body {
     overflow: auto;
 }
 
+.articles-article img {
+    max-height: 90vh;
+}
+
 pre code.hljs {
     padding: 0 !important;
 }
