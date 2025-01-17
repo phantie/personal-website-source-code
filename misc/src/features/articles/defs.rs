@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::path::{Path, PathBuf};
 
 pub type ArticleList = Vec<Article>;
 pub type ArticleId = String;
@@ -24,7 +23,7 @@ pub struct LocalArticleSource {
 impl ArticleSource for LocalArticleSource {
     fn load_article_content(&self) -> ArticleContent {
         use std::fs::read_to_string;
-        use std::path::{Path, PathBuf};
+        use std::path::Path;
         let base_path = Path::new(&self.base_path);
         let full_path = base_path.join(&self.relative_source.relative_path);
         let result = read_to_string(full_path);

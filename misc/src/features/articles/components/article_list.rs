@@ -1,18 +1,6 @@
-#![allow(unused)]
-
 use crate::features::articles::defs::*;
-use crate::features::articles::server_fns::{get_any_article_id, get_article, get_article_content};
-use leptos::html::article;
 use leptos::prelude::*;
-use leptos::Params;
-use leptos_meta::Stylesheet;
-use leptos_router::components::Outlet;
-use leptos_router::hooks::{use_params, use_query};
-use leptos_router::params::Params;
-use leptos_router::{
-    components::{ParentRoute, Route, Router, Routes, A},
-    path, MatchNestedRoutes, StaticSegment,
-};
+use leptos_router::components::{Outlet, A};
 
 /// Renders the article list
 #[component]
