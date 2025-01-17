@@ -114,7 +114,7 @@ mod js {
 
         #[wasm_bindgen]
         extern "C" {
-            #[wasm_bindgen(js_namespace = hljs, js_name = highlightAll)]
+            #[wasm_bindgen(js_namespace=hljs, js_name=highlightAll)]
             pub fn highlight_all();
         }
     }
@@ -124,19 +124,18 @@ mod js {
 
         #[wasm_bindgen]
         extern "C" {
-            #[wasm_bindgen(js_namespace = anchors, js_name = add)]
-            pub fn add();
+            #[wasm_bindgen(js_namespace=anchors, js_name=add)]
+            pub fn add_default();
 
-            #[wasm_bindgen(js_namespace = anchors, js_name = add)]
-            pub fn add_arg(value: String);
+            #[wasm_bindgen(js_namespace=anchors, js_name=add)]
+            pub fn add_with_selector(selector: String);
         }
     }
 }
 
 fn apply_js() {
     js::hljs::highlight_all();
-    js::anchors::add();
-    js::anchors::add_arg(".articles-article h1".into());
+    js::anchors::add_default();
     js::scroll_to_hash_element();
 }
 
