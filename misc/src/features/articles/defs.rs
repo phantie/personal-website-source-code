@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
+pub type ArticleList = Vec<Article>;
 pub type ArticleId = String;
 pub type ArticleContent = String;
 pub type ArticleTag = String;
@@ -40,42 +41,51 @@ pub struct Article {
 }
 
 pub struct Articles {
-    pub inner: Vec<Article>,
+    // order in list depends on order in Vec
+    pub ordered_articles: ArticleList,
 
-    not_found: Article,
+    not_found_article: Article,
     id_to_article: HashMap<ArticleId, Article>,
+}
+
+fn get_not_found_article() -> Article {
+    Article {
+        relative_source: RelativeLocalArticleSource {
+            relative_path: "not_found.md".into(),
+        },
+        id: "not_found".into(),
+        title: "Not found".into(),
+        tags: vec![],
+    }
+}
+
+fn get_articles_chronological_order() -> ArticleList {
+    vec![Article {
+        relative_source: RelativeLocalArticleSource {
+            relative_path: "first.md".into(),
+        },
+        id: "first".into(),
+        title: "First article".into(),
+        tags: vec![],
+    }]
 }
 
 impl Default for Articles {
     fn default() -> Self {
-        let not_found = Article {
-            relative_source: RelativeLocalArticleSource {
-                relative_path: "not_found.md".into(),
-            },
-            id: "not_found".into(),
-            title: "Not found".into(),
-            tags: vec![],
-        };
+        let not_found_article = get_not_found_article();
 
-        let articles = vec![
-            Article {
-                relative_source: RelativeLocalArticleSource {
-                    relative_path: "first.md".into(),
-                },
-                id: "first".into(),
-                title: "First article".into(),
-                tags: vec![],
-            },
-            not_found.clone(),
-        ];
+        let ordered_articles = get_articles_chronological_order()
+            .into_iter()
+            .rev()
+            .collect::<ArticleList>();
 
         Self {
-            id_to_article: articles
+            id_to_article: ordered_articles
                 .iter()
                 .map(|article| (article.id.clone(), article.clone()))
                 .collect(),
-            not_found,
-            inner: articles,
+            not_found_article,
+            ordered_articles,
         }
     }
 }
@@ -84,6 +94,6 @@ impl Articles {
     pub fn get_by_id(&self, article_id: ArticleId) -> &Article {
         self.id_to_article
             .get(&article_id)
-            .unwrap_or(&self.not_found)
+            .unwrap_or(&self.not_found_article)
     }
 }

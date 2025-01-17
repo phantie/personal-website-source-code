@@ -20,8 +20,10 @@ fn ArticleList() -> impl IntoView {
     let articles = Articles::default();
 
     let article_list = articles
-        .inner
+        .ordered_articles
         .into_iter()
+        // .cycle()
+        // .take(20)
         .map(|article| {
             let url = format!("/articles/{}", article.id);
             view! {
