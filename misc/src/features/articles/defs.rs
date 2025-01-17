@@ -11,7 +11,7 @@ pub trait ArticleSource {
     fn load_article_content(&self) -> ArticleContent;
 }
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct RelativeLocalArticleSource {
     relative_path: String,
 }
@@ -31,7 +31,7 @@ impl ArticleSource for LocalArticleSource {
     }
 }
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct Article {
     pub relative_source: RelativeLocalArticleSource,
     pub id: ArticleId,

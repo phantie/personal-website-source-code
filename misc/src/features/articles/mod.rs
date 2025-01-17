@@ -71,33 +71,40 @@ pub fn parse_md(markdown_input: &str) -> String {
 fn Article() -> impl IntoView {
     let params = use_params::<ArticleParams>();
 
-    let id = move || {
+    let id_memo = move || {
         params
             .read()
             .as_ref()
             .ok()
             .and_then(|params| params.id.clone())
-            .unwrap_or_default()
     };
 
-    let get_article_content_resource =
-        Resource::new(id, |id| async move { get_article_content(id).await });
+    let get_article_content_resource = Resource::new(id_memo, |id| async move {
+        let id = if let Some(id) = id {
+            Ok(id)
+        } else {
+            let id = get_any_article_id().await;
+            id
+        }?;
 
-    let get_article_resource = Resource::new(id, |id| async move { get_article(id).await });
+        get_article_content(id).await
+    });
+
+    let get_article_resource = Resource::new(id_memo, |id| async move {
+        let id = if let Some(id) = id {
+            Ok(id)
+        } else {
+            let id = get_any_article_id().await;
+            id
+        }?;
+
+        get_article(id).await
+    });
 
     view! {
         // <Stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css"/>
         <Stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css"/>
         <div class="articles-article">
-            // <Suspense fallback=move || view! { <p>"Loading..."</p> }>
-            //     {move || get_article_resource.get().map(|article|
-            //         match article {
-            //             Ok(article) => view! { <h1> {article.title} </h1> }.into_any(),
-            //             Err(_) => view! {}.into_any()
-            //         }
-            //     )}
-            // </Suspense>
-
             <Suspense fallback=move || view! { <p>"Loading..."</p> }>
                 {move || get_article_content_resource.get().map(|content|
                     {
@@ -111,16 +118,18 @@ fn Article() -> impl IntoView {
     }
 }
 
-#[component]
-fn NoArticle() -> impl IntoView {
-    view! {}
-}
-
 #[server]
 pub async fn get_article(article_id: ArticleId) -> Result<Article, ServerFnError> {
     let articles = Articles::default();
     let article = articles.get_by_id(article_id).clone();
     Ok(article)
+}
+
+#[server]
+pub async fn get_any_article_id() -> Result<ArticleId, ServerFnError> {
+    let articles = Articles::default();
+    let article = articles.get_by_id("first".into());
+    Ok(article.id.clone())
 }
 
 #[server]
@@ -147,8 +156,8 @@ pub async fn get_article_content(article_id: ArticleId) -> Result<ArticleContent
 pub fn ArticleRoutes() -> impl MatchNestedRoutes + Clone {
     view! {
         <ParentRoute path=path!("/articles") view=ArticleList>
-            <Route path=path!(":id") view=Article/>
-            <Route path=path!("") view=NoArticle/>
+            <Route path=path!(":id") view=Article />
+            <Route path=path!("") view=Article />
         </ParentRoute>
     }
     .into_inner()
