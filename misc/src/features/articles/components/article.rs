@@ -62,6 +62,15 @@ pub fn Article() -> impl IntoView {
 
     view! {
         <Stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css"/>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+        // <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.0/css/catppuccin-latte.css"/>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.0/css/catppuccin-frappe.css"/>
+        // <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.0/css/catppuccin-macchiato.css"/>
+        // <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.0/css/catppuccin-mocha.css"/>
+
         <div class="articles-article">
             <Suspense fallback=move || view! { <p>"Loading..."</p> }>
                 {move || get_article_content_resource.get().map(|content|
@@ -72,5 +81,36 @@ pub fn Article() -> impl IntoView {
                 }
             </Suspense>
         </div>
+        <HighlightCode/>
     }
+}
+
+mod hljs {
+    use wasm_bindgen::prelude::wasm_bindgen;
+    #[wasm_bindgen]
+    extern "C" {
+        #[wasm_bindgen(js_namespace = hljs, js_name = highlightAll)]
+        pub fn highlight_all();
+    }
+}
+
+/// Thanks to https://github.com/metatoaster/leptos_axum_js_ssr/
+#[component]
+fn HighlightCode() -> impl IntoView {
+    use hljs::highlight_all;
+    view! {
+        <Suspense fallback=move || view! {}>{
+            move || Suspend::new(async move {
+                Effect::new(move |_| {
+                    request_animation_frame(move || {
+                        leptos::logging::log!("request_animation_frame invoking hljs::highlight_all");
+                        // under SSR this is an noop, but it wouldn't be called under there anyway because
+                        // it isn't the isomorphic version, i.e. Effect::new_isomorphic(...).
+                        highlight_all();
+                    });
+                });
+                view! {}
+            })
+        }</Suspense>
+    }.into_any()
 }
