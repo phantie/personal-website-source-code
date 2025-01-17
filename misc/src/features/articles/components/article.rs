@@ -1,3 +1,4 @@
+use leptos::logging::log;
 use leptos::prelude::*;
 use leptos::Params;
 use leptos_meta::Stylesheet;
@@ -11,20 +12,6 @@ use crate::features::articles::server_fns::{get_any_article_id, get_article, get
 #[derive(Params, PartialEq)]
 struct ArticleParams {
     id: Option<ArticleId>,
-}
-
-fn parse_md(markdown_input: &str) -> String {
-    use pulldown_cmark::{html, Options, Parser};
-
-    let mut options = Options::empty();
-    options.insert(Options::ENABLE_STRIKETHROUGH);
-    options.insert(Options::ENABLE_HEADING_ATTRIBUTES);
-    let parser = Parser::new_ext(markdown_input, options);
-
-    let mut html_output = String::new();
-    html::push_html(&mut html_output, parser);
-
-    html_output
 }
 
 #[component]
@@ -80,12 +67,14 @@ pub fn Article() -> impl IntoView {
                 {move || get_article_content_resource.get().map(|content|
                     {
                         let raw_html = parse_md(&content.unwrap()); // TODO handle
-                        view! { <div class="markdown-body" inner_html={raw_html}></div> }
+                        view! {
+                            <div class="markdown-body" inner_html={raw_html}></div>
+                            <ApplyJs/>
+                        }
                     })
                 }
             </Suspense>
         </div>
-        <HighlightCode/>
     }
 }
 
@@ -102,6 +91,28 @@ mod hljs {
         #[wasm_bindgen(js_namespace = anchors, js_name = add)]
         pub fn anchors_add_arg(value: String);
     }
+}
+
+fn apply_js() {
+    use hljs::{anchors_add, anchors_add_arg, hljs_highlight_all};
+    hljs_highlight_all();
+    anchors_add();
+    anchors_add_arg(".articles-article h1".into());
+    scroll_to_hash_element();
+}
+
+/// Thanks to https://github.com/metatoaster/leptos_axum_js_ssr/
+#[component]
+fn ApplyJs() -> impl IntoView {
+    view! {
+        <Suspense fallback=move || view! {}>{
+            move || Suspend::new(async move {
+                Effect::new(move |_| { request_animation_frame(apply_js); });
+                view! {}
+            })
+        }</Suspense>
+    }
+    .into_any()
 }
 
 fn scroll_to_hash_element() {
@@ -133,27 +144,16 @@ fn scroll_to_hash_element() {
     }
 }
 
-/// Thanks to https://github.com/metatoaster/leptos_axum_js_ssr/
-#[component]
-fn HighlightCode() -> impl IntoView {
-    use hljs::{anchors_add, anchors_add_arg, hljs_highlight_all};
-    view! {
-        <Suspense fallback=move || view! {}>{
-            move || Suspend::new(async move {
-                Effect::new(move |_| {
-                    request_animation_frame(move || {
-                        leptos::logging::log!("applying js calls");
-                        // under SSR this is an noop, but it wouldn't be called under there anyway because
-                        // it isn't the isomorphic version, i.e. Effect::new_isomorphic(...).
-                        hljs_highlight_all();
-                        anchors_add();
-                        anchors_add_arg(".articles-article h1".into());
-                        scroll_to_hash_element();
-                    });
-                });
-                view! {}
-            })
-        }</Suspense>
-    }
-    .into_any()
+fn parse_md(markdown_input: &str) -> String {
+    use pulldown_cmark::{html, Options, Parser};
+
+    let mut options = Options::empty();
+    options.insert(Options::ENABLE_STRIKETHROUGH);
+    options.insert(Options::ENABLE_HEADING_ATTRIBUTES);
+    let parser = Parser::new_ext(markdown_input, options);
+
+    let mut html_output = String::new();
+    html::push_html(&mut html_output, parser);
+
+    html_output
 }

@@ -50,17 +50,3 @@ Please make sure to update tests as appropriate.
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-![Night city](https://blog-phantie.gigalixirapp.com/posts/24-11-22/night-905117675d5d7b55f59d43933c8797ad.jpg)
-
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
