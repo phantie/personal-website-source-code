@@ -50,7 +50,7 @@ pub struct Articles {
 fn get_not_found_article() -> Article {
     Article {
         relative_source: RelativeLocalArticleSource {
-            relative_path: "not_found.md".into(),
+            relative_path: "not_found/not_found.md".into(),
         },
         id: "not_found".into(),
         title: "Not found".into(),
@@ -62,7 +62,7 @@ fn get_articles_chronological_order() -> ArticleList {
     vec![
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "first.md".into(),
+                relative_path: "first/first.md".into(),
             },
             id: "first".into(),
             title: "First article".into(),
