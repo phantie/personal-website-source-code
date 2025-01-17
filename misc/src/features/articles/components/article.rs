@@ -66,6 +66,8 @@ pub fn Article() -> impl IntoView {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+
         // <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.0/css/catppuccin-latte.css"/>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.0/css/catppuccin-frappe.css"/>
         // <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.0/css/catppuccin-macchiato.css"/>
@@ -90,27 +92,36 @@ mod hljs {
     #[wasm_bindgen]
     extern "C" {
         #[wasm_bindgen(js_namespace = hljs, js_name = highlightAll)]
-        pub fn highlight_all();
+        pub fn hljs_highlight_all();
+
+        #[wasm_bindgen(js_namespace = anchors, js_name = add)]
+        pub fn anchors_add();
+
+        #[wasm_bindgen(js_namespace = anchors, js_name = add)]
+        pub fn anchors_add_arg(value: String);
     }
 }
 
 /// Thanks to https://github.com/metatoaster/leptos_axum_js_ssr/
 #[component]
 fn HighlightCode() -> impl IntoView {
-    use hljs::highlight_all;
+    use hljs::{anchors_add, anchors_add_arg, hljs_highlight_all};
     view! {
         <Suspense fallback=move || view! {}>{
             move || Suspend::new(async move {
                 Effect::new(move |_| {
                     request_animation_frame(move || {
-                        leptos::logging::log!("request_animation_frame invoking hljs::highlight_all");
+                        leptos::logging::log!("request_animation_frame invoking hljs and anchors");
                         // under SSR this is an noop, but it wouldn't be called under there anyway because
                         // it isn't the isomorphic version, i.e. Effect::new_isomorphic(...).
-                        highlight_all();
+                        hljs_highlight_all();
+                        anchors_add();
+                        anchors_add_arg(".articles-article h1".into());
                     });
                 });
                 view! {}
             })
         }</Suspense>
-    }.into_any()
+    }
+    .into_any()
 }
