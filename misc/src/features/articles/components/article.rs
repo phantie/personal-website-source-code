@@ -78,27 +78,66 @@ pub fn Article() -> impl IntoView {
     }
 }
 
-mod hljs {
-    use wasm_bindgen::prelude::wasm_bindgen;
-    #[wasm_bindgen]
-    extern "C" {
-        #[wasm_bindgen(js_namespace = hljs, js_name = highlightAll)]
-        pub fn hljs_highlight_all();
+mod js {
 
-        #[wasm_bindgen(js_namespace = anchors, js_name = add)]
-        pub fn anchors_add();
+    pub fn scroll_to_hash_element() {
+        use web_sys::{window, Document, ScrollBehavior, ScrollIntoViewOptions};
 
-        #[wasm_bindgen(js_namespace = anchors, js_name = add)]
-        pub fn anchors_add_arg(value: String);
+        // Get the current URL hash (the part after #)
+        let location = window().unwrap().location();
+        let hash = location.hash();
+
+        // Check if there's a hash (non-empty)
+        if let Ok(hash) = hash {
+            if hash.is_empty() {
+                return;
+            }
+
+            // Remove the "#" from the hash
+            let id = &hash[1..];
+
+            // Get the document
+            let document = window().unwrap().document().unwrap();
+
+            // Try to find the element with the ID
+            if let Some(element) = document.get_element_by_id(id) {
+                // Scroll the element into view
+                let mut options = ScrollIntoViewOptions::new();
+                options.set_behavior(ScrollBehavior::Instant);
+                element.scroll_into_view_with_scroll_into_view_options(&options);
+            }
+        }
+    }
+
+    pub mod hljs {
+        use wasm_bindgen::prelude::wasm_bindgen;
+
+        #[wasm_bindgen]
+        extern "C" {
+            #[wasm_bindgen(js_namespace = hljs, js_name = highlightAll)]
+            pub fn highlight_all();
+        }
+    }
+
+    pub mod anchors {
+        use wasm_bindgen::prelude::wasm_bindgen;
+
+        #[wasm_bindgen]
+        extern "C" {
+            #[wasm_bindgen(js_namespace = anchors, js_name = add)]
+            pub fn add();
+
+            #[wasm_bindgen(js_namespace = anchors, js_name = add)]
+            pub fn add_arg(value: String);
+        }
     }
 }
 
 fn apply_js() {
-    use hljs::{anchors_add, anchors_add_arg, hljs_highlight_all};
-    hljs_highlight_all();
-    anchors_add();
-    anchors_add_arg(".articles-article h1".into());
-    scroll_to_hash_element();
+    js::hljs::highlight_all();
+    js::anchors::add();
+    js::anchors::add_arg(".articles-article h1".into());
+    js::scroll_to_hash_element();
 }
 
 /// Thanks to https://github.com/metatoaster/leptos_axum_js_ssr/
@@ -113,35 +152,6 @@ fn ApplyJs() -> impl IntoView {
         }</Suspense>
     }
     .into_any()
-}
-
-fn scroll_to_hash_element() {
-    use web_sys::{window, Document, ScrollBehavior, ScrollIntoViewOptions};
-
-    // Get the current URL hash (the part after #)
-    let location = window().unwrap().location();
-    let hash = location.hash();
-
-    // Check if there's a hash (non-empty)
-    if let Ok(hash) = hash {
-        if hash.is_empty() {
-            return;
-        }
-
-        // Remove the "#" from the hash
-        let id = &hash[1..];
-
-        // Get the document
-        let document = window().unwrap().document().unwrap();
-
-        // Try to find the element with the ID
-        if let Some(element) = document.get_element_by_id(id) {
-            // Scroll the element into view
-            let mut options = ScrollIntoViewOptions::new();
-            options.set_behavior(ScrollBehavior::Instant);
-            element.scroll_into_view_with_scroll_into_view_options(&options);
-        }
-    }
 }
 
 fn parse_md(markdown_input: &str) -> String {
