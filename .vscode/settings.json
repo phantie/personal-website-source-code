@@ -3,7 +3,8 @@
         "readme.md",
         "frontend+backend",
         "vscode",
-        "articles"
+        "articles",
+        "articles/photography"
     ],
     "rust-analyzer.cargo.features": [
         "ssr"

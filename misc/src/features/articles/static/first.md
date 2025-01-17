@@ -64,4 +64,3 @@ Please make sure to update tests as appropriate.
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-![Night city](https://blog-phantie.gigalixirapp.com/posts/24-11-22/night-905117675d5d7b55f59d43933c8797ad.jpg)

@@ -11,7 +11,7 @@ pub async fn get_article(article_id: ArticleId) -> Result<Article, ServerFnError
 #[server]
 pub async fn get_any_article_id() -> Result<ArticleId, ServerFnError> {
     let articles = Articles::default();
-    let article = articles.get_by_id("first".into());
+    let article = articles.ordered_articles.first().unwrap();
     Ok(article.id.clone())
 }
 
@@ -37,5 +37,5 @@ pub async fn get_article_content(article_id: ArticleId) -> Result<ArticleContent
 
 fn get_base_path() -> &'static str {
     // TODO get from env
-    "/Users/phantie/Projects/misc/misc/src/features/articles/md"
+    "/Users/phantie/Projects/misc/misc/src/features/articles/static"
 }

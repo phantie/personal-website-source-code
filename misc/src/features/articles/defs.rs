@@ -59,14 +59,24 @@ fn get_not_found_article() -> Article {
 }
 
 fn get_articles_chronological_order() -> ArticleList {
-    vec![Article {
-        relative_source: RelativeLocalArticleSource {
-            relative_path: "first.md".into(),
+    vec![
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "first.md".into(),
+            },
+            id: "first".into(),
+            title: "First article".into(),
+            tags: vec![],
         },
-        id: "first".into(),
-        title: "First article".into(),
-        tags: vec![],
-    }]
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "photography/photography.md".into(),
+            },
+            id: "photography".into(),
+            title: "Photography".into(),
+            tags: vec![],
+        },
+    ]
 }
 
 impl Default for Articles {
