@@ -37,8 +37,10 @@ pub async fn get_article_content(article_id: ArticleId) -> Result<ArticleContent
 
 fn get_articles_base_path() -> &'static str {
     use std::path::PathBuf;
-    let mut base = PathBuf::from(".");
-    base.push("public/static/articles");
+    let conf = get_configuration(None).unwrap();
+    let leptos_options = conf.leptos_options;
+    let mut base = PathBuf::from(&*leptos_options.site_root);
+    base.push("static/articles");
     let result = base.to_str().unwrap().to_owned().leak();
     result
 }
