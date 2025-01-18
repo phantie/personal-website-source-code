@@ -22,6 +22,13 @@ WORKDIR /app
 COPY . .
 
 # Build the app
+# ENV LEPTOS_SASS_VERSION=1.83.4
+RUN wget https://github.com/sass/dart-sass/releases/download/1.83.4/dart-sass-1.83.4-linux-arm64.tar.gz
+RUN tar -xvzf dart-sass-1.83.4-linux-arm64.tar.gz
+RUN mv dart-sass /usr/local/dart-sass
+RUN ln -s /usr/local/dart-sass/sass /usr/local/bin/sass
+
+RUN cargo update
 RUN cargo leptos build -vv
 
 FROM debian:bookworm-slim as runtime
@@ -34,13 +41,13 @@ RUN apt-get update -y \
 
 # -- NB: update binary name from "leptos_start" to match your app name in Cargo.toml --
 # Copy the server binary to the /app directory
-COPY --from=builder /misc/target/debug/leptos_start /app/
+COPY --from=builder /app/target/debug/misc /app/
 
 # /target/site contains our JS/WASM/CSS, etc.
-COPY --from=builder /misc/target/site /app/site
+COPY --from=builder /app/target/site /app/site
 
 # Copy Cargo.toml if it’s needed at runtime
-COPY --from=builder /misc/Cargo.toml /app/
+COPY --from=builder /app/Cargo.toml /app/
 
 # Set any required env variables and
 ENV RUST_LOG="info"
@@ -50,4 +57,4 @@ EXPOSE 8080
 
 # -- NB: update binary name from "leptos_start" to match your app name in Cargo.toml --
 # Run the server
-CMD ["/app/leptos_start"]
+CMD ["/app/misc"]
