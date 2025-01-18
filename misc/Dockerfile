@@ -23,11 +23,11 @@ COPY . .
 
 # Build the app
 # ENV LEPTOS_SASS_VERSION=1.83.4
-RUN wget https://github.com/sass/dart-sass/releases/download/1.83.4/dart-sass-1.83.4-linux-arm64.tar.gz
-RUN tar -xvzf dart-sass-1.83.4-linux-arm64.tar.gz
+RUN wget https://github.com/sass/dart-sass/releases/download/1.71.0/dart-sass-1.71.0-linux-arm64.tar.gz
+RUN tar -xvzf dart-sass-1.71.0-linux-arm64.tar.gz
 RUN mv dart-sass /usr/local/dart-sass
 RUN ln -s /usr/local/dart-sass/sass /usr/local/bin/sass
-ENV LEPTOS_SASS_VERSION=1.83.4
+ENV LEPTOS_SASS_VERSION=1.71.0
 
 RUN cargo update
 RUN cargo leptos build -vv
