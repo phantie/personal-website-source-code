@@ -62,10 +62,10 @@ fn get_articles_chronological_order() -> ArticleList {
     vec![
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "first/first.md".into(),
+                relative_path: "about_site/article.md".into(),
             },
-            id: "first".into(),
-            title: "First article".into(),
+            id: "about_site".into(),
+            title: "About site".into(),
             tags: vec![],
         },
         Article {
