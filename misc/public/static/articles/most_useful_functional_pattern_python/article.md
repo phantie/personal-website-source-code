@@ -68,10 +68,10 @@ Or conditioning based on *choice* attribute
 > useful due to functional limitations, for example in Jinja/Django templates
 > or when bringing class references is burdensome
 ```python
-if isinstance(action, Start):
+if action.choice == "start":
     print(f"started")
 
-elif isinstance(action, Move):
+elif action.choice == "move":
     print(f"moved {action.x=!r}")
     print(f"moved {action.y=!r}")
 ```
