@@ -1,3 +1,5 @@
+# Most useful functional pattern in Python
+
 ### Problem
 
 **Python without external libraries lacks disjoined unions**
@@ -121,5 +123,5 @@ ok_value: MyResult = Ok(value=1)
 err_value: MyResult = Err(value=ZeroDivisionError())
 ```
 
-### Conclusion
+## Conclusion
 This is a lifesafer for functional python programming
