@@ -2,6 +2,7 @@ use leptos::logging::log;
 use leptos::prelude::*;
 use leptos::Params;
 use leptos_meta::Stylesheet;
+use leptos_meta::Title;
 use leptos_router::components::{Outlet, A};
 use leptos_router::hooks::{use_params, use_query};
 use leptos_router::params::Params;
@@ -26,6 +27,17 @@ pub fn Article() -> impl IntoView {
             .and_then(|params| params.id.clone())
     };
 
+    let get_article_id = Resource::new_blocking(id_memo, |id| async move {
+        let id = if let Some(id) = id {
+            Ok(id)
+        } else {
+            let id = get_any_article_id().await;
+            id
+        };
+
+        id
+    });
+
     // let get_article_content_resource = Resource::new_blocking(id_memo, |id| async move {
     let get_article_content_resource = Resource::new(id_memo, |id| async move {
         let id = if let Some(id) = id {
@@ -38,7 +50,7 @@ pub fn Article() -> impl IntoView {
         get_article_content(id).await
     });
 
-    let _get_article_resource = Resource::new(id_memo, |id| async move {
+    let get_article_resource = Resource::new(id_memo, |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
@@ -50,6 +62,17 @@ pub fn Article() -> impl IntoView {
     });
 
     view! {
+        <Suspense fallback=|| () >
+            {move || Suspend::new(async move {
+                let article = get_article_resource.await;
+                let title = article.map(|article| article.title).unwrap_or_default();
+
+                view! {
+                    <Title text={title} />
+                }
+            })}
+        </Suspense>
+
         <Stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css"/>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"/>

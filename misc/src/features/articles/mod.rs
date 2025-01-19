@@ -16,8 +16,8 @@ pub fn ArticleRoutes() -> impl MatchNestedRoutes + Clone {
 
     view! {
         <ParentRoute path=path!("/articles") view=ArticleList>
-            <Route path=path!(":id") view=Article />
-            <Route path=path!("") view=Article />
+            <Route path=path!(":id") view=Article ssr=leptos_router::SsrMode::PartiallyBlocked />
+            <Route path=path!("") view=Article ssr=leptos_router::SsrMode::PartiallyBlocked />
         </ParentRoute>
     }
     .into_inner()
