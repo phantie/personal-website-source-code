@@ -63,40 +63,53 @@ pub fn Article() -> impl IntoView {
     });
 
     view! {
+        <Suspense fallback=move || ()>
+        {
+            move || Suspend::new(async move {
+                let article = get_article_resource.await;
+                if let Ok(article) = article {
+                    view! {
+                        <Title text={article.title} />
+                    }.into_any()
+                } else {
+                    ().into_any()
+                }
+            })
+        }
+        </Suspense>
+
         <Await
             future=async move { get_article_resource.await }
             let:article
         >
-            {
-                let article = article.clone();
-                if let Ok(article) = article {
-                    let description_meta = if let Some(description) = article.description {
-                        view! {
-                            <Meta name="description" content={description}/>
-                        }.into_any()
-                    } else {
-                        view! {
-                        }.into_any()
-                    };
-
-                    let keywords_meta = if article.tags.is_empty() {
-                        view! {}.into_any()
-                    } else {
-                        view! {
-                            <Meta name="keywords" content={article.tags.join(", ")} />
-                        }.into_any()
-                    };
-
+        {
+            let article = article.clone();
+            if let Ok(article) = article {
+                let description_meta = if let Some(description) = article.description {
                     view! {
-                        <Title text={article.title} />
-                        {description_meta}
-                        {keywords_meta}
+                        <Meta name="description" content={description}/>
                     }.into_any()
-
                 } else {
-                    view! {}.into_any()
-                }
+                    ().into_any()
+                };
+
+                let keywords_meta = if !article.tags.is_empty() {
+                    view! {
+                        <Meta name="keywords" content={article.tags.join(", ")} />
+                    }.into_any()
+                } else {
+                    ().into_any()
+                };
+
+                view! {
+                    {description_meta}
+                    {keywords_meta}
+                }.into_any()
+
+            } else {
+                ().into_any()
             }
+        }
         </Await>
 
 
