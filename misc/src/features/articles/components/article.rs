@@ -1,7 +1,9 @@
 use leptos::logging::log;
 use leptos::prelude::*;
 use leptos::Params;
+use leptos_meta::Meta;
 use leptos_meta::Stylesheet;
+use leptos_meta::Title;
 use leptos_router::components::{Outlet, A};
 use leptos_router::hooks::{use_params, use_query};
 use leptos_router::params::Params;
@@ -26,6 +28,17 @@ pub fn Article() -> impl IntoView {
             .and_then(|params| params.id.clone())
     };
 
+    let get_article_id = Resource::new_blocking(id_memo, |id| async move {
+        let id = if let Some(id) = id {
+            Ok(id)
+        } else {
+            let id = get_any_article_id().await;
+            id
+        };
+
+        id
+    });
+
     // let get_article_content_resource = Resource::new_blocking(id_memo, |id| async move {
     let get_article_content_resource = Resource::new(id_memo, |id| async move {
         let id = if let Some(id) = id {
@@ -38,7 +51,7 @@ pub fn Article() -> impl IntoView {
         get_article_content(id).await
     });
 
-    let _get_article_resource = Resource::new(id_memo, |id| async move {
+    let get_article_resource = Resource::new_blocking(id_memo, |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
@@ -50,6 +63,56 @@ pub fn Article() -> impl IntoView {
     });
 
     view! {
+        <Suspense fallback=move || ()>
+        {
+            move || Suspend::new(async move {
+                let article = get_article_resource.await;
+                if let Ok(article) = article {
+                    view! {
+                        <Title text={article.title} />
+                    }.into_any()
+                } else {
+                    ().into_any()
+                }
+            })
+        }
+        </Suspense>
+
+        <Await
+            future=async move { get_article_resource.await }
+            let:article
+        >
+        {
+            let article = article.clone();
+            if let Ok(article) = article {
+                let description_meta = if let Some(description) = article.description {
+                    view! {
+                        <Meta name="description" content={description}/>
+                    }.into_any()
+                } else {
+                    ().into_any()
+                };
+
+                let keywords_meta = if !article.tags.is_empty() {
+                    view! {
+                        <Meta name="keywords" content={article.tags.join(", ")} />
+                    }.into_any()
+                } else {
+                    ().into_any()
+                };
+
+                view! {
+                    {description_meta}
+                    {keywords_meta}
+                }.into_any()
+
+            } else {
+                ().into_any()
+            }
+        }
+        </Await>
+
+
         <Stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css"/>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"/>
