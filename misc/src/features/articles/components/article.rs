@@ -85,21 +85,9 @@ pub fn Article() -> impl IntoView {
         {
             let article = article.clone();
             if let Ok(article) = article {
-                let description_meta = if let Some(description) = article.description {
-                    view! {
-                        <Meta name="description" content={description}/>
-                    }.into_any()
-                } else {
-                    ().into_any()
-                };
+                let description_meta = view! { <Meta name="description" content={article.description.unwrap_or_default()}/> };
 
-                let keywords_meta = if !article.tags.is_empty() {
-                    view! {
-                        <Meta name="keywords" content={article.tags.join(", ")} />
-                    }.into_any()
-                } else {
-                    ().into_any()
-                };
+                let keywords_meta = view! { <Meta name="keywords" content={article.tags.join(", ")} /> };
 
                 view! {
                     {description_meta}
