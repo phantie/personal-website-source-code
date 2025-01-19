@@ -15,7 +15,7 @@
 
 ### Deployment
 
-Continuous deployment on *main* branch push
-Deployed as DigitalOcean App using *misc/Dockerfile*
-Connected to *phantie.dev*
-SSL included
+- Continuous deployment on *main* branch push
+- Deployed as DigitalOcean App using *misc/Dockerfile*
+- Connected to *phantie.dev*
+- SSL included
