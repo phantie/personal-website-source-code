@@ -34,19 +34,6 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "concept_of_more_useful_types/article.md".into(),
-            },
-            id: "concept_of_more_useful_types".into(),
-            title: "Concept of more useful types".into(),
-            description: None,
-            tags: vec![
-                "python".into(),
-                "functional programming".into(),
-                "types".into(),
-            ],
-        },
-        Article {
-            relative_source: RelativeLocalArticleSource {
                 relative_path: "most_useful_functional_pattern_python/article.md".into(),
             },
             id: "most_useful_functional_pattern_python".into(),
@@ -60,6 +47,19 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "functional programming".into(),
                 "disjoined union".into(),
                 "pattern".into(),
+            ],
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "concept_of_more_useful_types/article.md".into(),
+            },
+            id: "concept_of_more_useful_types".into(),
+            title: "Concept of more useful types".into(),
+            description: None,
+            tags: vec![
+                "python".into(),
+                "functional programming".into(),
+                "types".into(),
             ],
         },
     ]
