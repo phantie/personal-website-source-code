@@ -5,6 +5,7 @@
         "vscode",
         "articles",
         "articles/photography",
+        "articles/most_useful_functional_pattern_python",
         "home"
     ],
     "rust-analyzer.cargo.features": [
