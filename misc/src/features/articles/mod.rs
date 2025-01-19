@@ -6,6 +6,7 @@ use leptos_router::{
 };
 mod components;
 mod defs;
+mod instances;
 mod server_fns;
 
 #[component(transparent)]
