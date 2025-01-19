@@ -1,6 +1,7 @@
 use leptos::logging::log;
 use leptos::prelude::*;
 use leptos::Params;
+use leptos_meta::Meta;
 use leptos_meta::Stylesheet;
 use leptos_meta::Title;
 use leptos_router::components::{Outlet, A};
@@ -50,7 +51,7 @@ pub fn Article() -> impl IntoView {
         get_article_content(id).await
     });
 
-    let get_article_resource = Resource::new(id_memo, |id| async move {
+    let get_article_resource = Resource::new_blocking(id_memo, |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
@@ -62,16 +63,33 @@ pub fn Article() -> impl IntoView {
     });
 
     view! {
-        <Suspense fallback=|| () >
-            {move || Suspend::new(async move {
-                let article = get_article_resource.await;
-                let title = article.map(|article| article.title).unwrap_or_default();
+        <Await
+            future=async move { get_article_resource.await }
+            let:article
+        >
+            {
+                let article = article.clone();
+                if let Ok(article) = article {
+                    let description_meta = if let Some(description) = article.description {
+                        view! {
+                            <Meta name="description" content={description}/>
+                        }.into_any()
+                    } else {
+                        view! {
+                        }.into_any()
+                    };
 
-                view! {
-                    <Title text={title} />
+                    view! {
+                        <Title text={article.title} />
+                        {description_meta}
+                    }.into_any()
+
+                } else {
+                    view! {}.into_any()
                 }
-            })}
-        </Suspense>
+            }
+        </Await>
+
 
         <Stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css"/>
 

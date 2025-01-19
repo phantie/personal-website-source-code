@@ -37,6 +37,7 @@ pub struct Article {
     pub id: ArticleId,
     pub title: ArticleTitle,
     pub tags: Vec<ArticleTag>,
+    pub description: Option<String>,
 }
 
 pub struct Articles {

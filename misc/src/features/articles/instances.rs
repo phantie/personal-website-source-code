@@ -7,6 +7,7 @@ pub fn get_not_found_article() -> Article {
         },
         id: "not_found".into(),
         title: "Not found".into(),
+        description: Some("Sentinel article for 404".into()),
         tags: vec![],
     }
 }
@@ -19,6 +20,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             },
             id: "about_site".into(),
             title: "About site".into(),
+            description: None,
             tags: vec![],
         },
         Article {
@@ -27,6 +29,10 @@ pub fn get_articles_chronological_order() -> ArticleList {
             },
             id: "most_useful_functional_pattern_python".into(),
             title: "Most useful functional pattern in Python".into(),
+            description: Some(
+                "Most useful functional pattern in Python about disjoined unions with pydantic"
+                    .into(),
+            ),
             tags: vec![],
         },
         Article {
@@ -35,6 +41,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             },
             id: "photography".into(),
             title: "Photography".into(),
+            description: None,
             tags: vec![],
         },
     ]
