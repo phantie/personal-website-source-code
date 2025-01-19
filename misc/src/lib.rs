@@ -8,3 +8,13 @@ pub fn hydrate() {
     console_error_panic_hook::set_once();
     leptos::mount::hydrate_body(App);
 }
+
+pub fn is_dev() -> bool {
+    !is_prod()
+}
+
+pub fn is_prod() -> bool {
+    use std::env;
+    let is_prod = env::var("IS_PROD").unwrap_or_else(|_| "0".into());
+    is_prod == "1"
+}
