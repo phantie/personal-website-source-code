@@ -25,6 +25,15 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
+                relative_path: "photography/photography.md".into(),
+            },
+            id: "photography".into(),
+            title: "Photography".into(),
+            description: None,
+            tags: vec!["photography".into()],
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
                 relative_path: "most_useful_functional_pattern_python/article.md".into(),
             },
             id: "most_useful_functional_pattern_python".into(),
@@ -39,15 +48,6 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "disjoined union".into(),
                 "pattern".into(),
             ],
-        },
-        Article {
-            relative_source: RelativeLocalArticleSource {
-                relative_path: "photography/photography.md".into(),
-            },
-            id: "photography".into(),
-            title: "Photography".into(),
-            description: None,
-            tags: vec!["photography".into()],
         },
     ]
 }
