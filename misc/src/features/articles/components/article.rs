@@ -59,6 +59,8 @@ pub fn Article() -> impl IntoView {
             id
         }?;
 
+        log!("resource has updated");
+
         get_article(id).await
     });
 
@@ -68,8 +70,13 @@ pub fn Article() -> impl IntoView {
             move || Suspend::new(async move {
                 let article = get_article_resource.await;
                 if let Ok(article) = article {
+                    // let description_meta = view! { <Meta name="description" content={article.description.unwrap_or_default()}/> };
+                    // let keywords_meta = view! { <Meta name="keywords" content={article.tags.join(", ")} /> };
+
                     view! {
                         <Title text={article.title} />
+                        // {description_meta}
+                        // {keywords_meta}
                     }.into_any()
                 } else {
                     ().into_any()
@@ -78,27 +85,27 @@ pub fn Article() -> impl IntoView {
         }
         </Suspense>
 
-        <Await
-            future=async move { get_article_resource.await }
-            let:article
-        >
-        {
-            let article = article.clone();
-            if let Ok(article) = article {
-                let description_meta = view! { <Meta name="description" content={article.description.unwrap_or_default()}/> };
+        // <Await
+        //     future=async move { get_article_resource.await }
+        //     let:article
+        // >
+        // {
+        //     let article = article.clone();
+        //     if let Ok(article) = article {
+        //         let description_meta = view! { <Meta name="description" content={article.description.unwrap_or_default()}/> };
 
-                let keywords_meta = view! { <Meta name="keywords" content={article.tags.join(", ")} /> };
+        //         let keywords_meta = view! { <Meta name="keywords" content={article.tags.join(", ")} /> };
 
-                view! {
-                    {description_meta}
-                    {keywords_meta}
-                }.into_any()
+        //         view! {
+        //             {description_meta}
+        //             {keywords_meta}
+        //         }.into_any()
 
-            } else {
-                ().into_any()
-            }
-        }
-        </Await>
+        //     } else {
+        //         ().into_any()
+        //     }
+        // }
+        // </Await>
 
 
         <Stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css"/>
