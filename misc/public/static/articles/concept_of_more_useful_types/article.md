@@ -21,8 +21,7 @@ filename = write_to_disk(value)
 process_filename(filename)
 ```
 
-But data is more often received as bytes, not filename
-So identifying a more useful type would have saved you jumping through hoops
+But data is more often received as bytes, not filename. So identifying a more useful type would have saved you jumping through hoops
 > in this case bytes is more useful than filename
 
 *Bytes → Process Bytes*
@@ -39,6 +38,8 @@ process_bytes(value)
 
 *Filename → Bytes → Process Bytes*
 
+*Any other source → Bytes → Process Bytes*
+
 ```python
 filename: str
 with open(filename, "rb") as f:
@@ -50,4 +51,4 @@ process_bytes(bytes_from_channel)
 ```
 
 ## Conclusion
-Identifying more useful types would save you from later refactoring, positively impact performance by cutting inderection and aid in writing reusable code
+Identifying more useful types would save you from later refactoring, positively impact performance by cutting indirection and aid in writing reusable code. More *useful* type is more *general*. There are more transformations into such a type. In these examples, bytes is a better, more useful type than filename, network/channel pointer because there's a direct way to transform each of these data sources to bytes.
