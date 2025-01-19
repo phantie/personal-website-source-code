@@ -64,8 +64,9 @@ elif isinstance(action, Move):
     print(f"moved {action.y=!r}")
 ```
 
-Or conditioning based on *choice* attribute (useful when environment does not support isinstance, for example Jinja/Django templates 
-and when bringing class references is burdensome)
+Or conditioning based on *choice* attribute 
+> useful due to functional limitations, for example in Jinja/Django templates
+> or when bringing class references is burdensome
 ```python
 if isinstance(action, Start):
     print(f"started")
