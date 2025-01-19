@@ -79,9 +79,18 @@ pub fn Article() -> impl IntoView {
                         }.into_any()
                     };
 
+                    let keywords_meta = if article.tags.is_empty() {
+                        view! {}.into_any()
+                    } else {
+                        view! {
+                            <Meta name="keywords" content={article.tags.join(", ")} />
+                        }.into_any()
+                    };
+
                     view! {
                         <Title text={article.title} />
                         {description_meta}
+                        {keywords_meta}
                     }.into_any()
 
                 } else {

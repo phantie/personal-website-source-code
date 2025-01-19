@@ -21,7 +21,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             id: "about_site".into(),
             title: "About site".into(),
             description: None,
-            tags: vec![],
+            tags: vec!["about site".into()],
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -33,7 +33,12 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "Most useful functional pattern in Python about disjoined unions with pydantic"
                     .into(),
             ),
-            tags: vec![],
+            tags: vec![
+                "python".into(),
+                "functional programming".into(),
+                "disjoined union".into(),
+                "pattern".into(),
+            ],
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -42,7 +47,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             id: "photography".into(),
             title: "Photography".into(),
             description: None,
-            tags: vec![],
+            tags: vec!["photography".into()],
         },
     ]
 }

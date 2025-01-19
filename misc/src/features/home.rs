@@ -21,15 +21,18 @@ fn HomePage() -> impl IntoView {
 }
 
 #[component]
-fn RedirectToArticles() -> impl IntoView {
-    view! { <Redirect path="/articles" /> }
+fn Home() -> impl IntoView {
+    view! {
+        <Title text={"phantie blog"} />
+        <Redirect path="/articles" />
+    }
 }
 
 #[component(transparent)]
 pub fn HomeRoutes() -> impl MatchNestedRoutes + Clone {
     view! {
         // <Route path=StaticSegment("/") view=HomePage/>
-        <Route path=StaticSegment("/") view=RedirectToArticles />
+        <Route path=StaticSegment("/") view=Home />
     }
     .into_inner()
 }
