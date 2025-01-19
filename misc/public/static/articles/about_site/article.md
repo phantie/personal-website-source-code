@@ -11,3 +11,4 @@
     - Auto anchor creation
     - Code highlighting
     - SSR (Server-side rendering) and CSR (Client-side rendering)
+    - HTML Meta tag (description, keywords)
