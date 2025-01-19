@@ -78,6 +78,14 @@ fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
+                relative_path: "most_useful_functional_pattern_python/article.md".into(),
+            },
+            id: "most_useful_functional_pattern_python".into(),
+            title: "Most useful functional pattern in Python".into(),
+            tags: vec![],
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
                 relative_path: "photography/photography.md".into(),
             },
             id: "photography".into(),
@@ -113,4 +121,10 @@ impl Articles {
             .get(&article_id)
             .unwrap_or(&self.not_found_article)
     }
+}
+
+enum Currency {
+    Euro,
+    Dollar,
+    Peanuts,
 }
