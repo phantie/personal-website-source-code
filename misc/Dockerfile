@@ -24,6 +24,7 @@ COPY --from=builder /work/target/release/misc /app/
 COPY --from=builder /work/target/site /app/site
 COPY --from=builder /work/Cargo.toml /app/
 
+ENV IS_PROD=1
 ENV RUST_LOG="info"
 ENV LEPTOS_SITE_ADDR="0.0.0.0:8080"
 ENV LEPTOS_SITE_ROOT=./site
