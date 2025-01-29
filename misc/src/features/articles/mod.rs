@@ -4,10 +4,10 @@ use leptos_router::{
     components::{ParentRoute, Route, Router, Routes, A},
     path, MatchNestedRoutes,
 };
-mod components;
-mod defs;
-mod instances;
-mod server_fns;
+pub mod components;
+pub mod defs;
+pub mod instances;
+pub mod server_fns;
 
 #[component(transparent)]
 pub fn ArticleRoutes() -> impl MatchNestedRoutes + Clone {
