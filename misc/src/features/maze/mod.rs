@@ -23,8 +23,10 @@ pub type RowI = usize;
 // Valid column index in PaddedMatrix
 pub type ColI = usize;
 pub type Pos = (RowI, ColI);
+// Position in PaddedMatrix
+pub type PaddedPos = Pos;
 // Position in AlignedMatrix
-pub type AlignedPos = Pos;
+pub type AlignedPos = PaddedPos;
 // Indexing by RowI and ColI always points to Cell
 pub type PaddedMatrix = Matrix;
 // Rotated matrix with respect to a Direction
@@ -103,7 +105,7 @@ pub fn pad_matrix(value: UnpaddedMatrix) -> PaddedMatrix {
     m
 }
 
-pub fn align_matrix(matrix: Matrix, direction: Direction) -> AlignedMatrix {
+pub fn align_matrix(matrix: PaddedMatrix, direction: Direction) -> AlignedMatrix {
     fn rotate_90(matrix: Matrix) -> Matrix {
         let rows = matrix.len();
         let cols = if rows > 0 { matrix[0].len() } else { 0 };
@@ -144,7 +146,11 @@ pub fn align_matrix(matrix: Matrix, direction: Direction) -> AlignedMatrix {
     }
 }
 
-pub fn align_position(matrix: &Matrix, direction: Direction, pos: Pos) -> AlignedPos {
+pub fn pad_position((rowi, coli): Pos) -> PaddedPos {
+    (rowi + 1, coli + 1)
+}
+
+pub fn align_position(matrix: &PaddedMatrix, direction: Direction, pos: PaddedPos) -> AlignedPos {
     let (row, col) = pos;
     let rows = matrix.len();
     let cols = if rows > 0 { matrix[0].len() } else { 0 };
@@ -164,6 +170,10 @@ pub mod test_mazes {
 
     pub fn n0() -> UnpaddedMatrix {
         vec![vec![block(), path(), path()]]
+    }
+
+    pub fn n0_start() -> Pos {
+        (0, 1)
     }
 
     pub fn symbolize_cell(value: &Cell) -> &str {
@@ -197,7 +207,7 @@ pub fn pick_pos(m: &PaddedMatrix, (rowi, coli): Pos) -> &Cell {
 
 pub struct MovementState {
     pub m: PaddedMatrix,
-    pub pos: Pos,
+    pub pos: PaddedPos,
 }
 
 pub fn inc_aligned_pos((rowi, coli): AlignedPos, inc: ColI) -> AlignedPos {
