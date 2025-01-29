@@ -23,9 +23,12 @@ pub type RowI = usize;
 // Valid column index in PaddedMatrix
 pub type ColI = usize;
 pub type Pos = (RowI, ColI);
+// Position in AlignedMatrix
+pub type AlignedPos = Pos;
 // Indexing by RowI and ColI always points to Cell
 pub type PaddedMatrix = Matrix;
 // Rotated matrix with respect to a Direction
+// Getting this, allows treating any Direction as if it were Direction::Right for PaddedMatrix
 pub type AlignedMatrix = PaddedMatrix;
 
 pub fn matrix_is_not_empty(value: &Matrix) -> bool {
@@ -141,6 +144,19 @@ pub fn align_matrix(matrix: Matrix, direction: Direction) -> AlignedMatrix {
     }
 }
 
+pub fn align_position(matrix: &Matrix, direction: Direction, pos: Pos) -> AlignedPos {
+    let (row, col) = pos;
+    let rows = matrix.len();
+    let cols = if rows > 0 { matrix[0].len() } else { 0 };
+
+    match direction {
+        Direction::Left => (rows - 1 - row, cols - 1 - col),
+        Direction::Right => (row, col), // No change
+        Direction::Up => (col, rows - 1 - row),
+        Direction::Down => (cols - 1 - col, row),
+    }
+}
+
 pub mod test_mazes {
     #![allow(unused)]
 
@@ -184,13 +200,32 @@ pub struct MovementState {
     pub pos: Pos,
 }
 
+pub fn inc_aligned_pos((rowi, coli): AlignedPos, inc: ColI) -> AlignedPos {
+    (rowi, coli + inc)
+}
+
 impl MovementState {
     pub fn validate_init(&self) {
         let pos = pick_pos(&self.m, self.pos);
         assert!(pos.can_move_to);
     }
 
-    pub fn movement_possibility(&self, _d: Direction) -> Steps {
-        unimplemented!()
+    pub fn movement_possibility(&self, d: Direction) -> Steps {
+        let m = self.m.clone();
+        let m = align_matrix(m, d);
+
+        let mut result = 0;
+
+        loop {
+            let pos = align_position(&self.m, d, self.pos);
+            let pos = inc_aligned_pos(pos, result + 1);
+            let cell = pick_pos(&m, pos);
+
+            if cell.can_move_to {
+                result += 1;
+            } else {
+                return result;
+            }
+        }
     }
 }
