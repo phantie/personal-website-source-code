@@ -16,6 +16,9 @@ pub type Row = Vec<Cell>;
 pub type Matrix = Vec<Row>;
 pub type UnpaddedMatrix = Matrix;
 pub type PaddedMatrix = Matrix;
+pub type RowI = usize;
+pub type ColI = usize;
+pub type Pos = (RowI, ColI);
 
 pub fn matrix_is_not_empty(value: &Matrix) -> bool {
     !value.is_empty()
@@ -45,6 +48,13 @@ pub fn block() -> Cell {
     }
 }
 
+pub fn block_padding() -> Cell {
+    Cell {
+        can_move_to: false,
+        name: "block padding".into(),
+    }
+}
+
 pub fn path() -> Cell {
     Cell {
         can_move_to: true,
@@ -64,7 +74,7 @@ pub fn pad_matrix(value: UnpaddedMatrix) -> PaddedMatrix {
 
     let dim = matrix_row_dimension(&value);
 
-    let pad_with = || block();
+    let pad_with = || block_padding();
 
     let up_down_row = || (0..dim).into_iter().map(|_| pad_with()).collect::<Row>();
 
@@ -113,5 +123,21 @@ pub mod test_mazes {
                 println!();
             })
             .collect::<Vec<_>>();
+    }
+}
+
+pub fn pick_pos(m: &PaddedMatrix, (rowi, coli): Pos) -> &Cell {
+    &m[rowi][coli]
+}
+
+pub struct MovementState {
+    pub m: PaddedMatrix,
+    pub pos: Pos,
+}
+
+impl MovementState {
+    pub fn validate_init(&self) {
+        let pos = pick_pos(&self.m, self.pos);
+        assert!(pos.can_move_to);
     }
 }
