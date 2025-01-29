@@ -1,15 +1,18 @@
+#[derive(Clone, Copy, Debug)]
 pub enum Direction {
-    Left,
-    Right,
-    Up,
-    Down,
+    Left,  // 180
+    Right, // 0
+    Up,    // 90
+    Down,  // 270
 }
 
+#[derive(Clone)]
 pub struct Cell {
     pub can_move_to: bool,
     pub name: String,
 }
 
+pub type Steps = usize;
 pub type Dimension = usize;
 pub type Row = Vec<Cell>;
 /// Assume matrix is not empty, minimal matrix is 1x1
@@ -22,6 +25,8 @@ pub type ColI = usize;
 pub type Pos = (RowI, ColI);
 // Indexing by RowI and ColI always points to Cell
 pub type PaddedMatrix = Matrix;
+// Rotated matrix with respect to a Direction
+pub type AlignedMatrix = PaddedMatrix;
 
 pub fn matrix_is_not_empty(value: &Matrix) -> bool {
     !value.is_empty()
@@ -95,6 +100,47 @@ pub fn pad_matrix(value: UnpaddedMatrix) -> PaddedMatrix {
     m
 }
 
+pub fn align_matrix(matrix: Matrix, direction: Direction) -> AlignedMatrix {
+    fn rotate_90(matrix: Matrix) -> Matrix {
+        let rows = matrix.len();
+        let cols = if rows > 0 { matrix[0].len() } else { 0 };
+
+        (0..cols)
+            .map(|col| {
+                (0..rows)
+                    .rev()
+                    .map(|row| matrix[row][col].clone())
+                    .collect()
+            })
+            .collect()
+    }
+
+    fn rotate_180(matrix: Matrix) -> Matrix {
+        matrix
+            .into_iter()
+            .rev()
+            .map(|row| row.into_iter().rev().collect())
+            .collect()
+    }
+
+    fn rotate_270(matrix: Matrix) -> Matrix {
+        let rows = matrix.len();
+        let cols = if rows > 0 { matrix[0].len() } else { 0 };
+
+        (0..cols)
+            .rev()
+            .map(|col| (0..rows).map(|row| matrix[row][col].clone()).collect())
+            .collect()
+    }
+
+    match direction {
+        Direction::Left => rotate_180(matrix),
+        Direction::Right => matrix,
+        Direction::Up => rotate_90(matrix),
+        Direction::Down => rotate_270(matrix),
+    }
+}
+
 pub mod test_mazes {
     #![allow(unused)]
 
@@ -142,5 +188,9 @@ impl MovementState {
     pub fn validate_init(&self) {
         let pos = pick_pos(&self.m, self.pos);
         assert!(pos.can_move_to);
+    }
+
+    pub fn movement_possibility(&self, _d: Direction) -> Steps {
+        unimplemented!()
     }
 }
