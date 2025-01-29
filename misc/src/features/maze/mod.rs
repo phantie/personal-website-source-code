@@ -15,10 +15,13 @@ pub type Row = Vec<Cell>;
 /// Assume matrix is not empty, minimal matrix is 1x1
 pub type Matrix = Vec<Row>;
 pub type UnpaddedMatrix = Matrix;
-pub type PaddedMatrix = Matrix;
+// Valid row index in PaddedMatrix
 pub type RowI = usize;
+// Valid column index in PaddedMatrix
 pub type ColI = usize;
 pub type Pos = (RowI, ColI);
+// Indexing by RowI and ColI always points to Cell
+pub type PaddedMatrix = Matrix;
 
 pub fn matrix_is_not_empty(value: &Matrix) -> bool {
     !value.is_empty()
