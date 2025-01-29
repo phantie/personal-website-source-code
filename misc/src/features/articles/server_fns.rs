@@ -35,7 +35,7 @@ pub async fn get_article_content(article_id: ArticleId) -> Result<ArticleContent
     Ok(content)
 }
 
-fn get_articles_base_path() -> String {
+pub fn get_articles_base_path() -> String {
     use std::path::PathBuf;
     let conf = get_configuration(None).unwrap();
     let leptos_options = conf.leptos_options;
