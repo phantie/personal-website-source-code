@@ -12,7 +12,7 @@ pub struct Cell {
 
 pub type Dimension = usize;
 pub type Row = Vec<Cell>;
-/// Assume matrix is not empty
+/// Assume matrix is not empty, minimal matrix is 1x1
 pub type Matrix = Vec<Row>;
 pub type UnpaddedMatrix = Matrix;
 pub type PaddedMatrix = Matrix;
@@ -38,32 +38,54 @@ pub fn valid_dimensions(value: &Matrix) -> bool {
         .all(|row| row_dimension(row) == matrix_row_dimension(value))
 }
 
+pub fn block() -> Cell {
+    Cell {
+        can_move_to: false,
+        name: "block".into(),
+    }
+}
+
+pub fn path() -> Cell {
+    Cell {
+        can_move_to: true,
+        name: "path".into(),
+    }
+}
+
 pub fn pad_matrix(value: UnpaddedMatrix) -> PaddedMatrix {
+    // prepends and appends a padding row to matrix and
+    // prepends and appends a padding cell to each row
+    //
+    //         ###
+    //  +  ->  #+#
+    //         ###
+    //
     assert!(valid_dimensions(&value));
 
-    // let mut result: Matrix = Default::default();
+    let dim = matrix_row_dimension(&value);
 
-    unimplemented!()
+    let pad_with = || block();
+
+    let up_down_row = || (0..dim).into_iter().map(|_| pad_with()).collect::<Row>();
+
+    let m = std::iter::once(up_down_row())
+        .chain(value.into_iter())
+        .chain(std::iter::once(up_down_row()))
+        .map(|row| {
+            std::iter::once(pad_with())
+                .chain(row.into_iter())
+                .chain(std::iter::once(pad_with()))
+                .collect::<Row>()
+        })
+        .collect::<Matrix>();
+
+    m
 }
 
 pub mod test_mazes {
     #![allow(unused)]
 
     use super::*;
-
-    pub fn block() -> Cell {
-        Cell {
-            can_move_to: false,
-            name: "block".into(),
-        }
-    }
-
-    pub fn path() -> Cell {
-        Cell {
-            can_move_to: true,
-            name: "path".into(),
-        }
-    }
 
     pub fn n0() -> UnpaddedMatrix {
         vec![vec![block(), path(), path()]]
