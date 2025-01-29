@@ -59,8 +59,6 @@ pub fn Article() -> impl IntoView {
             id
         }?;
 
-        log!("resource has updated");
-
         get_article(id).await
     });
 
@@ -70,14 +68,28 @@ pub fn Article() -> impl IntoView {
             move || Suspend::new(async move {
                 let article = get_article_resource.await;
                 if let Ok(article) = article {
-                    // let description_meta = view! { <Meta name="description" content={article.description.unwrap_or_default()}/> };
-                    // let keywords_meta = view! { <Meta name="keywords" content={article.tags.join(", ")} /> };
+                    let description_meta = view! { <Meta name="description" content={article.description.unwrap_or_default()}/> };
+                    let keywords_meta = view! { <Meta name="keywords" content={article.tags.join(", ")} /> };
 
-                    view! {
-                        <Title text={article.title} />
-                        // {description_meta}
-                        // {keywords_meta}
-                    }.into_any()
+                    // log!("applying suspense");
+
+                    // only apply meta tags on SSR
+                    #[cfg(feature = "ssr")]
+                    {
+                        return view! {
+                            <Title text={article.title} />
+                            {description_meta}
+                            {keywords_meta}
+                        }.into_any()
+                    }
+
+                    #[cfg(not(feature = "ssr"))]
+                    {
+                        return view! {
+                            <Title text={article.title} />
+                        }.into_any()
+                    }
+
                 } else {
                     ().into_any()
                 }
@@ -85,27 +97,6 @@ pub fn Article() -> impl IntoView {
         }
         </Suspense>
 
-        // <Await
-        //     future=async move { get_article_resource.await }
-        //     let:article
-        // >
-        // {
-        //     let article = article.clone();
-        //     if let Ok(article) = article {
-        //         let description_meta = view! { <Meta name="description" content={article.description.unwrap_or_default()}/> };
-
-        //         let keywords_meta = view! { <Meta name="keywords" content={article.tags.join(", ")} /> };
-
-        //         view! {
-        //             {description_meta}
-        //             {keywords_meta}
-        //         }.into_any()
-
-        //     } else {
-        //         ().into_any()
-        //     }
-        // }
-        // </Await>
 
 
         <Stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css"/>
