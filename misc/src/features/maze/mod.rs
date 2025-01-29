@@ -25,6 +25,8 @@ pub type ColI = usize;
 pub type Pos = (RowI, ColI);
 // Position in PaddedMatrix
 pub type PaddedPos = Pos;
+// Position in UnpaddedMatrix
+pub type UnpaddedPos = Pos;
 // Position in AlignedMatrix
 pub type AlignedPos = PaddedPos;
 // Indexing by RowI and ColI always points to Cell
@@ -146,7 +148,7 @@ pub fn align_matrix(matrix: PaddedMatrix, direction: Direction) -> AlignedMatrix
     }
 }
 
-pub fn pad_position((rowi, coli): Pos) -> PaddedPos {
+pub fn pad_position((rowi, coli): UnpaddedPos) -> PaddedPos {
     (rowi + 1, coli + 1)
 }
 
@@ -172,7 +174,7 @@ pub mod test_mazes {
         vec![vec![block(), path(), path()]]
     }
 
-    pub fn n0_start() -> Pos {
+    pub fn n0_start() -> UnpaddedPos {
         (0, 1)
     }
 
@@ -215,6 +217,12 @@ pub fn inc_aligned_pos((rowi, coli): AlignedPos, inc: ColI) -> AlignedPos {
 }
 
 impl MovementState {
+    pub fn new(m: UnpaddedMatrix, pos: UnpaddedPos) -> Self {
+        let m = pad_matrix(m);
+        let pos = pad_position(pos);
+        Self { m, pos }
+    }
+
     pub fn validate_init(&self) {
         let pos = pick_pos(&self.m, self.pos);
         assert!(pos.can_move_to);
