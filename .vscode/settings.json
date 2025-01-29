@@ -8,7 +8,8 @@
         "articles/most_useful_functional_pattern_python",
         "articles/about_site",
         "home",
-        "articles/concept_of_more_useful_types"
+        "articles/concept_of_more_useful_types",
+        "maze"
     ],
     "rust-analyzer.cargo.features": [
         "ssr"
