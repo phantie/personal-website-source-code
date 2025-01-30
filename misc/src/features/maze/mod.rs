@@ -381,3 +381,36 @@ impl MovementState {
         self.move_to_direction(d, 1);
     }
 }
+
+pub mod cmd {
+    use super::*;
+
+    pub fn input_direction() -> Direction {
+        loop {
+            let mut input = String::new();
+
+            println!("Enter something:");
+
+            std::io::stdin()
+                .read_line(&mut input)
+                .expect("Failed to read line");
+
+            let input = input.trim();
+
+            let d = match input {
+                "l" => Some(Direction::Left),
+                "r" => Some(Direction::Right),
+                "u" => Some(Direction::Up),
+                "d" => Some(Direction::Down),
+                _ => None,
+            };
+
+            if let Some(d) = d {
+                println!("You picked: {d:?}");
+                return d;
+            } else {
+                println!("Invalid direction: {}", input);
+            }
+        }
+    }
+}
