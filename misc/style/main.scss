@@ -121,5 +121,6 @@ h6 {
 .click-maze-col {
     display: flex;
     flex-grow: 1;
+    flex-basis: 0;
     border: 3px solid whitesmoke;
 }
