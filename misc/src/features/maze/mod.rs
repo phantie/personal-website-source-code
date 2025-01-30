@@ -32,7 +32,7 @@ pub type AlignedPos = PaddedPos;
 // Indexing by RowI and ColI always points to Cell
 pub type PaddedMatrix = Matrix;
 // Rotated matrix with respect to a Direction
-// Getting this, allows treating any Direction as if it were Direction::Right for PaddedMatrix
+// Getting this, allows treating any Direction as unrotated PaddedMatrix
 pub type AlignedMatrix = PaddedMatrix;
 
 pub fn matrix_is_not_empty(value: &Matrix) -> bool {
