@@ -189,7 +189,7 @@ pub mod test_mazes {
         }
     }
 
-    pub fn simple_display_unpadded_matrix(value: &UnpaddedMatrix) {
+    pub fn simple_display_matrix(value: &Matrix) {
         let _ = value
             .into_iter()
             .inspect(|v| {
@@ -245,5 +245,23 @@ impl MovementState {
                 return result;
             }
         }
+    }
+
+    pub fn can_move_to_directions(&self) -> Vec<Direction> {
+        let mut can_move_to = vec![];
+
+        for d in vec![
+            Direction::Left,
+            Direction::Right,
+            Direction::Up,
+            Direction::Down,
+        ] {
+            let steps_to_direction = self.movement_possibility(d);
+            if steps_to_direction > 0 {
+                can_move_to.push(d);
+            }
+        }
+
+        can_move_to
     }
 }
