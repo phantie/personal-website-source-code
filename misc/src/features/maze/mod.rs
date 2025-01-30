@@ -10,6 +10,7 @@ pub enum Direction {
 pub struct Cell {
     pub can_move_to: bool,
     pub name: String,
+    pub visited: bool,
 }
 
 impl Cell {
@@ -66,6 +67,7 @@ pub fn block() -> Cell {
     Cell {
         can_move_to: false,
         name: "block".into(),
+        visited: false,
     }
 }
 
@@ -73,6 +75,7 @@ pub fn block_padding() -> Cell {
     Cell {
         can_move_to: false,
         name: "block padding".into(),
+        visited: false,
     }
 }
 
@@ -80,6 +83,7 @@ pub fn path() -> Cell {
     Cell {
         can_move_to: true,
         name: "path".into(),
+        visited: false,
     }
 }
 
@@ -87,6 +91,7 @@ pub fn exit() -> Cell {
     Cell {
         can_move_to: true,
         name: "exit".into(),
+        visited: false,
     }
 }
 
@@ -213,7 +218,11 @@ pub mod test_mazes {
         (0, 1)
     }
 
-    pub fn symbolize_cell(value: &Cell) -> &str {
+    pub fn symbolize_cell(value: &Cell, hide: bool) -> &str {
+        if hide {
+            return "?";
+        }
+
         match value {
             value if value.is_exit() => ".",
             Cell {
@@ -231,7 +240,7 @@ pub mod test_mazes {
             .inspect(|v| {
                 let _ = v
                     .into_iter()
-                    .inspect(|v| print!("{}", symbolize_cell(*v)))
+                    .inspect(|v| print!("{}", symbolize_cell(*v, false)))
                     .collect::<Vec<_>>();
                 println!();
             })
