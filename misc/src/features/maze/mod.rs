@@ -6,7 +6,7 @@ pub enum Direction {
     Down,  // 270
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Cell {
     pub can_move_to: bool,
     pub name: String,

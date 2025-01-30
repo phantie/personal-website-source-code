@@ -1,16 +1,34 @@
 #![allow(unused)]
 
+use std::rc::Rc;
+
 use crate::features::maze::*;
 use leptos::{logging::log, prelude::*};
 
 pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
     let (clicked_pos, clicked_pos_write) = signal(None);
 
-    Effect::new(move |_| {
-        log!("Clicked pos: {:?}", clicked_pos.get());
-    });
-
     let hide_matrix = derive_hide_matrix(value);
+
+    let signal_matrix = Rc::new(create_shadow_matrix_with(value, |pos| {
+        // let (rowi, coli) = pos;
+        // signal::<Cell>(value[rowi][coli].clone())
+        signal::<bool>(false)
+    }));
+
+    {
+        let signal_matrix = signal_matrix.clone();
+        Effect::new(move |_| {
+            let pos: Option<Pos> = clicked_pos.get();
+            if let Some(pos @ (rowi, coli)) = pos {
+                let (r, w) = signal_matrix[rowi][coli];
+                w.set(true); // TEMP
+
+                log!("WTF: {:?}", *r.read());
+                log!("Clicked pos: {:?}", pos);
+            }
+        });
+    }
 
     let mut maze_html = vec![];
 
@@ -20,11 +38,16 @@ pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
         for (coli, cell) in row.iter().enumerate() {
             let hide = hide_matrix[rowi][coli];
 
+            let signal_matrix = signal_matrix.clone();
+            let (r, w) = signal_matrix[rowi][coli];
+
+            // log!("{rowi} {coli}");
+
             let current = (rowi, coli) == pos;
 
             let cell_name = cell.name.clone();
 
-            row_html_els.push(view! {
+            let f = view! {
                 <div class="click-maze-col" on:click=move |_| {
                     clicked_pos_write.write().replace((rowi, coli));
                 }>
@@ -32,8 +55,15 @@ pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
 
                 {if current {" (current)"} else {""}}
                 {if hide {" (hide)"} else {""}}
-                // {","}{rowi}{","}{coli}
+
+                {","}{rowi}{","}{coli}
+                // <div>{format!("{:?}", r.get())}</div>
+                <div>{r.get()}</div>
                 </div>
+            };
+
+            row_html_els.push(view! {
+                {f}
             });
 
             //
