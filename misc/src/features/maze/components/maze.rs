@@ -56,9 +56,9 @@ pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
                 {if current {" (current)"} else {""}}
                 {if hide {" (hide)"} else {""}}
 
-                {","}{rowi}{","}{coli}
+                {","}{rowi}{","}{coli}{","}
                 // <div>{format!("{:?}", r.get())}</div>
-                <div>{r.get()}</div>
+                {r}
                 </div>
             };
 
