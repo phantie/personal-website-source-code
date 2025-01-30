@@ -265,11 +265,15 @@ pub mod test_mazes {
         for (rowi, row) in value.iter().enumerate() {
             for (coli, cell) in row.iter().enumerate() {
                 if cell.visited {
-                    hide_matrix[rowi][coli] = false;
-                    hide_matrix[rowi - 1][coli - 1] = false;
-                    hide_matrix[rowi + 1][coli + 1] = false;
-                    hide_matrix[rowi - 1][coli + 1] = false;
-                    hide_matrix[rowi + 1][coli - 1] = false;
+                    let mut set_visited =
+                        |rowi: usize, coli: usize| hide_matrix[rowi][coli] = false;
+
+                    set_visited(rowi, coli);
+                    set_visited(rowi, coli);
+                    set_visited(rowi - 1, coli);
+                    set_visited(rowi + 1, coli);
+                    set_visited(rowi, coli + 1);
+                    set_visited(rowi, coli - 1);
                 }
             }
         }
@@ -288,6 +292,10 @@ pub fn pick_pos(m: &PaddedMatrix, (rowi, coli): Pos) -> &Cell {
     &m[rowi][coli]
 }
 
+pub fn pick_pos_mut(m: &mut PaddedMatrix, (rowi, coli): Pos) -> &mut Cell {
+    &mut m[rowi][coli]
+}
+
 pub struct MovementState {
     pub m: PaddedMatrix,
     pub pos: PaddedPos,
@@ -301,14 +309,25 @@ impl MovementState {
     pub fn new(m: UnpaddedMatrix, pos: UnpaddedPos) -> Self {
         let m = pad_matrix(m);
         let pos = pad_position(pos);
-        Self { m, pos }
+        let mut s = Self { m, pos };
+        s.visit_pos();
+        s
     }
 
+    /// Checks current position was reachable
     pub fn validate_pos(&self) {
         let pos = pick_pos(&self.m, self.pos);
         assert!(pos.can_move_to);
     }
 
+    /// Set visited mark for current position
+    pub fn visit_pos(&mut self) {
+        self.validate_pos();
+        let pos = pick_pos_mut(&mut self.m, self.pos);
+        pos.visited = true;
+    }
+
+    /// Returns possible step count to direction
     pub fn movement_possibility(&self, d: Direction) -> Steps {
         let m = self.m.clone();
         let m = align_matrix(m, d);
@@ -328,6 +347,7 @@ impl MovementState {
         }
     }
 
+    /// Returns all possible directions to go to
     pub fn can_move_to_directions(&self) -> Vec<Direction> {
         let mut can_move_to = vec![];
 
@@ -346,14 +366,17 @@ impl MovementState {
         can_move_to
     }
 
+    /// Moves current position to Direction for a number of steps
     pub fn move_to_direction(&mut self, d: Direction, inc: Steps) {
         let pos = align_position(&self.m, d, self.pos);
         let pos = inc_aligned_pos(pos, inc);
         let pos = unalign_position(&self.m, d, pos);
         self.pos = pos;
         self.validate_pos();
+        self.visit_pos();
     }
 
+    /// Moves current position to Direction for one step
     pub fn move_to_direction_once(&mut self, d: Direction) {
         self.move_to_direction(d, 1);
     }
