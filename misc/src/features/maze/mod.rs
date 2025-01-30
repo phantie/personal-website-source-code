@@ -46,10 +46,12 @@ pub fn matrix_is_not_empty(value: &Matrix) -> bool {
     !value.is_empty()
 }
 
+/// Returns inner vec count
 pub fn matrix_row_dimension(value: &Matrix) -> Dimension {
     value.first().unwrap().len()
 }
 
+/// Returns outer vec count
 pub fn matrix_col_dimension(value: &Matrix) -> Dimension {
     value.len()
 }
@@ -209,16 +211,22 @@ pub fn unalign_position(matrix: &PaddedMatrix, direction: Direction, pos: Aligne
     }
 }
 
-pub fn derive_hide_matrix(value: &Matrix) -> Vec<Vec<bool>> {
-    let mut hide_matrix = (0..matrix_col_dimension(value))
+pub fn create_shadow_matrix_with<T>(value: &Matrix, fill_with: impl Fn(Pos) -> T) -> Vec<Vec<T>> {
+    let result = (0..matrix_col_dimension(value))
         .into_iter()
-        .map(|_| {
+        .map(|rowi| {
             (0..matrix_row_dimension(value))
                 .into_iter()
-                .map(|_| true)
+                .map(|coli| fill_with((rowi, coli)))
                 .collect::<Vec<_>>()
         })
         .collect::<Vec<_>>();
+
+    result
+}
+
+pub fn derive_hide_matrix(value: &Matrix) -> Vec<Vec<bool>> {
+    let mut hide_matrix = create_shadow_matrix_with(value, |_| true);
 
     for (rowi, row) in value.iter().enumerate() {
         for (coli, cell) in row.iter().enumerate() {
