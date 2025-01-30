@@ -1,4 +1,4 @@
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Direction {
     Left,  // 180
     Right, // 0
@@ -222,7 +222,11 @@ pub mod test_mazes {
         (0, 1)
     }
 
-    pub fn symbolize_cell(value: &Cell, hide: bool) -> &str {
+    pub fn symbolize_cell(value: &Cell, hide: bool, current: bool) -> &str {
+        if current {
+            return "P";
+        }
+
         if hide {
             return "?";
         }
@@ -244,14 +248,14 @@ pub mod test_mazes {
             .inspect(|v| {
                 let _ = v
                     .into_iter()
-                    .inspect(|v| print!("{}", symbolize_cell(*v, false)))
+                    .inspect(|v| print!("{}", symbolize_cell(*v, false, false)))
                     .collect::<Vec<_>>();
                 println!();
             })
             .collect::<Vec<_>>();
     }
 
-    pub fn simple_display_discovered_matrix(value: &Matrix) {
+    pub fn simple_display_discovered_matrix(value: &Matrix, pos: Pos) {
         let mut hide_matrix = (0..matrix_col_dimension(value))
             .into_iter()
             .map(|_| {
@@ -281,7 +285,10 @@ pub mod test_mazes {
         for (rowi, row) in value.iter().enumerate() {
             for (coli, cell) in row.iter().enumerate() {
                 let hide = hide_matrix[rowi][coli];
-                print!("{}", symbolize_cell(cell, hide));
+
+                let current = (rowi, coli) == pos;
+
+                print!("{}", symbolize_cell(cell, hide, current));
             }
             println!();
         }
@@ -410,6 +417,22 @@ pub mod cmd {
                 return d;
             } else {
                 println!("Invalid direction: {}", input);
+            }
+        }
+    }
+
+    pub fn input_available_direction(can_move_to: Vec<Direction>) -> Direction {
+        assert!(!can_move_to.is_empty());
+
+        loop {
+            let d = input_direction();
+
+            for _d in &can_move_to {
+                if d == *_d {
+                    return d;
+                } else {
+                    println!("{d:?} not available")
+                }
             }
         }
     }
