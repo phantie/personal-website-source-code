@@ -12,6 +12,12 @@ pub struct Cell {
     pub name: String,
 }
 
+impl Cell {
+    pub fn is_exit(&self) -> bool {
+        self.name == "exit"
+    }
+}
+
 pub type Steps = usize;
 pub type Dimension = usize;
 pub type Row = Vec<Cell>;
@@ -74,6 +80,13 @@ pub fn path() -> Cell {
     Cell {
         can_move_to: true,
         name: "path".into(),
+    }
+}
+
+pub fn exit() -> Cell {
+    Cell {
+        can_move_to: true,
+        name: "exit".into(),
     }
 }
 
@@ -193,7 +206,7 @@ pub mod test_mazes {
     use super::*;
 
     pub fn n0() -> UnpaddedMatrix {
-        vec![vec![block(), path(), path()]]
+        vec![vec![block(), path(), path(), exit()]]
     }
 
     pub fn n0_start() -> UnpaddedPos {
@@ -202,6 +215,7 @@ pub mod test_mazes {
 
     pub fn symbolize_cell(value: &Cell) -> &str {
         match value {
+            value if value.is_exit() => ".",
             Cell {
                 can_move_to: false, ..
             } => "#",
