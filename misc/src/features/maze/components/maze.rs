@@ -1,9 +1,15 @@
 #![allow(unused)]
 
 use crate::features::maze::*;
-use leptos::prelude::*;
+use leptos::{logging::log, prelude::*};
 
 pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
+    let (clicked_pos, clicked_pos_write) = signal(None);
+
+    Effect::new(move |_| {
+        log!("Clicked pos: {:?}", clicked_pos.get());
+    });
+
     let hide_matrix = derive_hide_matrix(value);
 
     let mut maze_html = vec![];
@@ -19,7 +25,9 @@ pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
             let cell_name = cell.name.clone();
 
             row_html_els.push(view! {
-                <div class="click-maze-col">
+                <div class="click-maze-col" on:click=move |_| {
+                    clicked_pos_write.write().replace((rowi, coli));
+                }>
                 {cell_name}
 
                 {if current {" (current)"} else {""}}
