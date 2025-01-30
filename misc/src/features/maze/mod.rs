@@ -107,39 +107,39 @@ pub fn pad_matrix(value: UnpaddedMatrix) -> PaddedMatrix {
     m
 }
 
+fn rotate_90(matrix: Matrix) -> Matrix {
+    let rows = matrix.len();
+    let cols = if rows > 0 { matrix[0].len() } else { 0 };
+
+    (0..cols)
+        .map(|col| {
+            (0..rows)
+                .rev()
+                .map(|row| matrix[row][col].clone())
+                .collect()
+        })
+        .collect()
+}
+
+fn rotate_180(matrix: Matrix) -> Matrix {
+    matrix
+        .into_iter()
+        .rev()
+        .map(|row| row.into_iter().rev().collect())
+        .collect()
+}
+
+fn rotate_270(matrix: Matrix) -> Matrix {
+    let rows = matrix.len();
+    let cols = if rows > 0 { matrix[0].len() } else { 0 };
+
+    (0..cols)
+        .rev()
+        .map(|col| (0..rows).map(|row| matrix[row][col].clone()).collect())
+        .collect()
+}
+
 pub fn align_matrix(matrix: PaddedMatrix, direction: Direction) -> AlignedMatrix {
-    fn rotate_90(matrix: Matrix) -> Matrix {
-        let rows = matrix.len();
-        let cols = if rows > 0 { matrix[0].len() } else { 0 };
-
-        (0..cols)
-            .map(|col| {
-                (0..rows)
-                    .rev()
-                    .map(|row| matrix[row][col].clone())
-                    .collect()
-            })
-            .collect()
-    }
-
-    fn rotate_180(matrix: Matrix) -> Matrix {
-        matrix
-            .into_iter()
-            .rev()
-            .map(|row| row.into_iter().rev().collect())
-            .collect()
-    }
-
-    fn rotate_270(matrix: Matrix) -> Matrix {
-        let rows = matrix.len();
-        let cols = if rows > 0 { matrix[0].len() } else { 0 };
-
-        (0..cols)
-            .rev()
-            .map(|col| (0..rows).map(|row| matrix[row][col].clone()).collect())
-            .collect()
-    }
-
     match direction {
         Direction::Left => rotate_180(matrix),
         Direction::Right => matrix,
@@ -162,6 +162,28 @@ pub fn align_position(matrix: &PaddedMatrix, direction: Direction, pos: PaddedPo
         Direction::Right => (row, col), // No change
         Direction::Up => (col, rows - 1 - row),
         Direction::Down => (cols - 1 - col, row),
+    }
+}
+
+pub fn unalign_matrix(matrix: AlignedMatrix, direction: Direction) -> PaddedMatrix {
+    match direction {
+        Direction::Left => rotate_180(matrix),
+        Direction::Right => matrix, // No rotation
+        Direction::Up => rotate_270(matrix),
+        Direction::Down => rotate_90(matrix),
+    }
+}
+
+pub fn unalign_position(matrix: &PaddedMatrix, direction: Direction, pos: AlignedPos) -> PaddedPos {
+    let (row, col) = pos;
+    let rows = matrix.len();
+    let cols = if rows > 0 { matrix[0].len() } else { 0 };
+
+    match direction {
+        Direction::Left => (rows - 1 - row, cols - 1 - col),
+        Direction::Right => (row, col), // No change
+        Direction::Up => (rows - 1 - col, row),
+        Direction::Down => (col, cols - 1 - row),
     }
 }
 
@@ -223,7 +245,7 @@ impl MovementState {
         Self { m, pos }
     }
 
-    pub fn validate_init(&self) {
+    pub fn validate_pos(&self) {
         let pos = pick_pos(&self.m, self.pos);
         assert!(pos.can_move_to);
     }
@@ -263,5 +285,17 @@ impl MovementState {
         }
 
         can_move_to
+    }
+
+    pub fn move_to_direction(&mut self, d: Direction, inc: Steps) {
+        let pos = align_position(&self.m, d, self.pos);
+        let pos = inc_aligned_pos(pos, inc);
+        let pos = unalign_position(&self.m, d, pos);
+        self.pos = pos;
+        self.validate_pos();
+    }
+
+    pub fn move_to_direction_once(&mut self, d: Direction) {
+        self.move_to_direction(d, 1);
     }
 }
