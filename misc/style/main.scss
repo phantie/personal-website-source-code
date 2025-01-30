@@ -13,6 +13,8 @@ body {
     --background-color-contrast-focus: #19202c;
 }
 
+/// START ARTICLES
+
 .articles {
     display: flex;
     flex-wrap: nowrap;
@@ -95,4 +97,29 @@ h4,
 h5,
 h6 {
     padding-top: .3em;
+}
+
+/// END ARTICLES
+
+/// START CLICK MAZE
+
+.click-maze {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background-color: black;
+    flex-direction: column;
+    padding: 30px 30px;
+}
+
+.click-maze-row {
+    display: flex;
+    width: 100%;
+    flex: 1;
+}
+
+.click-maze-col {
+    display: flex;
+    flex-grow: 1;
+    border: 3px solid whitesmoke;
 }
