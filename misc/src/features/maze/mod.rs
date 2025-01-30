@@ -50,6 +50,10 @@ pub fn matrix_row_dimension(value: &Matrix) -> Dimension {
     value.first().unwrap().len()
 }
 
+pub fn matrix_col_dimension(value: &Matrix) -> Dimension {
+    value.len()
+}
+
 pub fn row_dimension(value: &Row) -> Dimension {
     value.len()
 }
@@ -245,6 +249,38 @@ pub mod test_mazes {
                 println!();
             })
             .collect::<Vec<_>>();
+    }
+
+    pub fn simple_display_discovered_matrix(value: &Matrix) {
+        let mut hide_matrix = (0..matrix_col_dimension(value))
+            .into_iter()
+            .map(|_| {
+                (0..matrix_row_dimension(value))
+                    .into_iter()
+                    .map(|_| true)
+                    .collect::<Vec<_>>()
+            })
+            .collect::<Vec<_>>();
+
+        for (rowi, row) in value.iter().enumerate() {
+            for (coli, cell) in row.iter().enumerate() {
+                if cell.visited {
+                    hide_matrix[rowi][coli] = false;
+                    hide_matrix[rowi - 1][coli - 1] = false;
+                    hide_matrix[rowi + 1][coli + 1] = false;
+                    hide_matrix[rowi - 1][coli + 1] = false;
+                    hide_matrix[rowi + 1][coli - 1] = false;
+                }
+            }
+        }
+
+        for (rowi, row) in value.iter().enumerate() {
+            for (coli, cell) in row.iter().enumerate() {
+                let hide = hide_matrix[rowi][coli];
+                print!("{}", symbolize_cell(cell, hide));
+            }
+            println!();
+        }
     }
 }
 
