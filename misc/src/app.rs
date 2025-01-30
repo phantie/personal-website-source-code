@@ -28,6 +28,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
 pub fn App() -> impl IntoView {
     use crate::features::articles::ArticleRoutes;
     use crate::features::home::HomeRoutes;
+    use crate::features::maze::MazeRoutes;
 
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
@@ -48,6 +49,8 @@ pub fn App() -> impl IntoView {
                 <Routes fallback=|| "Page not found.".into_view()>
                     <HomeRoutes/>
                     <ArticleRoutes/>
+                    <MazeRoutes/>
+                    // <Route path=path!("/maze") view=move || view! { <div>{"Maze"} </div> } />
                 </Routes>
             </main>
         </Router>

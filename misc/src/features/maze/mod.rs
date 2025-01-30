@@ -437,3 +437,24 @@ pub mod cmd {
         }
     }
 }
+
+pub mod components;
+use leptos::prelude::*;
+use leptos_router::components::Outlet;
+#[allow(unused)]
+use leptos_router::{
+    components::{ParentRoute, Route, Router, Routes, A},
+    path, MatchNestedRoutes,
+};
+
+#[component(transparent)]
+pub fn MazeRoutes() -> impl MatchNestedRoutes + Clone {
+    use components::maze::MazeComponent;
+
+    view! {
+        <ParentRoute path=path!("/maze") view=Outlet>
+            <Route path=path!("") view=MazeComponent />
+        </ParentRoute>
+    }
+    .into_inner()
+}
