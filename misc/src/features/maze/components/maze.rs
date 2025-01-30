@@ -11,9 +11,8 @@ pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
     let hide_matrix = derive_hide_matrix(value);
 
     let signal_matrix = Rc::new(create_shadow_matrix_with(value, |pos| {
-        // let (rowi, coli) = pos;
-        // signal::<Cell>(value[rowi][coli].clone())
-        signal::<bool>(false)
+        let (rowi, coli) = pos;
+        signal::<Cell>(value[rowi][coli].clone())
     }));
 
     {
@@ -22,9 +21,8 @@ pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
             let pos: Option<Pos> = clicked_pos.get();
             if let Some(pos @ (rowi, coli)) = pos {
                 let (r, w) = signal_matrix[rowi][coli];
-                w.set(true); // TEMP
+                w.write().visited = true;
 
-                log!("WTF: {:?}", *r.read());
                 log!("Clicked pos: {:?}", pos);
             }
         });
@@ -47,26 +45,23 @@ pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
 
             let cell_name = cell.name.clone();
 
-            let f = view! {
-                <div class="click-maze-col" on:click=move |_| {
-                    clicked_pos_write.write().replace((rowi, coli));
-                }>
+            row_html_els.push(view! {
+                <div
+                    class="click-maze-col"
+                    on:click=move |_| {
+                        clicked_pos_write.write().replace((rowi, coli));
+                    }
+                    class:visited=move || r.get().visited
+                >
                 {cell_name}
 
                 {if current {" (current)"} else {""}}
                 {if hide {" (hide)"} else {""}}
 
                 {","}{rowi}{","}{coli}{","}
-                // <div>{format!("{:?}", r.get())}</div>
-                {r}
+                // {r}
                 </div>
-            };
-
-            row_html_els.push(view! {
-                {f}
             });
-
-            //
         }
 
         let row_html = view! {
