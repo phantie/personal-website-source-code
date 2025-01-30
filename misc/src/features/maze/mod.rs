@@ -209,6 +209,35 @@ pub fn unalign_position(matrix: &PaddedMatrix, direction: Direction, pos: Aligne
     }
 }
 
+pub fn derive_hide_matrix(value: &Matrix) -> Vec<Vec<bool>> {
+    let mut hide_matrix = (0..matrix_col_dimension(value))
+        .into_iter()
+        .map(|_| {
+            (0..matrix_row_dimension(value))
+                .into_iter()
+                .map(|_| true)
+                .collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>();
+
+    for (rowi, row) in value.iter().enumerate() {
+        for (coli, cell) in row.iter().enumerate() {
+            if cell.visited {
+                let mut set_visited = |rowi: usize, coli: usize| hide_matrix[rowi][coli] = false;
+
+                set_visited(rowi, coli);
+                set_visited(rowi, coli);
+                set_visited(rowi - 1, coli);
+                set_visited(rowi + 1, coli);
+                set_visited(rowi, coli + 1);
+                set_visited(rowi, coli - 1);
+            }
+        }
+    }
+
+    hide_matrix
+}
+
 pub mod test_mazes {
     #![allow(unused)]
 
@@ -256,31 +285,7 @@ pub mod test_mazes {
     }
 
     pub fn simple_display_discovered_matrix(value: &Matrix, pos: Pos) {
-        let mut hide_matrix = (0..matrix_col_dimension(value))
-            .into_iter()
-            .map(|_| {
-                (0..matrix_row_dimension(value))
-                    .into_iter()
-                    .map(|_| true)
-                    .collect::<Vec<_>>()
-            })
-            .collect::<Vec<_>>();
-
-        for (rowi, row) in value.iter().enumerate() {
-            for (coli, cell) in row.iter().enumerate() {
-                if cell.visited {
-                    let mut set_visited =
-                        |rowi: usize, coli: usize| hide_matrix[rowi][coli] = false;
-
-                    set_visited(rowi, coli);
-                    set_visited(rowi, coli);
-                    set_visited(rowi - 1, coli);
-                    set_visited(rowi + 1, coli);
-                    set_visited(rowi, coli + 1);
-                    set_visited(rowi, coli - 1);
-                }
-            }
-        }
+        let hide_matrix = derive_hide_matrix(value);
 
         for (rowi, row) in value.iter().enumerate() {
             for (coli, cell) in row.iter().enumerate() {
