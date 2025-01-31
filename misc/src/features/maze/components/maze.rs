@@ -1,11 +1,10 @@
 #![allow(unused)]
 
-use std::rc::Rc;
-
 use crate::features::maze::*;
 use leptos::{logging::log, prelude::*};
+use std::rc::Rc;
 
-pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
+pub fn render_arena(value: &Matrix, pos: Pos) -> AnyView {
     let (clicked_pos, clicked_pos_write) = signal(None);
 
     let hide_matrix = derive_hide_matrix(value);
@@ -39,8 +38,6 @@ pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
             let signal_matrix = signal_matrix.clone();
             let (r, w) = signal_matrix[rowi][coli];
 
-            // log!("{rowi} {coli}");
-
             let current = (rowi, coli) == pos;
 
             let cell_name = cell.name.clone();
@@ -53,13 +50,11 @@ pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
                     }
                     class:visited=move || r.get().visited
                 >
-                {cell_name}
-
-                {if current {" (current)"} else {""}}
-                {if hide {" (hide)"} else {""}}
-
-                {","}{rowi}{","}{coli}{","}
-                // {r}
+                    {cell_name}
+                    {if current {" (current)"} else {""}}
+                    {if hide {" (hide)"} else {""}}
+                    // {" ("}{rowi}{","}{coli}{")"}
+                    {move || format!(" {:?}", r.get())}
                 </div>
             });
         }
@@ -73,7 +68,10 @@ pub fn render_discovered_matrix(value: &Matrix, pos: Pos) -> AnyView {
         maze_html.push(row_html);
     }
 
-    view! { <div class="click-maze">{ maze_html }</div> }.into_any()
+    view! {
+        <div class="click-maze">{ maze_html }</div>
+    }
+    .into_any()
 }
 
 #[component]
@@ -83,6 +81,6 @@ pub fn MazeComponent() -> impl IntoView {
     let s = MovementState::new(m.clone(), pos);
 
     view! {
-        { render_discovered_matrix(&s.m, s.pos) }
+        { render_arena(&s.m, s.pos) }
     }
 }
