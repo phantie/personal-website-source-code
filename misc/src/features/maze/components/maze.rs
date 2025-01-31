@@ -4,14 +4,29 @@ use crate::features::maze::*;
 use leptos::{logging::log, prelude::*};
 use std::rc::Rc;
 
-pub fn render_arena(value: &Matrix, pos: Pos) -> AnyView {
+#[derive(Clone, Debug)]
+struct CellState {
+    inner: Cell,
+}
+
+pub fn render_arena(mut s: MovementState) -> AnyView {
+    let value = &s.m;
+    let pos = s.pos;
+
     let (clicked_pos, clicked_pos_write) = signal(None);
 
     let hide_matrix = derive_hide_matrix(value);
 
     let signal_matrix = Rc::new(create_shadow_matrix_with(value, |pos| {
         let (rowi, coli) = pos;
-        signal::<Cell>(value[rowi][coli].clone())
+        let cell = value[rowi][coli].clone();
+        signal(cell)
+    }));
+
+    let state_matrix = Rc::new(create_shadow_matrix_with(value, |pos| {
+        let (rowi, coli) = pos;
+        let cell = value[rowi][coli].clone();
+        CellState { inner: cell }
     }));
 
     {
@@ -19,10 +34,25 @@ pub fn render_arena(value: &Matrix, pos: Pos) -> AnyView {
         Effect::new(move |_| {
             let pos: Option<Pos> = clicked_pos.get();
             if let Some(pos @ (rowi, coli)) = pos {
-                let (r, w) = signal_matrix[rowi][coli];
-                w.write().visited = true;
-
                 log!("Clicked pos: {:?}", pos);
+
+                // apply changes to MovementState
+                // synchronize state matrix
+                let (rs, ws) = signal_matrix[rowi][coli];
+
+                let mut cell = rs.get_untracked();
+
+                // apply changes to cell
+                cell.visited = true;
+
+                // replace value
+                ws.set(cell);
+
+                // ws.write().visited = true;
+
+                // ws.update(|cell| {
+                //     cell.visited = true;
+                // });
             }
         });
     }
@@ -35,8 +65,7 @@ pub fn render_arena(value: &Matrix, pos: Pos) -> AnyView {
         for (coli, cell) in row.iter().enumerate() {
             let hide = hide_matrix[rowi][coli];
 
-            let signal_matrix = signal_matrix.clone();
-            let (r, w) = signal_matrix[rowi][coli];
+            let (rs, ws) = signal_matrix[rowi][coli];
 
             let current = (rowi, coli) == pos;
 
@@ -48,13 +77,14 @@ pub fn render_arena(value: &Matrix, pos: Pos) -> AnyView {
                     on:click=move |_| {
                         clicked_pos_write.write().replace((rowi, coli));
                     }
-                    class:visited=move || r.get().visited
+                    class:visited=move || rs.get().visited
+
                 >
                     {cell_name}
                     {if current {" (current)"} else {""}}
                     {if hide {" (hide)"} else {""}}
                     // {" ("}{rowi}{","}{coli}{")"}
-                    {move || format!(" {:?}", r.get())}
+                    {move || format!(" {:?}", rs.get())}
                 </div>
             });
         }
@@ -81,6 +111,6 @@ pub fn MazeComponent() -> impl IntoView {
     let s = MovementState::new(m.clone(), pos);
 
     view! {
-        { render_arena(&s.m, s.pos) }
+        { render_arena(s) }
     }
 }
