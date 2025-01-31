@@ -316,9 +316,15 @@ pub fn pick_pos_mut(m: &mut PaddedMatrix, (rowi, coli): Pos) -> &mut Cell {
     &mut m[rowi][coli]
 }
 
+#[derive(Clone, Debug)]
+pub enum MovementStateChange {
+    CellChanged((Pos, Cell)),
+}
+
 pub struct MovementState {
     pub m: PaddedMatrix,
     pub pos: PaddedPos,
+    pub ws: Option<WriteSignal<Option<MovementStateChange>>>,
 }
 
 pub fn inc_aligned_pos((rowi, coli): AlignedPos, inc: ColI) -> AlignedPos {
@@ -329,7 +335,7 @@ impl MovementState {
     pub fn new(m: UnpaddedMatrix, pos: UnpaddedPos) -> Self {
         let m = pad_matrix(m);
         let pos = pad_position(pos);
-        let mut s = Self { m, pos };
+        let mut s = Self { m, pos, ws: None };
         s.visit_pos();
         s
     }
@@ -345,6 +351,10 @@ impl MovementState {
         self.validate_pos();
         let pos = pick_pos_mut(&mut self.m, self.pos);
         pos.visited = true;
+        self.notify_subscriber(MovementStateChange::CellChanged((
+            self.pos,
+            pick_pos(&self.m, self.pos).clone(),
+        )));
     }
 
     /// Returns possible step count to direction
@@ -394,11 +404,25 @@ impl MovementState {
         self.pos = pos;
         self.validate_pos();
         self.visit_pos();
+        self.notify_subscriber(MovementStateChange::CellChanged((
+            self.pos,
+            pick_pos(&self.m, self.pos).clone(),
+        )));
     }
 
     /// Moves current position to Direction for one step
     pub fn move_to_direction_once(&mut self, d: Direction) {
         self.move_to_direction(d, 1);
+    }
+
+    pub fn subscribe(&mut self, ws: WriteSignal<Option<MovementStateChange>>) {
+        self.ws.replace(ws);
+    }
+
+    fn notify_subscriber(&self, msg: MovementStateChange) {
+        if let Some(ws) = &self.ws {
+            ws.set(Some(msg));
+        }
     }
 }
 
@@ -448,6 +472,32 @@ pub mod cmd {
                 }
             }
         }
+    }
+}
+
+pub mod web {
+    use super::*;
+
+    pub fn can_move_to_cells(s: &MovementState) -> Vec<(Pos, Direction)> {
+        let result = s
+            .can_move_to_directions()
+            .into_iter()
+            .map(|d| {
+                let (rowi_delta, coli_delta) = match d {
+                    Direction::Up => (-1, 0),
+                    Direction::Down => (1, 0),
+                    Direction::Left => (0, -1),
+                    Direction::Right => (0, 1),
+                };
+
+                let (rowi, coli) = s.pos;
+                let (rowi, coli) = (rowi as isize, coli as isize);
+                let (rowi, coli) = (rowi + rowi_delta, coli + coli_delta);
+                ((rowi as RowI, coli as ColI), d)
+            })
+            .collect();
+
+        result
     }
 }
 

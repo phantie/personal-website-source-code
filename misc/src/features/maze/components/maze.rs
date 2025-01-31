@@ -3,6 +3,7 @@
 use crate::features::maze::*;
 use leptos::{logging::log, prelude::*};
 use std::rc::Rc;
+use std::sync::mpsc::{self, Receiver, Sender};
 
 #[derive(Clone, Debug)]
 struct CellState {
@@ -10,25 +11,47 @@ struct CellState {
 }
 
 pub fn render_arena(mut s: MovementState) -> AnyView {
-    let value = &s.m;
+    let (rs, ws) = signal(None);
+    s.subscribe(ws);
+
+    let value = s.m.clone();
     let pos = s.pos;
 
     let (clicked_pos, clicked_pos_write) = signal(None);
 
-    let hide_matrix = derive_hide_matrix(value);
+    let hide_matrix = derive_hide_matrix(&value);
 
-    let signal_matrix = Rc::new(create_shadow_matrix_with(value, |pos| {
+    let signal_matrix = Rc::new(create_shadow_matrix_with(&value, |pos| {
         let (rowi, coli) = pos;
         let cell = value[rowi][coli].clone();
         signal(cell)
     }));
 
-    let state_matrix = Rc::new(create_shadow_matrix_with(value, |pos| {
+    let state_matrix = Rc::new(create_shadow_matrix_with(&value, |pos| {
         let (rowi, coli) = pos;
         let cell = value[rowi][coli].clone();
         CellState { inner: cell }
     }));
 
+    // Effect that handles UI changes to MovementState
+    {
+        let signal_matrix = signal_matrix.clone();
+
+        Effect::new(move |_| {
+            let msc = rs.get();
+            log!("{msc:?}");
+
+            match msc {
+                Some(MovementStateChange::CellChanged(((rowi, coli), cell))) => {
+                    let (rs, ws) = signal_matrix[rowi][coli];
+                    ws.set(cell);
+                }
+                _ => (),
+            }
+        });
+    }
+
+    /// Effect that handles cell clicking
     {
         let signal_matrix = signal_matrix.clone();
         Effect::new(move |_| {
@@ -37,22 +60,15 @@ pub fn render_arena(mut s: MovementState) -> AnyView {
                 log!("Clicked pos: {:?}", pos);
 
                 // apply changes to MovementState
-                // synchronize state matrix
-                let (rs, ws) = signal_matrix[rowi][coli];
-
-                let mut cell = rs.get_untracked();
-
-                // apply changes to cell
-                cell.visited = true;
-
-                // replace value
-                ws.set(cell);
-
-                // ws.write().visited = true;
-
-                // ws.update(|cell| {
-                //     cell.visited = true;
-                // });
+                match web::can_move_to_cells(&s)
+                    .iter()
+                    .find(|(_pos, d)| _pos == &pos)
+                {
+                    Some((_pos, d)) => {
+                        s.move_to_direction_once(*d);
+                    }
+                    None => (),
+                }
             }
         });
     }
