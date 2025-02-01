@@ -317,8 +317,9 @@ pub fn pick_pos_mut(m: &mut PaddedMatrix, (rowi, coli): Pos) -> &mut Cell {
 }
 
 #[derive(Clone, Debug)]
+#[non_exhaustive]
 pub enum MovementStateChange {
-    CellChanged((Pos, Cell)),
+    CellVisited((Pos, Cell)),
 }
 
 pub struct MovementState {
@@ -331,13 +332,18 @@ pub fn inc_aligned_pos((rowi, coli): AlignedPos, inc: ColI) -> AlignedPos {
     (rowi, coli + inc)
 }
 
+pub fn inc_pos_to_direction((rowi, coli): Pos, d: Direction) -> Pos {
+    let (rowi_delta, coli_delta) = d.delta();
+    let (rowi, coli) = (rowi as isize, coli as isize);
+    let (rowi, coli) = (rowi + rowi_delta, coli + coli_delta);
+    (rowi as RowI, coli as ColI)
+}
+
 impl MovementState {
     pub fn new(m: UnpaddedMatrix, pos: UnpaddedPos) -> Self {
         let m = pad_matrix(m);
         let pos = pad_position(pos);
-        let mut s = Self { m, pos, ws: None };
-        s.visit_pos();
-        s
+        Self { m, pos, ws: None }
     }
 
     /// Checks current position was reachable
@@ -349,12 +355,15 @@ impl MovementState {
     /// Set visited mark for current position
     pub fn visit_pos(&mut self) {
         self.validate_pos();
-        let pos = pick_pos_mut(&mut self.m, self.pos);
-        pos.visited = true;
-        self.notify_subscriber(MovementStateChange::CellChanged((
-            self.pos,
-            pick_pos(&self.m, self.pos).clone(),
-        )));
+        let cell = pick_pos_mut(&mut self.m, self.pos);
+
+        if !cell.visited {
+            cell.visited = true;
+            self.notify_subscriber(MovementStateChange::CellVisited((
+                self.pos,
+                pick_pos(&self.m, self.pos).clone(),
+            )));
+        }
     }
 
     /// Returns possible step count to direction
@@ -381,12 +390,7 @@ impl MovementState {
     pub fn can_move_to_directions(&self) -> Vec<Direction> {
         let mut can_move_to = vec![];
 
-        for d in vec![
-            Direction::Left,
-            Direction::Right,
-            Direction::Up,
-            Direction::Down,
-        ] {
+        for d in Direction::iter() {
             let steps_to_direction = self.movement_possibility(d);
             if steps_to_direction > 0 {
                 can_move_to.push(d);
@@ -404,10 +408,6 @@ impl MovementState {
         self.pos = pos;
         self.validate_pos();
         self.visit_pos();
-        self.notify_subscriber(MovementStateChange::CellChanged((
-            self.pos,
-            pick_pos(&self.m, self.pos).clone(),
-        )));
     }
 
     /// Moves current position to Direction for one step
@@ -423,6 +423,21 @@ impl MovementState {
         if let Some(ws) = &self.ws {
             ws.set(Some(msg));
         }
+    }
+}
+
+impl Direction {
+    pub fn delta(&self) -> (isize, isize) {
+        match self {
+            Direction::Up => (-1, 0),
+            Direction::Down => (1, 0),
+            Direction::Left => (0, -1),
+            Direction::Right => (0, 1),
+        }
+    }
+
+    pub fn iter() -> Vec<Self> {
+        vec![Self::Left, Self::Right, Self::Up, Self::Down]
     }
 }
 
@@ -482,19 +497,7 @@ pub mod web {
         let result = s
             .can_move_to_directions()
             .into_iter()
-            .map(|d| {
-                let (rowi_delta, coli_delta) = match d {
-                    Direction::Up => (-1, 0),
-                    Direction::Down => (1, 0),
-                    Direction::Left => (0, -1),
-                    Direction::Right => (0, 1),
-                };
-
-                let (rowi, coli) = s.pos;
-                let (rowi, coli) = (rowi as isize, coli as isize);
-                let (rowi, coli) = (rowi + rowi_delta, coli + coli_delta);
-                ((rowi as RowI, coli as ColI), d)
-            })
+            .map(|d| (inc_pos_to_direction(s.pos, d), d))
             .collect();
 
         result

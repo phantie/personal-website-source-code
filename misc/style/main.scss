@@ -124,8 +124,9 @@ h6 {
     flex-basis: 0;
     border: 3px solid whitesmoke;
     overflow-wrap: anywhere;
+    background-color: gray;
 }
 
-.click-maze-col.visited {
-    background-color: gray;
+.click-maze-col.hide {
+    background-color: black;
 }

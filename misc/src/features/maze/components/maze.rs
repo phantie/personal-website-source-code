@@ -7,7 +7,7 @@ use std::sync::mpsc::{self, Receiver, Sender};
 
 #[derive(Clone, Debug)]
 struct CellState {
-    inner: Cell,
+    hide: bool,
 }
 
 pub fn render_arena(mut s: MovementState) -> AnyView {
@@ -19,32 +19,42 @@ pub fn render_arena(mut s: MovementState) -> AnyView {
 
     let (clicked_pos, clicked_pos_write) = signal(None);
 
-    let hide_matrix = derive_hide_matrix(&value);
-
-    let signal_matrix = Rc::new(create_shadow_matrix_with(&value, |pos| {
+    let movement_signal_matrix = Rc::new(create_shadow_matrix_with(&value, |pos| {
         let (rowi, coli) = pos;
         let cell = value[rowi][coli].clone();
         signal(cell)
     }));
 
-    let state_matrix = Rc::new(create_shadow_matrix_with(&value, |pos| {
+    let state_signal_matrix = Rc::new(create_shadow_matrix_with(&value, |pos| {
         let (rowi, coli) = pos;
         let cell = value[rowi][coli].clone();
-        CellState { inner: cell }
+        let cell_state = CellState { hide: true };
+        signal(cell_state)
     }));
 
     // Effect that handles UI changes to MovementState
     {
-        let signal_matrix = signal_matrix.clone();
+        let movement_signal_matrix = movement_signal_matrix.clone();
+        let state_signal_matrix = state_signal_matrix.clone();
 
         Effect::new(move |_| {
             let msc = rs.get();
             log!("{msc:?}");
 
             match msc {
-                Some(MovementStateChange::CellChanged(((rowi, coli), cell))) => {
-                    let (rs, ws) = signal_matrix[rowi][coli];
+                Some(MovementStateChange::CellVisited((pos @ (rowi, coli), cell))) => {
+                    let (rs, ws) = movement_signal_matrix[rowi][coli];
                     ws.set(cell);
+
+                    for d in Direction::iter() {
+                        let (rowi, coli) = inc_pos_to_direction(pos, d);
+                        let (rs, ws) = state_signal_matrix[rowi][coli];
+                        if rs.read_untracked().hide {
+                            ws.update(|cell| {
+                                cell.hide = false;
+                            });
+                        }
+                    }
                 }
                 _ => (),
             }
@@ -53,9 +63,10 @@ pub fn render_arena(mut s: MovementState) -> AnyView {
 
     /// Effect that handles cell clicking
     {
-        let signal_matrix = signal_matrix.clone();
+        let movement_signal_matrix = movement_signal_matrix.clone();
         Effect::new(move |_| {
             let pos: Option<Pos> = clicked_pos.get();
+
             if let Some(pos @ (rowi, coli)) = pos {
                 log!("Clicked pos: {:?}", pos);
 
@@ -79,9 +90,8 @@ pub fn render_arena(mut s: MovementState) -> AnyView {
         let mut row_html_els = vec![];
 
         for (coli, cell) in row.iter().enumerate() {
-            let hide = hide_matrix[rowi][coli];
-
-            let (rs, ws) = signal_matrix[rowi][coli];
+            let (movement_rs, _) = movement_signal_matrix[rowi][coli];
+            let (state_rs, _) = state_signal_matrix[rowi][coli];
 
             let current = (rowi, coli) == pos;
 
@@ -93,14 +103,16 @@ pub fn render_arena(mut s: MovementState) -> AnyView {
                     on:click=move |_| {
                         clicked_pos_write.write().replace((rowi, coli));
                     }
-                    class:visited=move || rs.get().visited
+                    class:visited=move || movement_rs.get().visited
+                    class:hide=move || state_rs.get().hide
 
                 >
                     {cell_name}
                     {if current {" (current)"} else {""}}
-                    {if hide {" (hide)"} else {""}}
+                    {move || if state_rs.get().hide {" (hide)"} else {""}}
                     // {" ("}{rowi}{","}{coli}{")"}
-                    {move || format!(" {:?}", rs.get())}
+                    {move || format!(" {:?}", state_rs.get())}
+                    {move || format!(" {:?}", movement_rs.get())}
                 </div>
             });
         }
