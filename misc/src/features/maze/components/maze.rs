@@ -27,15 +27,15 @@ pub enum InitiallyRevealed {
 pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
     let (rs, ws) = signal(CellStateChange::Init);
 
-    let value = m.clone();
+    let m = Rc::new(m);
 
-    let (reveal_pos_read, reveal_pos_write) = signal(None);
+    let (click_pos_read, click_pos_write) = signal(None);
 
     let (mousedown_read, mousedown_write) = signal(false);
 
-    let state_signal_matrix = Rc::new(create_shadow_matrix_with(&value, |pos| {
+    let state_signal_matrix = Rc::new(create_shadow_matrix_with(&m, |pos| {
         let (rowi, coli) = pos;
-        let cell = value[rowi][coli].clone();
+        let cell = m[rowi][coli].clone();
         let cell_state = CellState {
             hide: true,
             visited: false,
@@ -48,6 +48,7 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
     // Effect that handles UI changes to VisitState
     {
         let state_signal_matrix = state_signal_matrix.clone();
+        let m = m.clone();
 
         Effect::new(move |_| {
             let msc = rs.get();
@@ -55,6 +56,12 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
 
             match msc {
                 CellStateChange::CellVisited((pos @ (rowi, coli), cell)) => {
+                    let (state_rs, state_ws) = state_signal_matrix[rowi][coli];
+
+                    state_ws.update(|cell| {
+                        cell.visited = true;
+                    });
+
                     for (rowi, coli) in std::iter::once(pos).chain(
                         Direction::iter()
                             .into_iter()
@@ -70,7 +77,10 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                 }
                 CellStateChange::Init => match pos {
                     InitiallyRevealed::One(pos) => {
-                        reveal_pos_write.set(Some(pos));
+                        ws.set(CellStateChange::CellVisited((
+                            pos,
+                            pick_pos(&m, pos).clone(),
+                        )));
                     }
                 },
                 _ => (),
@@ -78,22 +88,24 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
         });
     }
 
-    /// Effect that handles position revealing
-    /// Either by clicking or initial setup
+    /// Effect that handles position revealing by user
     {
         let state_signal_matrix = state_signal_matrix.clone();
+        let m = m.clone();
 
         Effect::new(move |_| {
-            let pos: Option<Pos> = reveal_pos_read.get();
+            let pos: Option<Pos> = click_pos_read.get();
 
             if let Some(pos @ (rowi, coli)) = pos {
                 log!("Trying visit pos: {:?}", pos);
 
                 let (state_rs, state_ws) = state_signal_matrix[rowi][coli];
 
-                if state_rs.read_untracked().can_move_to && !state_rs.read_untracked().visited {
+                if !state_rs.read_untracked().hide
+                    && state_rs.read_untracked().can_move_to
+                    && !state_rs.read_untracked().visited
+                {
                     state_ws.update(|cell| {
-                        cell.visited = true;
                         ws.set(CellStateChange::CellVisited((
                             pos,
                             pick_pos(&m, pos).clone(),
@@ -106,7 +118,7 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
 
     let mut maze_html = vec![];
 
-    for (rowi, row) in value.iter().enumerate() {
+    for (rowi, row) in m.iter().enumerate() {
         let mut row_html_els = vec![];
 
         for (coli, cell) in row.iter().enumerate() {
@@ -118,11 +130,11 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                 <div
                     class="click-maze-col"
                     on:mousedown=move |_| {
-                        reveal_pos_write.write().replace((rowi, coli));
+                        click_pos_write.write().replace((rowi, coli));
                     }
                     on:mouseenter=move |_| {
                         if *mousedown_read.read_untracked() {
-                            reveal_pos_write.write().replace((rowi, coli));
+                            click_pos_write.write().replace((rowi, coli));
                         }
                     }
                     class:visited=move || state_rs.get().visited
