@@ -19,7 +19,7 @@ pub enum CellStateChange {
     CellVisited((Pos, Cell)),
 }
 
-pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
+pub fn render_arena(m: PaddedMatrix) -> AnyView {
     let (rs, ws) = signal::<Option<CellStateChange>>(None);
 
     let value = m.clone();
@@ -96,8 +96,6 @@ pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
         for (coli, cell) in row.iter().enumerate() {
             let (state_rs, _) = state_signal_matrix[rowi][coli];
 
-            let current = (rowi, coli) == pos;
-
             let cell_name = cell.name.clone();
 
             row_html_els.push(view! {
@@ -111,7 +109,6 @@ pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
 
                 >
                     {cell_name}
-                    {if current {" (current)"} else {""}}
                     {move || if state_rs.get().hide {" (hide)"} else {""}}
                     // {" ("}{rowi}{","}{coli}{")"}
                     {move || format!(" {:?}", state_rs.get())}
@@ -140,9 +137,8 @@ pub fn MazeComponent() -> impl IntoView {
     let pos = test_mazes::n0_start();
 
     let m = pad_matrix(m);
-    let pos = pad_position(pos);
 
     view! {
-        { render_arena(m, pos) }
+        { render_arena(m) }
     }
 }
