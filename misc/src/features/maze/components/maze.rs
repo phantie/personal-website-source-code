@@ -25,12 +25,6 @@ pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
 
     let (clicked_pos, clicked_pos_write) = signal(None);
 
-    let movement_signal_matrix = Rc::new(create_shadow_matrix_with(&value, |pos| {
-        let (rowi, coli) = pos;
-        let cell = value[rowi][coli].clone();
-        signal(cell)
-    }));
-
     let state_signal_matrix = Rc::new(create_shadow_matrix_with(&value, |pos| {
         let (rowi, coli) = pos;
         let cell = value[rowi][coli].clone();
@@ -44,7 +38,6 @@ pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
 
     // Effect that handles UI changes to VisitState
     {
-        let movement_signal_matrix = movement_signal_matrix.clone();
         let state_signal_matrix = state_signal_matrix.clone();
 
         Effect::new(move |_| {
@@ -53,9 +46,6 @@ pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
 
             match msc {
                 Some(CellStateChange::CellVisited((pos @ (rowi, coli), cell))) => {
-                    let (rs, ws) = movement_signal_matrix[rowi][coli];
-                    ws.set(cell);
-
                     for d in Direction::iter() {
                         let (rowi, coli) = inc_pos_to_direction(pos, d);
                         let (rs, ws) = state_signal_matrix[rowi][coli];
@@ -103,7 +93,6 @@ pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
         let mut row_html_els = vec![];
 
         for (coli, cell) in row.iter().enumerate() {
-            let (movement_rs, _) = movement_signal_matrix[rowi][coli];
             let (state_rs, _) = state_signal_matrix[rowi][coli];
 
             let current = (rowi, coli) == pos;
@@ -116,7 +105,7 @@ pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
                     on:click=move |_| {
                         clicked_pos_write.write().replace((rowi, coli));
                     }
-                    class:visited=move || movement_rs.get().visited
+                    class:visited=move || state_rs.get().inner.visited
                     class:hide=move || state_rs.get().hide
 
                 >
@@ -125,7 +114,6 @@ pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
                     {move || if state_rs.get().hide {" (hide)"} else {""}}
                     // {" ("}{rowi}{","}{coli}{")"}
                     {move || format!(" {:?}", state_rs.get())}
-                    {move || format!(" {:?}", movement_rs.get())}
                 </div>
             });
         }
