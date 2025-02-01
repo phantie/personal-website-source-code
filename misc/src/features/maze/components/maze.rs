@@ -31,6 +31,8 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
 
     let (reveal_pos_read, reveal_pos_write) = signal(None);
 
+    let (mousedown_read, mousedown_write) = signal(false);
+
     let state_signal_matrix = Rc::new(create_shadow_matrix_with(&value, |pos| {
         let (rowi, coli) = pos;
         let cell = value[rowi][coli].clone();
@@ -115,8 +117,13 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
             row_html_els.push(view! {
                 <div
                     class="click-maze-col"
-                    on:click=move |_| {
+                    on:mousedown=move |_| {
                         reveal_pos_write.write().replace((rowi, coli));
+                    }
+                    on:mouseenter=move |_| {
+                        if *mousedown_read.read_untracked() {
+                            reveal_pos_write.write().replace((rowi, coli));
+                        }
                     }
                     class:visited=move || state_rs.get().visited
                     class:hide=move || state_rs.get().hide
@@ -141,7 +148,15 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
     }
 
     view! {
-        <div class="click-maze">{ maze_html }</div>
+        <div
+            class="click-maze"
+            on:mousedown=move |_| {
+                mousedown_write.set(true);
+            }
+            on:mouseup=move |_| {
+                mousedown_write.set(false);
+            }
+        >{ maze_html }</div>
     }
     .into_any()
 }
