@@ -327,15 +327,8 @@ pub fn pick_pos_mut(m: &mut PaddedMatrix, (rowi, coli): Pos) -> &mut Cell {
     &mut m[rowi][coli]
 }
 
-#[derive(Clone, Debug)]
-#[non_exhaustive]
-pub enum MovementStateChange {
-    CellVisited((Pos, Cell)),
-}
-
 pub struct VisitState {
     pub m: PaddedMatrix,
-    pub ws: Option<WriteSignal<Option<MovementStateChange>>>,
 }
 
 pub fn inc_aligned_pos((rowi, coli): AlignedPos, inc: ColI) -> AlignedPos {
@@ -349,14 +342,19 @@ pub fn inc_pos_to_direction((rowi, coli): Pos, d: Direction) -> Pos {
     (rowi as RowI, coli as ColI)
 }
 
+pub enum VisitCellResult {
+    NewlyVisited,
+    AlreadyVisited,
+}
+
 impl VisitState {
     pub fn new(m: UnpaddedMatrix) -> Self {
         let m = pad_matrix(m);
-        Self { m, ws: None }
+        Self { m }
     }
 
     pub fn new_from_padded(m: PaddedMatrix) -> Self {
-        Self { m, ws: None }
+        Self { m }
     }
 
     /// Checks current position was reachable
@@ -366,32 +364,21 @@ impl VisitState {
     }
 
     /// Set visited mark for current position
-    pub fn visit_cell(&mut self, pos: Pos) {
+    pub fn visit_cell(&mut self, pos: Pos) -> VisitCellResult {
         self.validate_pos(pos);
         let cell = pick_pos_mut(&mut self.m, pos);
 
-        if !cell.visited {
+        if cell.visited {
+            VisitCellResult::AlreadyVisited
+        } else {
             cell.visited = true;
-            self.notify_subscriber(MovementStateChange::CellVisited((
-                pos,
-                pick_pos(&self.m, pos).clone(),
-            )));
+            VisitCellResult::NewlyVisited
         }
     }
 
     pub fn can_visit_cell(&self, pos: Pos) -> bool {
         let cell = pick_pos(&self.m, pos);
         cell.can_move_to
-    }
-
-    pub fn subscribe(&mut self, ws: WriteSignal<Option<MovementStateChange>>) {
-        self.ws.replace(ws);
-    }
-
-    fn notify_subscriber(&self, msg: MovementStateChange) {
-        if let Some(ws) = &self.ws {
-            ws.set(Some(msg));
-        }
     }
 }
 

@@ -10,9 +10,14 @@ struct CellState {
     hide: bool,
 }
 
+#[derive(Clone, Debug)]
+#[non_exhaustive]
+pub enum CellStateChange {
+    CellVisited((Pos, Cell)),
+}
+
 pub fn render_arena(mut s: VisitState, pos: PaddedPos) -> AnyView {
-    let (rs, ws) = signal(None);
-    s.subscribe(ws);
+    let (rs, ws) = signal::<Option<CellStateChange>>(None);
 
     let value = s.m.clone();
 
@@ -41,7 +46,7 @@ pub fn render_arena(mut s: VisitState, pos: PaddedPos) -> AnyView {
             log!("{msc:?}");
 
             match msc {
-                Some(MovementStateChange::CellVisited((pos @ (rowi, coli), cell))) => {
+                Some(CellStateChange::CellVisited((pos @ (rowi, coli), cell))) => {
                     let (rs, ws) = movement_signal_matrix[rowi][coli];
                     ws.set(cell);
 
@@ -62,7 +67,6 @@ pub fn render_arena(mut s: VisitState, pos: PaddedPos) -> AnyView {
 
     /// Effect that handles cell clicking
     {
-        let movement_signal_matrix = movement_signal_matrix.clone();
         Effect::new(move |_| {
             let pos: Option<Pos> = clicked_pos.get();
 
@@ -71,7 +75,15 @@ pub fn render_arena(mut s: VisitState, pos: PaddedPos) -> AnyView {
 
                 // apply changes to VisitState
                 if s.can_visit_cell(pos) {
-                    s.visit_cell(pos);
+                    match s.visit_cell(pos) {
+                        VisitCellResult::NewlyVisited => {
+                            ws.set(Some(CellStateChange::CellVisited((
+                                pos,
+                                pick_pos(&s.m, pos).clone(),
+                            ))));
+                        }
+                        VisitCellResult::AlreadyVisited => (),
+                    }
                 }
             }
         });
