@@ -16,15 +16,20 @@ struct CellState {
 #[derive(Clone, Debug)]
 #[non_exhaustive]
 pub enum CellStateChange {
+    Init,
     CellVisited((Pos, Cell)),
 }
 
-pub fn render_arena(m: PaddedMatrix) -> AnyView {
-    let (rs, ws) = signal::<Option<CellStateChange>>(None);
+pub enum InitiallyRevealed {
+    One(PaddedPos),
+}
+
+pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
+    let (rs, ws) = signal(CellStateChange::Init);
 
     let value = m.clone();
 
-    let (clicked_pos, clicked_pos_write) = signal(None);
+    let (reveal_pos_read, reveal_pos_write) = signal(None);
 
     let state_signal_matrix = Rc::new(create_shadow_matrix_with(&value, |pos| {
         let (rowi, coli) = pos;
@@ -44,10 +49,10 @@ pub fn render_arena(m: PaddedMatrix) -> AnyView {
 
         Effect::new(move |_| {
             let msc = rs.get();
-            log!("{msc:?}");
+            log!("Handling {msc:?}");
 
             match msc {
-                Some(CellStateChange::CellVisited((pos @ (rowi, coli), cell))) => {
+                CellStateChange::CellVisited((pos @ (rowi, coli), cell)) => {
                     for d in Direction::iter() {
                         let (rowi, coli) = inc_pos_to_direction(pos, d);
                         let (rs, ws) = state_signal_matrix[rowi][coli];
@@ -58,30 +63,36 @@ pub fn render_arena(m: PaddedMatrix) -> AnyView {
                         }
                     }
                 }
+                CellStateChange::Init => match pos {
+                    InitiallyRevealed::One(pos) => {
+                        reveal_pos_write.set(Some(pos));
+                    }
+                },
                 _ => (),
             }
         });
     }
 
-    /// Effect that handles cell clicking
+    /// Effect that handles position revealing
+    /// Either by clicking or initial setup
     {
         let state_signal_matrix = state_signal_matrix.clone();
 
         Effect::new(move |_| {
-            let pos: Option<Pos> = clicked_pos.get();
+            let pos: Option<Pos> = reveal_pos_read.get();
 
             if let Some(pos @ (rowi, coli)) = pos {
-                log!("Clicked pos: {:?}", pos);
+                log!("Trying visit pos: {:?}", pos);
 
                 let (state_rs, state_ws) = state_signal_matrix[rowi][coli];
 
                 if state_rs.read_untracked().can_move_to && !state_rs.read_untracked().visited {
                     state_ws.update(|cell| {
                         cell.visited = true;
-                        ws.set(Some(CellStateChange::CellVisited((
+                        ws.set(CellStateChange::CellVisited((
                             pos,
                             pick_pos(&m, pos).clone(),
-                        ))));
+                        )));
                     });
                 }
             }
@@ -102,7 +113,7 @@ pub fn render_arena(m: PaddedMatrix) -> AnyView {
                 <div
                     class="click-maze-col"
                     on:click=move |_| {
-                        clicked_pos_write.write().replace((rowi, coli));
+                        reveal_pos_write.write().replace((rowi, coli));
                     }
                     class:visited=move || state_rs.get().visited
                     class:hide=move || state_rs.get().hide
@@ -137,8 +148,9 @@ pub fn MazeComponent() -> impl IntoView {
     let pos = test_mazes::n0_start();
 
     let m = pad_matrix(m);
+    let pos = pad_position(pos);
 
     view! {
-        { render_arena(m) }
+        { render_arena(m, InitiallyRevealed::One(pos)) }
     }
 }
