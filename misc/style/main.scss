@@ -122,11 +122,26 @@ h6 {
     display: flex;
     flex-grow: 1;
     flex-basis: 0;
-    border: 3px solid whitesmoke;
+    border: 2px solid whitesmoke;
     overflow-wrap: anywhere;
-    background-color: gray;
 }
 
 .click-maze-col.hide {
-    background-color: black;
+    // background-color: black;
+    // background-image: url("https://static.vecteezy.com/system/resources/previews/000/181/825/large_2x/abstract-forest-illustration-vector.jpg");
+    // background-image: url("https://static.vecteezy.com/system/resources/previews/002/878/961/large_2x/pine-forest-fog-illustration-illustration-vector.jpg");
+    // background-image: url("https://static.vecteezy.com/system/resources/previews/000/181/850/large_2x/deciduous-forest-silhouette-illustration-vector.jpg");
+    background-image: url("https://static.vecteezy.com/system/resources/previews/022/010/663/non_2x/question-mark-seamless-pattern-background-vector.jpg");
+    background-size: cover;
+}
+
+.click-maze-col.can_move_to:not(.hide) {
+    // background-color: white !important;
+    background-image: url("https://static.vecteezy.com/system/resources/previews/055/316/613/non_2x/geometric-zigzag-pattern-with-repeating-red-yellow-and-black-lines-on-a-white-background-vector.jpg");
+    background-size: cover;
+}
+
+.click-maze-col.cant_move_to:not(.hide) {
+    background-image: url("https://static.vecteezy.com/system/resources/previews/045/896/831/non_2x/modern-simple-abstract-pattern-free-vector.jpg");
+    background-size: cover;
 }

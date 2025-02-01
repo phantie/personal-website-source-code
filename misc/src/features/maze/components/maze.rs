@@ -120,12 +120,13 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                     }
                     class:visited=move || state_rs.get().visited
                     class:hide=move || state_rs.get().hide
+                    class:can_move_to=move || state_rs.get().can_move_to
+                    class:cant_move_to=move || !state_rs.get().can_move_to
 
                 >
-                    {cell_name}
-                    {move || if state_rs.get().hide {" (hide)"} else {""}}
+                    // {cell_name}
                     // {" ("}{rowi}{","}{coli}{")"}
-                    {move || format!(" {:?}", state_rs.get())}
+                    // {move || format!(" {:?}", state_rs.get())}
                 </div>
             });
         }
