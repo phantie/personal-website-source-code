@@ -53,8 +53,11 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
 
             match msc {
                 CellStateChange::CellVisited((pos @ (rowi, coli), cell)) => {
-                    for d in Direction::iter() {
-                        let (rowi, coli) = inc_pos_to_direction(pos, d);
+                    for (rowi, coli) in std::iter::once(pos).chain(
+                        Direction::iter()
+                            .into_iter()
+                            .map(|d| inc_pos_to_direction(pos, d)),
+                    ) {
                         let (rs, ws) = state_signal_matrix[rowi][coli];
                         if rs.read_untracked().hide {
                             ws.update(|cell| {
