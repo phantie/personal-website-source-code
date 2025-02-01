@@ -9,7 +9,8 @@ use std::sync::mpsc::{self, Receiver, Sender};
 struct CellState {
     hide: bool,
     visited: bool,
-    inner: Cell,
+    name: String,
+    can_move_to: bool,
 }
 
 #[derive(Clone, Debug)]
@@ -31,7 +32,8 @@ pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
         let cell_state = CellState {
             hide: true,
             visited: false,
-            inner: cell,
+            can_move_to: cell.can_move_to,
+            name: cell.name.clone(),
         };
         signal(cell_state)
     }));
@@ -73,8 +75,7 @@ pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
 
                 let (state_rs, state_ws) = state_signal_matrix[rowi][coli];
 
-                if state_rs.read_untracked().inner.can_move_to && !state_rs.read_untracked().visited
-                {
+                if state_rs.read_untracked().can_move_to && !state_rs.read_untracked().visited {
                     state_ws.update(|cell| {
                         cell.visited = true;
                         ws.set(Some(CellStateChange::CellVisited((
@@ -105,7 +106,7 @@ pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
                     on:click=move |_| {
                         clicked_pos_write.write().replace((rowi, coli));
                     }
-                    class:visited=move || state_rs.get().inner.visited
+                    class:visited=move || state_rs.get().visited
                     class:hide=move || state_rs.get().hide
 
                 >
