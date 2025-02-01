@@ -8,6 +8,8 @@ use std::sync::mpsc::{self, Receiver, Sender};
 #[derive(Clone, Debug)]
 struct CellState {
     hide: bool,
+    visited: bool,
+    inner: Cell,
 }
 
 #[derive(Clone, Debug)]
@@ -16,10 +18,10 @@ pub enum CellStateChange {
     CellVisited((Pos, Cell)),
 }
 
-pub fn render_arena(mut s: VisitState, pos: PaddedPos) -> AnyView {
+pub fn render_arena(m: PaddedMatrix, pos: PaddedPos) -> AnyView {
     let (rs, ws) = signal::<Option<CellStateChange>>(None);
 
-    let value = s.m.clone();
+    let value = m.clone();
 
     let (clicked_pos, clicked_pos_write) = signal(None);
 
@@ -32,7 +34,11 @@ pub fn render_arena(mut s: VisitState, pos: PaddedPos) -> AnyView {
     let state_signal_matrix = Rc::new(create_shadow_matrix_with(&value, |pos| {
         let (rowi, coli) = pos;
         let cell = value[rowi][coli].clone();
-        let cell_state = CellState { hide: true };
+        let cell_state = CellState {
+            hide: true,
+            visited: false,
+            inner: cell,
+        };
         signal(cell_state)
     }));
 
@@ -67,23 +73,25 @@ pub fn render_arena(mut s: VisitState, pos: PaddedPos) -> AnyView {
 
     /// Effect that handles cell clicking
     {
+        let state_signal_matrix = state_signal_matrix.clone();
+
         Effect::new(move |_| {
             let pos: Option<Pos> = clicked_pos.get();
 
             if let Some(pos @ (rowi, coli)) = pos {
                 log!("Clicked pos: {:?}", pos);
 
-                // apply changes to VisitState
-                if s.can_visit_cell(pos) {
-                    match s.visit_cell(pos) {
-                        VisitCellResult::NewlyVisited => {
-                            ws.set(Some(CellStateChange::CellVisited((
-                                pos,
-                                pick_pos(&s.m, pos).clone(),
-                            ))));
-                        }
-                        VisitCellResult::AlreadyVisited => (),
-                    }
+                let (state_rs, state_ws) = state_signal_matrix[rowi][coli];
+
+                if state_rs.read_untracked().inner.can_move_to && !state_rs.read_untracked().visited
+                {
+                    state_ws.update(|cell| {
+                        cell.visited = true;
+                        ws.set(Some(CellStateChange::CellVisited((
+                            pos,
+                            pick_pos(&m, pos).clone(),
+                        ))));
+                    });
                 }
             }
         });
@@ -145,9 +153,7 @@ pub fn MazeComponent() -> impl IntoView {
     let m = pad_matrix(m);
     let pos = pad_position(pos);
 
-    let s = VisitState::new_from_padded(m.clone());
-
     view! {
-        { render_arena(s, pos) }
+        { render_arena(m, pos) }
     }
 }
