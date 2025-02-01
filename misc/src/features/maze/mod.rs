@@ -46,12 +46,12 @@ pub fn matrix_is_not_empty(value: &Matrix) -> bool {
     !value.is_empty()
 }
 
-/// Returns inner vec count
+/// Returns number of cells in a row
 pub fn matrix_row_dimension(value: &Matrix) -> Dimension {
     value.first().unwrap().len()
 }
 
-/// Returns outer vec count
+/// Returns number of rows
 pub fn matrix_col_dimension(value: &Matrix) -> Dimension {
     value.len()
 }
@@ -308,8 +308,19 @@ pub mod test_mazes {
     }
 }
 
-pub fn pick_pos(m: &PaddedMatrix, (rowi, coli): Pos) -> &Cell {
+pub fn pick_pos(m: &PaddedMatrix, _pos @ (rowi, coli): Pos) -> &Cell {
     &m[rowi][coli]
+}
+
+pub fn try_pick_pos(m: &PaddedMatrix, pos @ (rowi, coli): Pos) -> Option<&Cell> {
+    let rows = matrix_col_dimension(&m);
+    let cols = matrix_row_dimension(&m);
+
+    if rowi >= rows || coli >= cols {
+        None
+    } else {
+        Some(pick_pos(m, pos))
+    }
 }
 
 pub fn pick_pos_mut(m: &mut PaddedMatrix, (rowi, coli): Pos) -> &mut Cell {
@@ -339,6 +350,7 @@ pub fn inc_pos_to_direction((rowi, coli): Pos, d: Direction) -> Pos {
     (rowi as RowI, coli as ColI)
 }
 
+#[allow(deprecated)]
 impl MovementState {
     pub fn new(m: UnpaddedMatrix, pos: UnpaddedPos) -> Self {
         let m = pad_matrix(m);
@@ -346,73 +358,28 @@ impl MovementState {
         Self { m, pos, ws: None }
     }
 
+    pub fn new_from_padded(m: PaddedMatrix, pos: PaddedPos) -> Self {
+        Self { m, pos, ws: None }
+    }
+
     /// Checks current position was reachable
-    pub fn validate_pos(&self) {
-        let pos = pick_pos(&self.m, self.pos);
+    pub fn validate_pos(&self, pos: Pos) {
+        let pos = pick_pos(&self.m, pos);
         assert!(pos.can_move_to);
     }
 
     /// Set visited mark for current position
-    pub fn visit_pos(&mut self) {
-        self.validate_pos();
-        let cell = pick_pos_mut(&mut self.m, self.pos);
+    pub fn visit_cell(&mut self, pos: Pos) {
+        self.validate_pos(pos);
+        let cell = pick_pos_mut(&mut self.m, pos);
 
         if !cell.visited {
             cell.visited = true;
             self.notify_subscriber(MovementStateChange::CellVisited((
-                self.pos,
-                pick_pos(&self.m, self.pos).clone(),
+                pos,
+                pick_pos(&self.m, pos).clone(),
             )));
         }
-    }
-
-    /// Returns possible step count to direction
-    pub fn movement_possibility(&self, d: Direction) -> Steps {
-        let m = self.m.clone();
-        let m = align_matrix(m, d);
-
-        let mut result = 0;
-
-        loop {
-            let pos = align_position(&self.m, d, self.pos);
-            let pos = inc_aligned_pos(pos, result + 1);
-            let cell = pick_pos(&m, pos);
-
-            if cell.can_move_to {
-                result += 1;
-            } else {
-                return result;
-            }
-        }
-    }
-
-    /// Returns all possible directions to go to
-    pub fn can_move_to_directions(&self) -> Vec<Direction> {
-        let mut can_move_to = vec![];
-
-        for d in Direction::iter() {
-            let steps_to_direction = self.movement_possibility(d);
-            if steps_to_direction > 0 {
-                can_move_to.push(d);
-            }
-        }
-
-        can_move_to
-    }
-
-    /// Moves current position to Direction for a number of steps
-    pub fn move_to_direction(&mut self, d: Direction, inc: Steps) {
-        let pos = align_position(&self.m, d, self.pos);
-        let pos = inc_aligned_pos(pos, inc);
-        let pos = unalign_position(&self.m, d, pos);
-        self.pos = pos;
-        self.validate_pos();
-        self.visit_pos();
-    }
-
-    /// Moves current position to Direction for one step
-    pub fn move_to_direction_once(&mut self, d: Direction) {
-        self.move_to_direction(d, 1);
     }
 
     pub fn subscribe(&mut self, ws: WriteSignal<Option<MovementStateChange>>) {
@@ -423,6 +390,79 @@ impl MovementState {
         if let Some(ws) = &self.ws {
             ws.set(Some(msg));
         }
+    }
+
+    pub fn can_visit_cell(&self, pos: Pos) -> bool {
+        let cell = pick_pos(&self.m, pos);
+        cell.can_move_to
+    }
+
+    /// Returns possible step count to direction
+    #[deprecated]
+    pub fn movement_possibility(&self, d: Direction, pos: Pos) -> Steps {
+        let m = self.m.clone();
+        let m = align_matrix(m, d);
+
+        let mut result = 0;
+
+        loop {
+            let pos = align_position(&self.m, d, pos);
+            let pos = inc_aligned_pos(pos, result + 1);
+
+            let cell = try_pick_pos(&m, pos);
+
+            if let Some(cell) = cell {
+                if cell.can_move_to {
+                    result += 1;
+                } else {
+                    return result;
+                }
+            } else {
+                return result;
+            }
+        }
+    }
+
+    /// Returns all possible directions to go to
+    #[deprecated]
+    pub fn can_move_to_directions(&self, pos: Pos) -> Vec<Direction> {
+        let mut can_move_to = vec![];
+
+        for d in Direction::iter() {
+            let steps_to_direction = self.movement_possibility(d, pos);
+            if steps_to_direction > 0 {
+                can_move_to.push(d);
+            }
+        }
+
+        can_move_to
+    }
+
+    /// Moves current position to Direction for a number of steps
+    #[deprecated]
+    pub fn move_to_direction(&mut self, d: Direction, inc: Steps) {
+        let pos = align_position(&self.m, d, self.pos);
+        let pos = inc_aligned_pos(pos, inc);
+        let pos = unalign_position(&self.m, d, pos);
+        self.pos = pos;
+        self.visit_cell(self.pos);
+    }
+
+    /// Moves current position to Direction for one step
+    #[deprecated]
+    pub fn move_to_direction_once(&mut self, d: Direction) {
+        self.move_to_direction(d, 1);
+    }
+
+    #[deprecated]
+    pub fn can_move_to_cells(&self) -> Vec<(Pos, Direction)> {
+        let result = self
+            .can_move_to_directions(self.pos)
+            .into_iter()
+            .map(|d| (inc_pos_to_direction(self.pos, d), d))
+            .collect();
+
+        result
     }
 }
 
@@ -490,21 +530,9 @@ pub mod cmd {
     }
 }
 
-pub mod web {
-    use super::*;
-
-    pub fn can_move_to_cells(s: &MovementState) -> Vec<(Pos, Direction)> {
-        let result = s
-            .can_move_to_directions()
-            .into_iter()
-            .map(|d| (inc_pos_to_direction(s.pos, d), d))
-            .collect();
-
-        result
-    }
-}
-
 pub mod components;
+#[allow(unused)]
+use leptos::logging::log;
 use leptos::prelude::*;
 use leptos_router::components::Outlet;
 #[allow(unused)]

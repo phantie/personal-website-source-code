@@ -1,4 +1,4 @@
-#![allow(unused)]
+#![allow(unused, deprecated)]
 
 use misc::features::maze::*;
 
@@ -25,9 +25,9 @@ fn main() {
             let m = test_mazes::n0();
             let pos = test_mazes::n0_start();
             let s = MovementState::new(m.clone(), pos);
-            s.validate_pos();
+            s.validate_pos(s.pos);
 
-            let steps_to_direction = s.movement_possibility(d);
+            let steps_to_direction = s.movement_possibility(d, s.pos);
             dbg!(steps_to_direction);
 
             let m = pad_matrix(m);
@@ -42,25 +42,25 @@ fn main() {
         let m = test_mazes::n0();
         let pos = test_mazes::n0_start();
         let mut s = MovementState::new(m.clone(), pos);
-        s.validate_pos();
+        s.validate_pos(s.pos);
         test_mazes::simple_display_matrix(&s.m);
         println!();
         test_mazes::simple_display_discovered_matrix(&s.m, s.pos);
         println!();
 
-        let mut can_move_to = s.can_move_to_directions();
+        let mut can_move_to = s.can_move_to_directions(s.pos);
         println!("You can go to {can_move_to:?}");
 
         s.move_to_direction_once(Direction::Right);
         test_mazes::simple_display_discovered_matrix(&s.m, s.pos);
         println!();
-        let mut can_move_to = s.can_move_to_directions();
+        let mut can_move_to = s.can_move_to_directions(s.pos);
         println!("You can go to {can_move_to:?}");
 
         s.move_to_direction_once(Direction::Left);
         test_mazes::simple_display_discovered_matrix(&s.m, s.pos);
         println!();
-        let mut can_move_to = s.can_move_to_directions();
+        let mut can_move_to = s.can_move_to_directions(s.pos);
         println!("You can go to {can_move_to:?}");
 
         cmd::input_direction();
@@ -78,7 +78,7 @@ fn main() {
             test_mazes::simple_display_discovered_matrix(&s.m, s.pos);
             println!();
 
-            let mut can_move_to = s.can_move_to_directions();
+            let mut can_move_to = s.can_move_to_directions(s.pos);
             println!("You can go to {can_move_to:?}");
 
             let d = cmd::input_available_direction(can_move_to);

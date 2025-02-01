@@ -71,14 +71,8 @@ pub fn render_arena(mut s: MovementState) -> AnyView {
                 log!("Clicked pos: {:?}", pos);
 
                 // apply changes to MovementState
-                match web::can_move_to_cells(&s)
-                    .iter()
-                    .find(|(_pos, d)| _pos == &pos)
-                {
-                    Some((_pos, d)) => {
-                        s.move_to_direction_once(*d);
-                    }
-                    None => (),
+                if s.can_visit_cell(pos) {
+                    s.visit_cell(pos);
                 }
             }
         });
@@ -136,7 +130,11 @@ pub fn render_arena(mut s: MovementState) -> AnyView {
 pub fn MazeComponent() -> impl IntoView {
     let m = test_mazes::n0();
     let pos = test_mazes::n0_start();
-    let s = MovementState::new(m.clone(), pos);
+
+    let m = pad_matrix(m);
+    let pos = pad_position(pos);
+
+    let s = MovementState::new_from_padded(m.clone(), pos);
 
     view! {
         { render_arena(s) }
