@@ -396,17 +396,20 @@ impl MovementState {
         let cell = pick_pos(&self.m, pos);
         cell.can_move_to
     }
+}
+
+pub mod singleplayer_movement_state {
+    use super::*;
 
     /// Returns possible step count to direction
-    #[deprecated]
-    pub fn movement_possibility(&self, d: Direction, pos: Pos) -> Steps {
-        let m = self.m.clone();
+    pub fn movement_possibility(m: &Matrix, d: Direction, pos: Pos) -> Steps {
+        let m = m.clone();
         let m = align_matrix(m, d);
 
         let mut result = 0;
 
         loop {
-            let pos = align_position(&self.m, d, pos);
+            let pos = align_position(&m, d, pos);
             let pos = inc_aligned_pos(pos, result + 1);
 
             let cell = try_pick_pos(&m, pos);
@@ -424,12 +427,11 @@ impl MovementState {
     }
 
     /// Returns all possible directions to go to
-    #[deprecated]
-    pub fn can_move_to_directions(&self, pos: Pos) -> Vec<Direction> {
+    pub fn can_move_to_directions(m: &Matrix, pos: Pos) -> Vec<Direction> {
         let mut can_move_to = vec![];
 
         for d in Direction::iter() {
-            let steps_to_direction = self.movement_possibility(d, pos);
+            let steps_to_direction = movement_possibility(m, d, pos);
             if steps_to_direction > 0 {
                 can_move_to.push(d);
             }
@@ -439,27 +441,22 @@ impl MovementState {
     }
 
     /// Moves current position to Direction for a number of steps
-    #[deprecated]
-    pub fn move_to_direction(&mut self, d: Direction, inc: Steps) {
-        let pos = align_position(&self.m, d, self.pos);
+    pub fn move_to_direction(m: &mut Matrix, d: Direction, inc: Steps, pos: Pos) -> Pos {
+        let pos = align_position(m, d, pos);
         let pos = inc_aligned_pos(pos, inc);
-        let pos = unalign_position(&self.m, d, pos);
-        self.pos = pos;
-        self.visit_cell(self.pos);
+        let pos = unalign_position(m, d, pos);
+        pos
     }
 
     /// Moves current position to Direction for one step
-    #[deprecated]
-    pub fn move_to_direction_once(&mut self, d: Direction) {
-        self.move_to_direction(d, 1);
+    pub fn move_to_direction_once(m: &mut Matrix, d: Direction, pos: Pos) -> Pos {
+        move_to_direction(m, d, 1, pos)
     }
 
-    #[deprecated]
-    pub fn can_move_to_cells(&self) -> Vec<(Pos, Direction)> {
-        let result = self
-            .can_move_to_directions(self.pos)
+    pub fn can_move_to_cells(m: &Matrix, pos: Pos) -> Vec<(Pos, Direction)> {
+        let result = can_move_to_directions(m, pos)
             .into_iter()
-            .map(|d| (inc_pos_to_direction(self.pos, d), d))
+            .map(|d| (inc_pos_to_direction(pos, d), d))
             .collect();
 
         result

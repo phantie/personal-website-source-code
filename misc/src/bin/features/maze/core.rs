@@ -1,5 +1,6 @@
 #![allow(unused, deprecated)]
 
+use misc::features::maze::singleplayer_movement_state::*;
 use misc::features::maze::*;
 
 fn main() {
@@ -24,10 +25,14 @@ fn main() {
 
             let m = test_mazes::n0();
             let pos = test_mazes::n0_start();
-            let s = MovementState::new(m.clone(), pos);
+            let mut m = pad_matrix(m);
+            let pos = pad_position(pos);
+
+            let mut s = MovementState::new_from_padded(m.clone(), pos);
+
             s.validate_pos(s.pos);
 
-            let steps_to_direction = s.movement_possibility(d, s.pos);
+            let steps_to_direction = movement_possibility(&m, d, s.pos);
             dbg!(steps_to_direction);
 
             let m = pad_matrix(m);
@@ -41,49 +46,58 @@ fn main() {
 
         let m = test_mazes::n0();
         let pos = test_mazes::n0_start();
-        let mut s = MovementState::new(m.clone(), pos);
+        let mut m = pad_matrix(m);
+        let pos = pad_position(pos);
+
+        let mut s = MovementState::new_from_padded(m.clone(), pos);
+
         s.validate_pos(s.pos);
-        test_mazes::simple_display_matrix(&s.m);
+        test_mazes::simple_display_matrix(&m);
         println!();
-        test_mazes::simple_display_discovered_matrix(&s.m, s.pos);
+        test_mazes::simple_display_discovered_matrix(&m, pos);
         println!();
 
-        let mut can_move_to = s.can_move_to_directions(s.pos);
+        let mut can_move_to = can_move_to_directions(&m, pos);
         println!("You can go to {can_move_to:?}");
 
-        s.move_to_direction_once(Direction::Right);
+        let pos = move_to_direction_once(&mut m, Direction::Right, pos);
         test_mazes::simple_display_discovered_matrix(&s.m, s.pos);
         println!();
-        let mut can_move_to = s.can_move_to_directions(s.pos);
+        let mut can_move_to = can_move_to_directions(&m, pos);
         println!("You can go to {can_move_to:?}");
 
-        s.move_to_direction_once(Direction::Left);
+        let pos = move_to_direction_once(&mut m, Direction::Left, pos);
         test_mazes::simple_display_discovered_matrix(&s.m, s.pos);
         println!();
-        let mut can_move_to = s.can_move_to_directions(s.pos);
+        let mut can_move_to = can_move_to_directions(&m, pos);
         println!("You can go to {can_move_to:?}");
 
         cmd::input_direction();
     }
 
     'd: {
+        // buggy
         let m = test_mazes::n0();
         let pos = test_mazes::n0_start();
-        let mut s = MovementState::new(m.clone(), pos);
+
+        let mut m = pad_matrix(m);
+        let mut pos = pad_position(pos);
+
+        let mut s = MovementState::new_from_padded(m.clone(), pos);
 
         test_mazes::simple_display_matrix(&s.m);
         println!();
 
         loop {
-            test_mazes::simple_display_discovered_matrix(&s.m, s.pos);
+            test_mazes::simple_display_discovered_matrix(&m, pos);
             println!();
 
-            let mut can_move_to = s.can_move_to_directions(s.pos);
+            let mut can_move_to = can_move_to_directions(&m, pos);
             println!("You can go to {can_move_to:?}");
 
             let d = cmd::input_available_direction(can_move_to);
 
-            s.move_to_direction_once(d);
+            pos = move_to_direction_once(&mut m, d, pos);
         }
     }
 }
