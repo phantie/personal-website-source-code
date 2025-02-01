@@ -28,11 +28,11 @@ fn main() {
             let mut m = pad_matrix(m);
             let pos = pad_position(pos);
 
-            let mut s = MovementState::new_from_padded(m.clone(), pos);
+            let mut s = VisitState::new_from_padded(m.clone());
 
-            s.validate_pos(s.pos);
+            s.validate_pos(pos);
 
-            let steps_to_direction = movement_possibility(&m, d, s.pos);
+            let steps_to_direction = movement_possibility(&m, d, pos);
             dbg!(steps_to_direction);
 
             let m = pad_matrix(m);
@@ -49,9 +49,9 @@ fn main() {
         let mut m = pad_matrix(m);
         let pos = pad_position(pos);
 
-        let mut s = MovementState::new_from_padded(m.clone(), pos);
+        let mut s = VisitState::new_from_padded(m.clone());
 
-        s.validate_pos(s.pos);
+        s.validate_pos(pos);
         test_mazes::simple_display_matrix(&m);
         println!();
         test_mazes::simple_display_discovered_matrix(&m, pos);
@@ -61,13 +61,13 @@ fn main() {
         println!("You can go to {can_move_to:?}");
 
         let pos = move_to_direction_once(&mut m, Direction::Right, pos);
-        test_mazes::simple_display_discovered_matrix(&s.m, s.pos);
+        test_mazes::simple_display_discovered_matrix(&s.m, pos);
         println!();
         let mut can_move_to = can_move_to_directions(&m, pos);
         println!("You can go to {can_move_to:?}");
 
         let pos = move_to_direction_once(&mut m, Direction::Left, pos);
-        test_mazes::simple_display_discovered_matrix(&s.m, s.pos);
+        test_mazes::simple_display_discovered_matrix(&s.m, pos);
         println!();
         let mut can_move_to = can_move_to_directions(&m, pos);
         println!("You can go to {can_move_to:?}");
@@ -83,7 +83,7 @@ fn main() {
         let mut m = pad_matrix(m);
         let mut pos = pad_position(pos);
 
-        let mut s = MovementState::new_from_padded(m.clone(), pos);
+        let mut s = VisitState::new_from_padded(m.clone());
 
         test_mazes::simple_display_matrix(&s.m);
         println!();

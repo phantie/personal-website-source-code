@@ -10,12 +10,11 @@ struct CellState {
     hide: bool,
 }
 
-pub fn render_arena(mut s: MovementState) -> AnyView {
+pub fn render_arena(mut s: VisitState, pos: PaddedPos) -> AnyView {
     let (rs, ws) = signal(None);
     s.subscribe(ws);
 
     let value = s.m.clone();
-    let pos = s.pos;
 
     let (clicked_pos, clicked_pos_write) = signal(None);
 
@@ -32,7 +31,7 @@ pub fn render_arena(mut s: MovementState) -> AnyView {
         signal(cell_state)
     }));
 
-    // Effect that handles UI changes to MovementState
+    // Effect that handles UI changes to VisitState
     {
         let movement_signal_matrix = movement_signal_matrix.clone();
         let state_signal_matrix = state_signal_matrix.clone();
@@ -70,7 +69,7 @@ pub fn render_arena(mut s: MovementState) -> AnyView {
             if let Some(pos @ (rowi, coli)) = pos {
                 log!("Clicked pos: {:?}", pos);
 
-                // apply changes to MovementState
+                // apply changes to VisitState
                 if s.can_visit_cell(pos) {
                     s.visit_cell(pos);
                 }
@@ -134,9 +133,9 @@ pub fn MazeComponent() -> impl IntoView {
     let m = pad_matrix(m);
     let pos = pad_position(pos);
 
-    let s = MovementState::new_from_padded(m.clone(), pos);
+    let s = VisitState::new_from_padded(m.clone());
 
     view! {
-        { render_arena(s) }
+        { render_arena(s, pos) }
     }
 }

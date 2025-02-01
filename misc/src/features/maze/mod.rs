@@ -333,9 +333,8 @@ pub enum MovementStateChange {
     CellVisited((Pos, Cell)),
 }
 
-pub struct MovementState {
+pub struct VisitState {
     pub m: PaddedMatrix,
-    pub pos: PaddedPos,
     pub ws: Option<WriteSignal<Option<MovementStateChange>>>,
 }
 
@@ -350,16 +349,14 @@ pub fn inc_pos_to_direction((rowi, coli): Pos, d: Direction) -> Pos {
     (rowi as RowI, coli as ColI)
 }
 
-#[allow(deprecated)]
-impl MovementState {
-    pub fn new(m: UnpaddedMatrix, pos: UnpaddedPos) -> Self {
+impl VisitState {
+    pub fn new(m: UnpaddedMatrix) -> Self {
         let m = pad_matrix(m);
-        let pos = pad_position(pos);
-        Self { m, pos, ws: None }
+        Self { m, ws: None }
     }
 
-    pub fn new_from_padded(m: PaddedMatrix, pos: PaddedPos) -> Self {
-        Self { m, pos, ws: None }
+    pub fn new_from_padded(m: PaddedMatrix) -> Self {
+        Self { m, ws: None }
     }
 
     /// Checks current position was reachable
@@ -382,6 +379,11 @@ impl MovementState {
         }
     }
 
+    pub fn can_visit_cell(&self, pos: Pos) -> bool {
+        let cell = pick_pos(&self.m, pos);
+        cell.can_move_to
+    }
+
     pub fn subscribe(&mut self, ws: WriteSignal<Option<MovementStateChange>>) {
         self.ws.replace(ws);
     }
@@ -390,11 +392,6 @@ impl MovementState {
         if let Some(ws) = &self.ws {
             ws.set(Some(msg));
         }
-    }
-
-    pub fn can_visit_cell(&self, pos: Pos) -> bool {
-        let cell = pick_pos(&self.m, pos);
-        cell.can_move_to
     }
 }
 
