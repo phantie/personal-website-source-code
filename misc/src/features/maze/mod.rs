@@ -281,14 +281,6 @@ pub mod test_mazes {
 
     use super::*;
 
-    pub fn n0() -> UnpaddedMatrix {
-        vec![vec![block(), start(), path(), path(), exit()]]
-    }
-
-    pub fn n0_start() -> UnpaddedPos {
-        (0, 1)
-    }
-
     pub fn symbolize_cell(value: &Cell, hide: bool, current: bool) -> &str {
         if current {
             return "P";
@@ -551,6 +543,7 @@ use leptos_router::{
     components::{ParentRoute, Route, Router, Routes, A},
     path, MatchNestedRoutes,
 };
+pub mod generated_mazes;
 
 #[component(transparent)]
 pub fn MazeRoutes() -> impl MatchNestedRoutes + Clone {

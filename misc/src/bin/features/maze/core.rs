@@ -6,8 +6,7 @@ use misc::features::maze::*;
 fn main() {
     'a: {
         break 'a;
-
-        let m = test_mazes::n0();
+        let m = generated_mazes::n0::matrix();
         let m = pad_matrix(m);
         test_mazes::simple_display_matrix(&m);
     }
@@ -23,8 +22,8 @@ fn main() {
         ] {
             dbg!(d);
 
-            let m = test_mazes::n0();
-            let pos = test_mazes::n0_start();
+            let m = generated_mazes::n0::matrix();
+            let pos = generated_mazes::n0::start_pos();
             let mut m = pad_matrix(m);
             let pos = pad_position(pos);
 
@@ -44,8 +43,8 @@ fn main() {
     'c: {
         break 'c;
 
-        let m = test_mazes::n0();
-        let pos = test_mazes::n0_start();
+        let m = generated_mazes::n0::matrix();
+        let pos = generated_mazes::n0::start_pos();
         let mut m = pad_matrix(m);
         let pos = pad_position(pos);
 
@@ -77,8 +76,8 @@ fn main() {
 
     'd: {
         // buggy
-        let m = test_mazes::n0();
-        let pos = test_mazes::n0_start();
+        let m = generated_mazes::n0::matrix();
+        let pos = generated_mazes::n0::start_pos();
 
         let mut m = pad_matrix(m);
         let mut pos = pad_position(pos);

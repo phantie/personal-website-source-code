@@ -220,8 +220,12 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
 
 #[component]
 pub fn MazeComponent() -> impl IntoView {
-    let m = test_mazes::n0();
-    let pos = test_mazes::n0_start();
+    // let m = generated_mazes::n0::matrix();
+    // let pos = generated_mazes::n0::start_pos();
+    let m = generated_mazes::n1::matrix();
+    let pos = generated_mazes::n1::start_pos();
+    // let m = generated_mazes::n2::matrix();
+    // let pos = generated_mazes::n2::start_pos();
 
     let m = pad_matrix(m);
     let pos = pad_position(pos);
