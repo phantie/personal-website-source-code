@@ -9,19 +9,9 @@ use std::sync::mpsc::{self, Receiver, Sender};
 pub enum CellKind {
     Start,
     Exit,
+    Restart,
     Path,
     Blocked,
-}
-
-impl AsRef<str> for CellKind {
-    fn as_ref(&self) -> &str {
-        match self {
-            CellKind::Blocked => "Blocked",
-            CellKind::Start => "Start",
-            CellKind::Path => "Path",
-            CellKind::Exit => "Exit",
-        }
-    }
 }
 
 #[derive(Clone, Debug)]
@@ -119,7 +109,18 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                     }
                 },
 
-                CellStateChange::ExitDiscovered => {}
+                CellStateChange::ExitDiscovered => {
+                    let state_signal_matrix = (*state_signal_matrix).clone();
+                    for (rowi, row) in state_signal_matrix.into_iter().enumerate() {
+                        for (coli, (state_rs, state_ws)) in row.into_iter().enumerate() {
+                            if state_rs.read_untracked().kind == CellKind::Start {
+                                state_ws.update(|cell| {
+                                    cell.kind = CellKind::Restart;
+                                });
+                            }
+                        }
+                    }
+                }
 
                 _ => (),
             }
@@ -176,6 +177,7 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                         class:block=move || state_rs.get().kind == CellKind::Blocked
                         class:start=move || state_rs.get().kind == CellKind::Start
                         class:exit=move || state_rs.get().kind == CellKind::Exit
+                        class:restart=move || state_rs.get().kind == CellKind::Restart
                     >
                         // {{move || format!(" {:?}", state_rs.get().name)}}
                         // {" ("}{rowi}{","}{coli}{")"}
