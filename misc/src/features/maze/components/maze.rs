@@ -139,12 +139,20 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
 
                 let (state_rs, state_ws) = state_signal_matrix[rowi][coli];
 
-                if !state_rs.read_untracked().hide
-                    && state_rs.read_untracked().can_move_to
-                    && !state_rs.read_untracked().visited
-                {
-                    let cell_state = state_rs.read_untracked().clone();
-                    ws.set(CellStateChange::CellVisited((pos, cell_state)));
+                match state_rs.read_untracked().kind {
+                    CellKind::Start | CellKind::Exit | CellKind::Blocked | CellKind::Path => {
+                        if !state_rs.read_untracked().hide
+                            && state_rs.read_untracked().can_move_to
+                            && !state_rs.read_untracked().visited
+                        {
+                            let cell_state = state_rs.read_untracked().clone();
+                            ws.set(CellStateChange::CellVisited((pos, cell_state)));
+                        }
+                    }
+                    CellKind::Restart => {
+                        log!("Restart");
+                        web_sys::window().unwrap().location().reload().unwrap();
+                    }
                 }
             }
         });
