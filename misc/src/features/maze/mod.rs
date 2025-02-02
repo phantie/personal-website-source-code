@@ -69,6 +69,14 @@ pub fn valid_dimensions(value: &Matrix) -> bool {
         .all(|row| row_dimension(row) == matrix_row_dimension(value))
 }
 
+pub fn start() -> Cell {
+    Cell {
+        can_move_to: true,
+        name: "start".into(),
+        visited: false,
+    }
+}
+
 pub fn block() -> Cell {
     Cell {
         can_move_to: false,
@@ -274,7 +282,7 @@ pub mod test_mazes {
     use super::*;
 
     pub fn n0() -> UnpaddedMatrix {
-        vec![vec![block(), path(), path(), exit()]]
+        vec![vec![block(), start(), path(), path(), exit()]]
     }
 
     pub fn n0_start() -> UnpaddedPos {

@@ -7,15 +7,17 @@ use std::sync::mpsc::{self, Receiver, Sender};
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum CellKind {
-    Blocked,
-    Path,
+    Start,
     Exit,
+    Path,
+    Blocked,
 }
 
 impl AsRef<str> for CellKind {
     fn as_ref(&self) -> &str {
         match self {
             CellKind::Blocked => "Blocked",
+            CellKind::Start => "Start",
             CellKind::Path => "Path",
             CellKind::Exit => "Exit",
         }
@@ -55,6 +57,7 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
             cell if cell.name == "exit" => CellKind::Exit,
             cell if cell.name == "block" || cell.name == "block padding" => CellKind::Blocked,
             cell if cell.name == "path" => CellKind::Path,
+            cell if cell.name == "start" => CellKind::Start,
             _ => unreachable!(),
         };
 
@@ -171,6 +174,7 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                         class:hide=move || state_rs.get().hide
                         class:path=move || state_rs.get().kind == CellKind::Path
                         class:block=move || state_rs.get().kind == CellKind::Blocked
+                        class:start=move || state_rs.get().kind == CellKind::Start
                         class:exit=move || state_rs.get().kind == CellKind::Exit
                     >
                         // {{move || format!(" {:?}", state_rs.get().name)}}
