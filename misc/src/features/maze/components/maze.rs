@@ -36,6 +36,7 @@ pub struct CellState {
 pub enum CellStateChange {
     Init,
     CellVisited((Pos, CellState)),
+    ExitDiscovered,
 }
 
 pub enum InitiallyRevealed {
@@ -85,6 +86,7 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                     let (state_rs, state_ws) = state_signal_matrix[rowi][coli];
 
                     state_ws.update(|cell| {
+                        assert!(cell.can_move_to);
                         cell.visited = true;
                     });
 
@@ -93,14 +95,19 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                             .into_iter()
                             .map(|d| inc_pos_to_direction(pos, d)),
                     ) {
-                        let (rs, ws) = state_signal_matrix[rowi][coli];
-                        if rs.read_untracked().hide {
-                            ws.update(|cell| {
+                        let (state_rs, state_ws) = state_signal_matrix[rowi][coli];
+                        if state_rs.read_untracked().hide {
+                            state_ws.update(|cell| {
                                 cell.hide = false;
+
+                                if cell.kind == CellKind::Exit {
+                                    ws.set(CellStateChange::ExitDiscovered);
+                                }
                             });
                         }
                     }
                 }
+
                 CellStateChange::Init => match pos {
                     InitiallyRevealed::One(pos @ (rowi, coli)) => {
                         let (state_rs, state_ws) = state_signal_matrix[rowi][coli];
@@ -108,6 +115,9 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                         ws.set(CellStateChange::CellVisited((pos, cell_state)));
                     }
                 },
+
+                CellStateChange::ExitDiscovered => {}
+
                 _ => (),
             }
         });
