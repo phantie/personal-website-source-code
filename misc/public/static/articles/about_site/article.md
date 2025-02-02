@@ -12,6 +12,10 @@
     - Code highlighting
     - SSR (Server-side rendering) and CSR (Client-side rendering)
     - HTML Meta tag (description, keywords)
+- **[Hidden maze](/maze)**
+    - Experiment with Leptos signals
+    - Unlike in React, only affected cells, not the whole component gets redrawn.
+
 
 ### Deployment
 

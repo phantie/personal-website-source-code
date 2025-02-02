@@ -13,6 +13,8 @@ body {
     --background-color-contrast-focus: #19202c;
 }
 
+/// START ARTICLES
+
 .articles {
     display: flex;
     flex-wrap: nowrap;
@@ -95,4 +97,63 @@ h4,
 h5,
 h6 {
     padding-top: .3em;
+}
+
+/// END ARTICLES
+
+/// START CLICK MAZE
+
+.click-maze {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background-color: black;
+    flex-direction: column;
+    padding: 30px 30px;
+    user-select: none;
+}
+
+.click-maze-row {
+    display: flex;
+    width: 100%;
+    flex: 1;
+}
+
+.click-maze-col {
+    display: flex;
+    flex-grow: 1;
+    flex-basis: 0;
+    overflow-wrap: anywhere;
+}
+
+.click-maze-col.hide {
+    // background-color: black;
+    // background-image: url("https://static.vecteezy.com/system/resources/previews/000/181/825/large_2x/abstract-forest-illustration-vector.jpg");
+    // background-image: url("https://static.vecteezy.com/system/resources/previews/002/878/961/large_2x/pine-forest-fog-illustration-illustration-vector.jpg");
+    // background-image: url("https://static.vecteezy.com/system/resources/previews/000/181/850/large_2x/deciduous-forest-silhouette-illustration-vector.jpg");
+    background-image: url("https://static.vecteezy.com/system/resources/previews/022/010/663/non_2x/question-mark-seamless-pattern-background-vector.jpg");
+    background-size: cover;
+}
+
+.click-maze-col.path:not(.hide),
+.click-maze-col.start:not(.hide) {
+    background-color: white;
+    // background-image: url("https://static.vecteezy.com/system/resources/previews/055/316/613/non_2x/geometric-zigzag-pattern-with-repeating-red-yellow-and-black-lines-on-a-white-background-vector.jpg");
+    // background-size: cover;
+}
+
+.click-maze-col.block:not(.hide) {
+    background-image: url("https://static.vecteezy.com/system/resources/previews/045/896/831/non_2x/modern-simple-abstract-pattern-free-vector.jpg");
+    background-size: cover;
+}
+
+
+.click-maze-col.exit:not(.hide) {
+    background-image: url("https://static.vecteezy.com/system/resources/previews/035/806/668/large_2x/a-seamless-pattern-of-walking-stick-figure-on-a-gray-background-pedestrian-sign-vector.jpg");
+    background-size: cover;
+}
+
+.click-maze-col.restart:not(.hide) {
+    background-image: url("https://static.vecteezy.com/system/resources/previews/025/895/158/large_2x/clock-timer-seamless-pattern-background-business-flat-illustration-clock-watch-sign-symbol-pattern-vector.jpg");
+    background-size: cover;
 }
