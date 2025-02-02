@@ -5,12 +5,30 @@ use leptos::{logging::log, prelude::*};
 use std::rc::Rc;
 use std::sync::mpsc::{self, Receiver, Sender};
 
+#[derive(Clone, Debug, PartialEq)]
+pub enum CellKind {
+    Blocked,
+    Path,
+    Exit,
+}
+
+impl AsRef<str> for CellKind {
+    fn as_ref(&self) -> &str {
+        match self {
+            CellKind::Blocked => "Blocked",
+            CellKind::Path => "Path",
+            CellKind::Exit => "Exit",
+        }
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct CellState {
     hide: bool,
     visited: bool,
     name: String,
     can_move_to: bool,
+    kind: CellKind,
 }
 
 #[derive(Clone, Debug)]
@@ -33,13 +51,28 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
 
     let state_signal_matrix = Rc::new(create_shadow_matrix_with(&m, |pos| {
         let (rowi, coli) = pos;
+
         let cell = &m[rowi][coli];
+
+        let kind = match cell {
+            cell if cell.name == "exit" => CellKind::Exit,
+            cell if cell.name == "block" || cell.name == "block padding" => CellKind::Blocked,
+            cell if cell.name == "path" => CellKind::Path,
+            _ => unreachable!(),
+        };
+
+        let Cell {
+            can_move_to, name, ..
+        } = cell.clone();
+
         let cell_state = CellState {
             hide: true,
             visited: false,
-            can_move_to: cell.can_move_to,
-            name: cell.name.clone(),
+            can_move_to,
+            name,
+            kind,
         };
+
         signal(cell_state)
     }));
 
@@ -130,8 +163,9 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                         }
                         class:visited=move || state_rs.get().visited
                         class:hide=move || state_rs.get().hide
-                        class:can_move_to=move || state_rs.get().can_move_to
-                        class:cant_move_to=move || !state_rs.get().can_move_to
+                        class:path=move || state_rs.get().kind == CellKind::Path
+                        class:block=move || state_rs.get().kind == CellKind::Blocked
+                        class:exit=move || state_rs.get().kind == CellKind::Exit
                     >
                         // {{move || format!(" {:?}", state_rs.get().name)}}
                         // {" ("}{rowi}{","}{coli}{")"}

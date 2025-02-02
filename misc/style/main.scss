@@ -135,13 +135,18 @@ h6 {
     background-size: cover;
 }
 
-.click-maze-col.can_move_to:not(.hide) {
+.click-maze-col.path:not(.hide) {
     // background-color: white !important;
     background-image: url("https://static.vecteezy.com/system/resources/previews/055/316/613/non_2x/geometric-zigzag-pattern-with-repeating-red-yellow-and-black-lines-on-a-white-background-vector.jpg");
     background-size: cover;
 }
 
-.click-maze-col.cant_move_to:not(.hide) {
+.click-maze-col.block:not(.hide) {
     background-image: url("https://static.vecteezy.com/system/resources/previews/045/896/831/non_2x/modern-simple-abstract-pattern-free-vector.jpg");
+    background-size: cover;
+}
+
+.click-maze-col.exit:not(.hide) {
+    background-image: url("https://static.vecteezy.com/system/resources/previews/035/806/668/large_2x/a-seamless-pattern-of-walking-stick-figure-on-a-gray-background-pedestrian-sign-vector.jpg");
     background-size: cover;
 }
