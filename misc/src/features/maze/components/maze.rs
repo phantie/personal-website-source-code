@@ -6,7 +6,7 @@ use std::rc::Rc;
 use std::sync::mpsc::{self, Receiver, Sender};
 
 #[derive(Clone, Debug)]
-struct CellState {
+pub struct CellState {
     hide: bool,
     visited: bool,
     name: String,
@@ -17,7 +17,7 @@ struct CellState {
 #[non_exhaustive]
 pub enum CellStateChange {
     Init,
-    CellVisited((Pos, Cell)),
+    CellVisited((Pos, CellState)),
 }
 
 pub enum InitiallyRevealed {
@@ -27,15 +27,13 @@ pub enum InitiallyRevealed {
 pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
     let (rs, ws) = signal(CellStateChange::Init);
 
-    let m = Rc::new(m);
-
     let (click_pos_read, click_pos_write) = signal(None);
 
     let (mousedown_read, mousedown_write) = signal(false);
 
     let state_signal_matrix = Rc::new(create_shadow_matrix_with(&m, |pos| {
         let (rowi, coli) = pos;
-        let cell = m[rowi][coli].clone();
+        let cell = &m[rowi][coli];
         let cell_state = CellState {
             hide: true,
             visited: false,
@@ -48,7 +46,6 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
     // Effect that handles UI changes to VisitState
     {
         let state_signal_matrix = state_signal_matrix.clone();
-        let m = m.clone();
 
         Effect::new(move |_| {
             let msc = rs.get();
@@ -76,11 +73,10 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                     }
                 }
                 CellStateChange::Init => match pos {
-                    InitiallyRevealed::One(pos) => {
-                        ws.set(CellStateChange::CellVisited((
-                            pos,
-                            pick_pos(&m, pos).clone(),
-                        )));
+                    InitiallyRevealed::One(pos @ (rowi, coli)) => {
+                        let (state_rs, state_ws) = state_signal_matrix[rowi][coli];
+                        let cell_state = state_rs.read_untracked().clone();
+                        ws.set(CellStateChange::CellVisited((pos, cell_state)));
                     }
                 },
                 _ => (),
@@ -91,7 +87,6 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
     /// Effect that handles position revealing by user
     {
         let state_signal_matrix = state_signal_matrix.clone();
-        let m = m.clone();
 
         Effect::new(move |_| {
             let pos: Option<Pos> = click_pos_read.get();
@@ -105,12 +100,8 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                     && state_rs.read_untracked().can_move_to
                     && !state_rs.read_untracked().visited
                 {
-                    state_ws.update(|cell| {
-                        ws.set(CellStateChange::CellVisited((
-                            pos,
-                            pick_pos(&m, pos).clone(),
-                        )));
-                    });
+                    let cell_state = state_rs.read_untracked().clone();
+                    ws.set(CellStateChange::CellVisited((pos, cell_state)));
                 }
             }
         });
