@@ -211,13 +211,35 @@ pub fn unalign_position(matrix: &PaddedMatrix, direction: Direction, pos: Aligne
     }
 }
 
-pub fn create_shadow_matrix_with<T>(value: &Matrix, fill_with: impl Fn(Pos) -> T) -> Vec<Vec<T>> {
-    let result = (0..matrix_col_dimension(value))
+pub fn create_shadow_matrix_with_consume<T>(
+    value: Matrix,
+    fill_with: impl Fn((Pos, Cell)) -> T,
+) -> Vec<Vec<T>> {
+    let result = value
         .into_iter()
-        .map(|rowi| {
-            (0..matrix_row_dimension(value))
-                .into_iter()
-                .map(|coli| fill_with((rowi, coli)))
+        .enumerate()
+        .map(|(rowi, row)| {
+            row.into_iter()
+                .enumerate()
+                .map(|(coli, cell)| fill_with(((rowi, coli), cell)))
+                .collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>();
+
+    result
+}
+
+pub fn create_shadow_matrix_with<T>(
+    value: &Matrix,
+    fill_with: impl Fn((Pos, &Cell)) -> T,
+) -> Vec<Vec<T>> {
+    let result = value
+        .into_iter()
+        .enumerate()
+        .map(|(rowi, row)| {
+            row.into_iter()
+                .enumerate()
+                .map(|(coli, cell)| fill_with(((rowi, coli), cell)))
                 .collect::<Vec<_>>()
         })
         .collect::<Vec<_>>();

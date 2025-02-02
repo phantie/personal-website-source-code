@@ -49,12 +49,8 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
 
     let (mousedown_read, mousedown_write) = signal(false);
 
-    let state_signal_matrix = Rc::new(create_shadow_matrix_with(&m, |pos| {
-        let (rowi, coli) = pos;
-
-        let cell = &m[rowi][coli];
-
-        let kind = match cell {
+    let state_signal_matrix = Rc::new(create_shadow_matrix_with_consume(m, |(pos, cell)| {
+        let kind = match &cell {
             cell if cell.name == "exit" => CellKind::Exit,
             cell if cell.name == "block" || cell.name == "block padding" => CellKind::Blocked,
             cell if cell.name == "path" => CellKind::Path,
@@ -63,7 +59,7 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
 
         let Cell {
             can_move_to, name, ..
-        } = cell.clone();
+        } = cell;
 
         let cell_state = CellState {
             hide: true,
