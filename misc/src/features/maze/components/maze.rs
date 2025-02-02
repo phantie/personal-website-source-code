@@ -107,61 +107,61 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
         });
     }
 
-    let mut maze_html = vec![];
+    /// Compose and return html structure
+    {
+        let state_signal_matrix = (*state_signal_matrix).clone();
 
-    for (rowi, row) in m.iter().enumerate() {
-        let mut row_html_els = vec![];
+        let mut maze_html = vec![];
 
-        for (coli, cell) in row.iter().enumerate() {
-            let (state_rs, _) = state_signal_matrix[rowi][coli];
+        for (rowi, row) in state_signal_matrix.into_iter().enumerate() {
+            let mut row_html_els = vec![];
 
-            let cell_name = cell.name.clone();
-
-            row_html_els.push(view! {
-                <div
-                    class="click-maze-col"
-                    on:mousedown=move |_| {
-                        click_pos_write.write().replace((rowi, coli));
-                    }
-                    on:mouseenter=move |_| {
-                        if *mousedown_read.read_untracked() {
+            for (coli, (state_rs, _)) in row.into_iter().enumerate() {
+                row_html_els.push(view! {
+                    <div
+                        class="click-maze-col"
+                        on:mousedown=move |_| {
                             click_pos_write.write().replace((rowi, coli));
                         }
-                    }
-                    class:visited=move || state_rs.get().visited
-                    class:hide=move || state_rs.get().hide
-                    class:can_move_to=move || state_rs.get().can_move_to
-                    class:cant_move_to=move || !state_rs.get().can_move_to
+                        on:mouseenter=move |_| {
+                            if *mousedown_read.read_untracked() {
+                                click_pos_write.write().replace((rowi, coli));
+                            }
+                        }
+                        class:visited=move || state_rs.get().visited
+                        class:hide=move || state_rs.get().hide
+                        class:can_move_to=move || state_rs.get().can_move_to
+                        class:cant_move_to=move || !state_rs.get().can_move_to
+                    >
+                        // {{move || format!(" {:?}", state_rs.get().name)}}
+                        // {" ("}{rowi}{","}{coli}{")"}
+                        // {move || format!(" {:?}", state_rs.get())}
+                    </div>
+                });
+            }
 
-                >
-                    // {cell_name}
-                    // {" ("}{rowi}{","}{coli}{")"}
-                    // {move || format!(" {:?}", state_rs.get())}
+            let row_html = view! {
+                <div class="click-maze-row">
+                    { row_html_els }
                 </div>
-            });
+            };
+
+            maze_html.push(row_html);
         }
 
-        let row_html = view! {
-            <div class="click-maze-row">
-                { row_html_els }
-            </div>
-        };
-
-        maze_html.push(row_html);
+        view! {
+            <div
+                class="click-maze"
+                on:mousedown=move |_| {
+                    mousedown_write.set(true);
+                }
+                on:mouseup=move |_| {
+                    mousedown_write.set(false);
+                }
+            >{ maze_html }</div>
+        }
+        .into_any()
     }
-
-    view! {
-        <div
-            class="click-maze"
-            on:mousedown=move |_| {
-                mousedown_write.set(true);
-            }
-            on:mouseup=move |_| {
-                mousedown_write.set(false);
-            }
-        >{ maze_html }</div>
-    }
-    .into_any()
 }
 
 #[component]
