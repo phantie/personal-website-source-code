@@ -186,6 +186,7 @@ pub fn render_arena(m: PaddedMatrix, pos: InitiallyRevealed) -> AnyView {
                         class:start=move || state_rs.get().kind == CellKind::Start
                         class:exit=move || state_rs.get().kind == CellKind::Exit
                         class:restart=move || state_rs.get().kind == CellKind::Restart
+                        class:highlight_on_hover=move || state_rs.get().can_move_to && !state_rs.get().hide && !state_rs.get().visited
                     >
                         // {{move || format!(" {:?}", state_rs.get().name)}}
                         // {" ("}{rowi}{","}{coli}{")"}

@@ -156,4 +156,11 @@ h6 {
 .click-maze-col.restart:not(.hide) {
     background-image: url("https://static.vecteezy.com/system/resources/previews/025/895/158/large_2x/clock-timer-seamless-pattern-background-business-flat-illustration-clock-watch-sign-symbol-pattern-vector.jpg");
     background-size: cover;
+    cursor: pointer;
+}
+
+.click-maze-col.highlight_on_hover:hover {
+    box-shadow: 0 2px 0 #000 inset,
+        2px 0 0 #000 inset;
+    cursor: pointer;
 }
