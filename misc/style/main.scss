@@ -186,3 +186,19 @@ h6 {
 .dragndrop>.wrapper>.box.dragged_over {
     background-color: orangered;
 }
+
+.dragndrop>.wrapper>.box>.dropped_files {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.dragndrop>.wrapper>.box>.dropped_files>.dropped_file {
+    word-wrap: break-word;
+    background-color: orangered;
+    width: 100%;
+    padding: 1rem;
+    border-bottom: 2px solid white;
+}

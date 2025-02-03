@@ -85,16 +85,18 @@ pub fn Component() -> impl IntoView {
                 >
 
 
-                <For
-                    each=move || dropped_files_rs.get()
-                    key=|(key, dropped_file)| key.clone()
-                    children=move |(key, dropped_file)| {
-                        let s = RwSignal::from(dropped_file.s);
-                        view! {
-                            <h1>{dropped_file.filename}</h1>
+                <div class="dropped_files">
+                    <For
+                        each=move || dropped_files_rs.get()
+                        key=|(key, dropped_file)| key.clone()
+                        children=move |(key, dropped_file)| {
+                            let s = RwSignal::from(dropped_file.s);
+                            view! {
+                                <div class="dropped_file">{dropped_file.filename}</div>
+                            }
                         }
-                    }
-                />
+                    />
+                </div>
 
 
                 </div>
