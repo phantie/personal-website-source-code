@@ -175,24 +175,35 @@ h6 {
     display: flex;
     align-items: center;
     justify-content: space-around;
+    color: white;
+    background-color: black;
 }
 
 .dragndrop>.wrapper>.box {
     background-color: orange;
     width: 50%;
     height: 50vh;
+    display: flex;
 }
 
 .dragndrop>.wrapper>.box.dragged_over {
     background-color: orangered;
 }
 
-.dragndrop>.wrapper>.box>.dropped_files {
+
+.dragndrop>.wrapper>.box>.column {
     display: flex;
     flex-direction: column;
     width: 50%;
     overflow-y: auto;
     height: 100%;
+}
+
+// .dragndrop>.wrapper>.box>.dropped_files {}
+
+.dragndrop>.wrapper>.box>.message_column {
+    justify-content: center;
+    align-items: center;
 }
 
 .dragndrop>.wrapper>.box>.dropped_files>.dropped_file {

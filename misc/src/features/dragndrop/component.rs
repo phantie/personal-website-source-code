@@ -33,15 +33,21 @@ pub fn Component() -> impl IntoView {
 
     let m = vec![
         (
-            "default_1".to_owned(),
+            "id0".to_owned(),
             ArcRwSignal::new(DroppedFile {
-                filename: "default_1".to_owned(),
+                filename: "Drag these files to bin ->".to_owned(),
             }),
         ),
         (
-            "default_2".to_owned(),
+            "id1".to_owned(),
             ArcRwSignal::new(DroppedFile {
-                filename: "default_2".to_owned(),
+                filename: "File 1".to_owned(),
+            }),
+        ),
+        (
+            "id2".to_owned(),
+            ArcRwSignal::new(DroppedFile {
+                filename: "File 2".to_owned(),
             }),
         ),
     ];
@@ -92,31 +98,36 @@ pub fn Component() -> impl IntoView {
                     }
                 >
 
+                    <div class="column message_column">
+                        <h1>
+                        {"Drop local files here"}
+                        </h1>
+                    </div>
 
-                <div class="dropped_files">
-                    <For
-                        each=move || dropped_files_rs.get()
-                        key=|(key, dropped_file)| key.clone()
-                        children=move |(key, dropped_file)| {
-                            let s = RwSignal::from(dropped_file);
-                            view! {
-                                <div
-                                    class="dropped_file"
-                                    draggable="true"
-                                    on:drag=move |e| {
-                                        // log!("drag");
-                                    }
-                                    on:dragstart=move |e| {
-                                        log!("dragstart");
-                                        last_dragged_ws.set(Some(key.clone()));
-                                    }
-                                >
-                                    {move || s.get().filename}
-                                </div>
+                    <div class="dropped_files column">
+                        <For
+                            each=move || dropped_files_rs.get()
+                            key=|(key, dropped_file)| key.clone()
+                            children=move |(key, dropped_file)| {
+                                let s = RwSignal::from(dropped_file);
+                                view! {
+                                    <div
+                                        class="dropped_file"
+                                        draggable="true"
+                                        on:drag=move |e| {
+                                            // log!("drag");
+                                        }
+                                        on:dragstart=move |e| {
+                                            log!("dragstart");
+                                            last_dragged_ws.set(Some(key.clone()));
+                                        }
+                                    >
+                                        {move || s.get().filename}
+                                    </div>
+                                }
                             }
-                        }
-                    />
-                </div>
+                        />
+                    </div>
 
 
                 </div>
@@ -140,6 +151,9 @@ pub fn Component() -> impl IntoView {
                         }
                     }
                 >
+                <h1>
+                {"Bin"}
+                </h1>
                 </div>
             </div>
         </div>
