@@ -9,7 +9,8 @@
         "articles/about_site",
         "home",
         "articles/concept_of_more_useful_types",
-        "maze"
+        "maze",
+        "experiments/dragndrop"
     ],
     "rust-analyzer.cargo.features": [
         "ssr"

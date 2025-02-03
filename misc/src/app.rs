@@ -27,6 +27,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
 #[component]
 pub fn App() -> impl IntoView {
     use crate::features::articles::ArticleRoutes;
+    use crate::features::dragndrop::DrangdropRoutes;
     use crate::features::home::HomeRoutes;
     use crate::features::maze::MazeRoutes;
 
@@ -50,6 +51,7 @@ pub fn App() -> impl IntoView {
                     <HomeRoutes/>
                     <ArticleRoutes/>
                     <MazeRoutes/>
+                    <DrangdropRoutes/>
                     // <Route path=path!("/maze") view=move || view! { <div>{"Maze"} </div> } />
                 </Routes>
             </main>
