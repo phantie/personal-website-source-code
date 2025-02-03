@@ -174,7 +174,7 @@ h6 {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .dragndrop>.wrapper>.box {
@@ -201,4 +201,16 @@ h6 {
     width: 100%;
     padding: 1rem;
     border-bottom: 2px solid white;
+    user-select: none;
+    cursor: pointer;
+}
+
+.dragndrop>.wrapper>.box>.dropped_files>.dropped_file.dragged {
+    background-color: peru;
+}
+
+.dragndrop>.wrapper>.bin {
+    background-color: gray;
+    width: 25%;
+    height: 25vh;
 }
