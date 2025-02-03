@@ -205,8 +205,8 @@ h6 {
     cursor: pointer;
 }
 
-.dragndrop>.wrapper>.box>.dropped_files>.dropped_file.dragged {
-    background-color: peru;
+.dragndrop>.wrapper>.box>.dropped_files>.dropped_file:active {
+    background-color: purple;
 }
 
 .dragndrop>.wrapper>.bin {

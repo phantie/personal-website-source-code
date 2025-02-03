@@ -12,7 +12,7 @@ struct DroppedFile {
 }
 
 type Key = Filename;
-type DroppedFiles<K> = HashMap<K, ArcRwSignal<DroppedFile>>;
+type DroppedFiles = Vec<(Key, ArcRwSignal<DroppedFile>)>;
 
 #[derive(Clone)]
 struct BoxState {
@@ -37,30 +37,28 @@ pub fn Component() -> impl IntoView {
 
     // let (dropped_files_rs, dropped_files_ws) = signal::<DroppedFiles<Key>>(Default::default());
 
-    let mut m = HashMap::new();
-    m.insert(
-        "default_1".to_owned(),
-        ArcRwSignal::new(DroppedFile {
-            filename: "default_1".to_owned(),
-            dragged: false,
-        }),
-    );
-    m.insert(
-        "default_2".to_owned(),
-        ArcRwSignal::new(DroppedFile {
-            filename: "default_2".to_owned(),
-            dragged: false,
-        }),
-    );
-    let (dropped_files_rs, dropped_files_ws) = signal::<DroppedFiles<Key>>(m);
+    let m = vec![
+        (
+            "default_1".to_owned(),
+            ArcRwSignal::new(DroppedFile {
+                filename: "default_1".to_owned(),
+                dragged: false,
+            }),
+        ),
+        (
+            "default_2".to_owned(),
+            ArcRwSignal::new(DroppedFile {
+                filename: "default_2".to_owned(),
+                dragged: false,
+            }),
+        ),
+    ];
+
+    let (dropped_files_rs, dropped_files_ws) = signal::<DroppedFiles>(m);
 
     Effect::new(move |_| {
         if let Some(remove_file) = remove_file_rs.get() {
-            // dropped_files_ws.update(|dropped_files| {
-            // dropped_files.remove(&remove_file);
-            // });
-
-            dropped_files_ws.write().remove(&remove_file);
+            dropped_files_ws.write().retain(|(k, _)| k != &remove_file);
         }
     });
 
@@ -103,10 +101,10 @@ pub fn Component() -> impl IntoView {
                                         let key = filename.clone();
 
                                         dropped_files_ws.update(|fs| {
-                                            fs.insert(key, ArcRwSignal::new(DroppedFile {
+                                            fs.push((key, ArcRwSignal::new(DroppedFile {
                                                 filename,
                                                  dragged: false
-                                            }));
+                                            })));
                                         });
                                     }
                                 }
