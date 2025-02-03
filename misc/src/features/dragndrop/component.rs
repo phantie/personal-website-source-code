@@ -8,7 +8,6 @@ type Filename = String;
 #[derive(Clone)]
 struct DroppedFile {
     filename: Filename,
-    dragged: bool,
 }
 
 type Key = Filename;
@@ -29,38 +28,25 @@ impl Default for BoxState {
 
 #[component]
 pub fn Component() -> impl IntoView {
-    let (box_state_rs, box_state_ws) = signal(BoxState::default());
-
-    // let (bin_dragover_rs, bin_dragover_ws) = signal(false);
-    let (dragged_rs, dragged_ws) = signal::<Option<Key>>(None);
-    let (remove_file_rs, remove_file_ws) = signal::<Option<Key>>(None);
-
-    // let (dropped_files_rs, dropped_files_ws) = signal::<DroppedFiles<Key>>(Default::default());
+    let (dragged_over_rs, dragged_over_ws) = signal(false);
+    let (last_dragged_rs, last_dragged_ws) = signal::<Option<Key>>(None);
 
     let m = vec![
         (
             "default_1".to_owned(),
             ArcRwSignal::new(DroppedFile {
                 filename: "default_1".to_owned(),
-                dragged: false,
             }),
         ),
         (
             "default_2".to_owned(),
             ArcRwSignal::new(DroppedFile {
                 filename: "default_2".to_owned(),
-                dragged: false,
             }),
         ),
     ];
 
     let (dropped_files_rs, dropped_files_ws) = signal::<DroppedFiles>(m);
-
-    Effect::new(move |_| {
-        if let Some(remove_file) = remove_file_rs.get() {
-            dropped_files_ws.write().retain(|(k, _)| k != &remove_file);
-        }
-    });
 
     view! {
         <div class="dragndrop">
@@ -68,26 +54,20 @@ pub fn Component() -> impl IntoView {
 
                 <div
                     class="box"
-                    class:dragged_over=move || box_state_rs.get().dragged_over
+                    class:dragged_over=move || dragged_over_rs.get()
                     on:dragenter=move |e: DragEvent| {
-                        box_state_ws.update(|s|
-                            s.dragged_over = true
-                        );
+                        dragged_over_ws.set(true);
                         // log!("dragenter");
                     }
                     on:dragleave=move |e: DragEvent| {
-                        box_state_ws.update(|s|
-                            s.dragged_over = false
-                        );
+                        dragged_over_ws.set(false);
                         // log!("dragleave");
                     }
                     on:dragover=move |e: DragEvent| {
                         e.prevent_default();
                     }
                     on:drop=move |e: DragEvent| {
-                        box_state_ws.update(|s|
-                            s.dragged_over = false
-                        );
+                        dragged_over_ws.set(false);
                         // log!("drop");
                         e.prevent_default();
                         if let Some(data_transfer) = e.data_transfer() {
@@ -103,7 +83,6 @@ pub fn Component() -> impl IntoView {
                                         dropped_files_ws.update(|fs| {
                                             fs.push((key, ArcRwSignal::new(DroppedFile {
                                                 filename,
-                                                 dragged: false
                                             })));
                                         });
                                     }
@@ -123,20 +102,13 @@ pub fn Component() -> impl IntoView {
                             view! {
                                 <div
                                     class="dropped_file"
-                                    class:dragged=move || s.get().dragged
                                     draggable="true"
                                     on:drag=move |e| {
                                         // log!("drag");
                                     }
                                     on:dragstart=move |e| {
                                         log!("dragstart");
-                                        s.update(|dropped_file| dropped_file.dragged = true);
-                                        dragged_ws.set(Some(key.clone()));
-                                    }
-                                    on:dragend=move |e| {
-                                        log!("dragend");
-                                        s.update(|dropped_file| dropped_file.dragged = false);
-                                        dragged_ws.set(None);
+                                        last_dragged_ws.set(Some(key.clone()));
                                     }
                                 >
                                     {move || s.get().filename}
@@ -161,11 +133,10 @@ pub fn Component() -> impl IntoView {
                         e.prevent_default();
                     }
                     on:drop=move |e: DragEvent| {
-                        if let Some(dragged) = dragged_rs.read_untracked().clone() {
+                        if let Some(dragged) = last_dragged_rs.read_untracked().clone() {
                             log!("want to remove {dragged:?}");
 
-                            // dropped_files_ws.update(|dropped_files| {dropped_files.remove(&dragged);});
-                            remove_file_ws.set(Some(dragged));
+                            dropped_files_ws.write().retain(|(k, _)| k != &dragged);
                         }
                     }
                 >
