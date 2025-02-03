@@ -550,7 +550,7 @@ pub fn MazeRoutes() -> impl MatchNestedRoutes + Clone {
     use components::maze::MazeComponent;
 
     view! {
-        <ParentRoute path=path!("/maze") view=Outlet>
+        <ParentRoute path=path!("/experiment/maze") view=Outlet>
             <Route path=path!("") view=MazeComponent />
         </ParentRoute>
     }
