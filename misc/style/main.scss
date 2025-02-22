@@ -175,6 +175,7 @@ h6 {
     display: flex;
     align-items: center;
     justify-content: space-around;
+    background-color: black;
 }
 
 .dragndrop>.wrapper>.box {
@@ -183,11 +184,7 @@ h6 {
     height: 50vh;
 }
 
-.dragndrop>.wrapper>.box.dragged_over {
-    background-color: orangered;
-}
-
-.dragndrop>.wrapper>.box>.dropped_files {
+.dragndrop>.wrapper>.box>.items {
     display: flex;
     flex-direction: column;
     width: 50%;
@@ -195,7 +192,7 @@ h6 {
     height: 100%;
 }
 
-.dragndrop>.wrapper>.box>.dropped_files>.dropped_file {
+.dragndrop>.wrapper>.box>.items>.item {
     word-wrap: break-word;
     background-color: orangered;
     width: 100%;
@@ -205,7 +202,7 @@ h6 {
     cursor: pointer;
 }
 
-.dragndrop>.wrapper>.box>.dropped_files>.dropped_file:active {
+.dragndrop>.wrapper>.box>.items>.item:active {
     background-color: purple;
 }
 
