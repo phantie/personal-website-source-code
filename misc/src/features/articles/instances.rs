@@ -68,10 +68,11 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 relative_path: "multilayer_cache/article.md".into(),
             },
             id: "multilayer_cache".into(),
-            title: "Multilayer cache".into(),
+            title: "Nano framework for implementing multilayered caching".into(),
             description: None,
             tags: vec![
                 "caching".into(),
+                "framework".into(),
                 "pattern".into(),
                 "functional programming".into(),
                 "python".into(),
