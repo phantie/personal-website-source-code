@@ -43,10 +43,10 @@ pub fn get_articles_chronological_order() -> ArticleList {
                     .into(),
             ),
             tags: vec![
-                "python".into(),
-                "functional programming".into(),
                 "disjoined union".into(),
                 "pattern".into(),
+                "functional programming".into(),
+                "python".into(),
             ],
         },
         Article {
@@ -57,9 +57,24 @@ pub fn get_articles_chronological_order() -> ArticleList {
             title: "Concept of more useful types".into(),
             description: None,
             tags: vec![
-                "python".into(),
-                "functional programming".into(),
+                "concept".into(),
                 "types".into(),
+                "functional programming".into(),
+                "python".into(),
+            ],
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "multilayer_cache/article.md".into(),
+            },
+            id: "multilayer_cache".into(),
+            title: "Multilayer cache".into(),
+            description: None,
+            tags: vec![
+                "caching".into(),
+                "pattern".into(),
+                "functional programming".into(),
+                "python".into(),
             ],
         },
     ]

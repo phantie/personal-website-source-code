@@ -7,8 +7,9 @@
         "articles/photography",
         "articles/most_useful_functional_pattern_python",
         "articles/about_site",
-        "home",
         "articles/concept_of_more_useful_types",
+        "articles/multilayer_cache",
+        "home",
         "maze",
         "experiments/dragndrop"
     ],
