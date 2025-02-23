@@ -1,5 +1,6 @@
 use crate::features::articles::defs::*;
-use leptos::prelude::*;
+use crate::features::articles::server_fns::get_preload_images_links;
+use leptos::{logging::log, prelude::*};
 use leptos_router::components::{Outlet, A};
 
 /// Renders the article list
@@ -26,6 +27,20 @@ pub fn ArticleList() -> impl IntoView {
         })
         .collect::<Vec<_>>();
 
+    let get_preload_images_els = |links: Vec<String>| {
+        links
+            .into_iter()
+            .map(|link| {
+                view! {
+                    <link rel="preload" href={link} r#as="image"/>
+                }
+            })
+            .collect::<Vec<_>>()
+    };
+
+    let get_preload_images_links_resource =
+        Resource::new(|| (), |id| async move { get_preload_images_links(5).await });
+
     view! {
         <div class="articles">
             <div class="articles-list">
@@ -35,6 +50,14 @@ pub fn ArticleList() -> impl IntoView {
                 </div>
             </div>
             <Outlet/>
+
+            <Suspense fallback=move || view! {}>
+                {move || get_preload_images_links_resource.get().map(|links|
+                    {
+                        links.map(|links| get_preload_images_els(links).into_any()).unwrap_or(view! {}.into_any())
+                    })
+                }
+            </Suspense>
         </div>
     }
 }

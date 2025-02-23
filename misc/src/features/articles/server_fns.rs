@@ -44,3 +44,26 @@ pub fn get_articles_base_path() -> String {
     let result = base.to_str().unwrap().to_owned();
     result
 }
+
+#[server]
+pub async fn get_preload_images_links(take_first: usize) -> Result<Vec<String>, ServerFnError> {
+    use std::path::PathBuf;
+    let conf = get_configuration(None).unwrap();
+    let leptos_options = conf.leptos_options;
+    let mut base = PathBuf::from(&*leptos_options.site_root);
+    base.push("static/articles/photography/photography.md");
+
+    use std::fs;
+    let contents = fs::read_to_string(base).unwrap();
+
+    use regex::Regex;
+    let re = Regex::new(r"(/static/articles/photography/\d+\.jpg)").unwrap();
+    let urls = re
+        .captures_iter(&contents)
+        .filter_map(|cap| cap.get(1))
+        .map(|m| m.as_str().to_owned())
+        .take(take_first)
+        .collect();
+
+    Ok(urls)
+}
