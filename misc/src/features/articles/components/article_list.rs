@@ -1,3 +1,4 @@
+use crate::features::articles::components::params::article_id;
 use crate::features::articles::defs::*;
 use crate::features::articles::server_fns::get_preload_images_links;
 use leptos::{logging::log, prelude::*};
@@ -43,7 +44,7 @@ pub fn ArticleList() -> impl IntoView {
 
     view! {
         <div class="articles">
-            <div class="articles-list">
+            <div class="articles-list" class:focus={move || article_id()().is_none() }>
             <h1>"Posts"</h1>
                 <div class="articles-list-items">
                 {article_list}

@@ -8,27 +8,13 @@ use leptos_router::components::{Outlet, A};
 use leptos_router::hooks::{use_params, use_query};
 use leptos_router::params::Params;
 
+use crate::features::articles::components::params::article_id;
 use crate::features::articles::defs::*;
 use crate::features::articles::server_fns::{get_any_article_id, get_article, get_article_content};
 
-#[derive(Params, PartialEq)]
-struct ArticleParams {
-    id: Option<ArticleId>,
-}
-
 #[component]
 pub fn Article() -> impl IntoView {
-    let params = use_params::<ArticleParams>();
-
-    let id_memo = move || {
-        params
-            .read()
-            .as_ref()
-            .ok()
-            .and_then(|params| params.id.clone())
-    };
-
-    let get_article_id = Resource::new_blocking(id_memo, |id| async move {
+    let get_article_id = Resource::new_blocking(article_id(), |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
@@ -40,7 +26,7 @@ pub fn Article() -> impl IntoView {
     });
 
     // let get_article_content_resource = Resource::new_blocking(id_memo, |id| async move {
-    let get_article_content_resource = Resource::new(id_memo, |id| async move {
+    let get_article_content_resource = Resource::new(article_id(), |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
@@ -51,7 +37,7 @@ pub fn Article() -> impl IntoView {
         get_article_content(id).await
     });
 
-    let get_article_resource = Resource::new_blocking(id_memo, |id| async move {
+    let get_article_resource = Resource::new_blocking(article_id(), |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
@@ -111,7 +97,11 @@ pub fn Article() -> impl IntoView {
         // <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.0/css/catppuccin-macchiato.css"/>
         // <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.0/css/catppuccin-mocha.css"/>
 
-        <div class="articles-article">
+        // {
+        //    move || {  if (id_memo().is_some()) {} else {} }
+        // }
+
+        <div class="articles-article" class:focus={move || article_id()().is_some() }>
             <Suspense fallback=move || view! { <p>"Loading..."</p> }>
                 {move || get_article_content_resource.get().map(|content|
                     {

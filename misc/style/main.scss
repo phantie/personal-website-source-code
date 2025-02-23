@@ -72,6 +72,20 @@ body {
     background-color: var(--background-color);
 }
 
+@media (max-width: 768px) {
+    .articles-list.focus~.articles-article {
+        display: none;
+    }
+
+    .articles-article.focus {
+        border-left: 0px;
+    }
+
+    .articles-list:not(.focus) {
+        display: none;
+    }
+}
+
 .articles-article .markdown-body {
     text-align: left;
 }
