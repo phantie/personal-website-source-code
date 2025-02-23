@@ -48,6 +48,8 @@ pub fn Article() -> impl IntoView {
         get_article(id).await
     });
 
+    let (article_content_loaded_rs, article_content_loaded_ws) = signal(false);
+
     view! {
         <Suspense fallback=move || ()>
         {
@@ -83,8 +85,6 @@ pub fn Article() -> impl IntoView {
         }
         </Suspense>
 
-
-
         <Stylesheet href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css"/>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"/>
@@ -101,11 +101,14 @@ pub fn Article() -> impl IntoView {
         //    move || {  if (id_memo().is_some()) {} else {} }
         // }
 
-        <div class="articles-article" class:focus={move || article_id()().is_some() }>
+        <div class="articles-article" class:focus={move || article_id()().is_some() && article_content_loaded_rs.get() }>
             <Suspense fallback=move || view! { <p>"Loading..."</p> }>
                 {move || get_article_content_resource.get().map(|content|
                     {
-                        let raw_html = parse_md(&content.unwrap()); // TODO handle
+                        let raw_html = parse_md(&content.unwrap_or_else(|_| "<h2>Failed to load article content</h2>".to_owned()));
+
+                        article_content_loaded_ws.set(true);
+
                         view! {
                             <div class="markdown-body" inner_html={raw_html}></div>
                             <ApplyJs/>

@@ -112,16 +112,31 @@ h6 {
 
 
 @media (max-width: 768px) {
-    .articles-list.focus~.articles-article {
-        display: none;
+    .articles-list {
+        transition: flex-basis 0.3s ease;
+        min-width: 0;
+        flex-basis: 100%;
     }
 
-    .articles-article.focus {
-        border-left: 0px;
+    .articles-article {
+        transition: flex-basis 0.3s ease;
+        flex-basis: 100%;
+    }
+
+    // .articles-list.focus~.articles-article {
+    //     // display: none;
+    // }
+
+    .articles-list.focus~.articles-article {
+        flex: 0;
     }
 
     .articles-list:not(.focus) {
-        display: none;
+        flex: 0;
+    }
+
+    .articles-article {
+        border-left: 0px;
     }
 
     .articles-article .markdown-body pre code {
