@@ -130,6 +130,7 @@ pub fn Article() -> impl IntoView {
                         let raw_html = parse_md(&content.unwrap_or_else(|_| "<h2>Failed to load article content</h2>".to_owned()));
 
                         article_content_loaded_ws.set(true);
+                        scroll_progress_ws.set(0.0);
 
                         view! {
                             <div
