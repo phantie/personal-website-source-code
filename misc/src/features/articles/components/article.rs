@@ -7,6 +7,8 @@ use leptos_meta::Title;
 use leptos_router::components::{Outlet, A};
 use leptos_router::hooks::{use_params, use_query};
 use leptos_router::params::Params;
+use wasm_bindgen::JsCast;
+use web_sys::Event;
 
 use crate::features::articles::components::params::article_id;
 use crate::features::articles::defs::*;
@@ -49,6 +51,17 @@ pub fn Article() -> impl IntoView {
     });
 
     let (article_content_loaded_rs, article_content_loaded_ws) = signal(false);
+    let (scroll_progress_rs, scroll_progress_ws) = signal(0.0);
+
+    let handle_content_scroll = move |e: Event| {
+        let target = e.target().unwrap();
+        let element = target.dyn_ref::<web_sys::HtmlElement>().unwrap();
+
+        let scroll_top = element.scroll_top() as f64;
+        let scroll_height = element.scroll_height() as f64 - element.client_height() as f64;
+        let progress = (scroll_top / scroll_height) * 100.0;
+        scroll_progress_ws.set(progress);
+    };
 
     view! {
         <Suspense fallback=move || ()>
@@ -101,7 +114,16 @@ pub fn Article() -> impl IntoView {
         //    move || {  if (id_memo().is_some()) {} else {} }
         // }
 
-        <div class="articles-article" class:focus={move || article_id()().is_some() && article_content_loaded_rs.get() }>
+
+        <div
+        class="articles-article"
+        class:focus={move || article_id()().is_some() && article_content_loaded_rs.get() }
+        >
+            <div
+                class="article-reading-progress"
+                style:width=move || format!("{}%", scroll_progress_rs.get())
+            ></div>
+
             <Suspense fallback=move || view! { <p>"Loading..."</p> }>
                 {move || get_article_content_resource.get().map(|content|
                     {
@@ -110,7 +132,11 @@ pub fn Article() -> impl IntoView {
                         article_content_loaded_ws.set(true);
 
                         view! {
-                            <div class="markdown-body" inner_html={raw_html}></div>
+                            <div
+                                class="markdown-body"
+                                inner_html={raw_html}
+                                on:scroll=handle_content_scroll
+                            ></div>
                             <ApplyJs/>
                         }
                     })
