@@ -11,7 +11,8 @@
         "articles/multilayer_cache",
         "home",
         "maze",
-        "experiments/dragndrop"
+        "experiments/dragndrop",
+        "articles/event_processing"
     ],
     "rust-analyzer.cargo.features": [
         "ssr"

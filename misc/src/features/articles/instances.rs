@@ -78,6 +78,19 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "python".into(),
             ],
         },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "event_processing/article.md".into(),
+            },
+            id: "event_processing".into(),
+            title: "Event processing".into(),
+            description: None,
+            tags: vec![
+                "event processing".into(),
+                "idempotency".into(),
+                "operations".into(),
+            ],
+        },
     ]
 }
 
