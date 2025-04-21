@@ -100,10 +100,10 @@ pub fn get_articles_chronological_order() -> ArticleList {
             description: Some("This article shows how to handle I/O-heavy work efficiently in Python using asyncio. It covers setting up async functions, using asyncio.gather for parallelism, and managing large task loads with producer-consumer queues. Practical examples illustrate handling timeouts, exceptions, and scaling concurrency while keeping your code robust and maintainable.".into()),
             tags: vec![
                 "parallel processing".into(),
-                "concurrency".into(),
                 "asyncio".into(),
                 "queue".into(),
                 "python".into(),
+                "producer-consumer".into(),
             ],
         },
     ]
