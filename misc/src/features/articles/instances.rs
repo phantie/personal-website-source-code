@@ -91,6 +91,20 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "operations".into(),
             ],
         },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "io_bound_parallel_processing_in_python/article.md".into(),
+            },
+            id: "io_bound_parallel_processing_in_python".into(),
+            title: "I/O Bound Parallel Processing in Python".into(),
+            description: None,
+            tags: vec![
+                "parallel processing".into(),
+                "concurrency".into(),
+                "asyncio".into(),
+                "python".into(),
+            ],
+        },
     ]
 }
 

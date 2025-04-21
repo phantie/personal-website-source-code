@@ -9,6 +9,7 @@
         "articles/about_site",
         "articles/concept_of_more_useful_types",
         "articles/multilayer_cache",
+        "articles/io_bound_parallel_processing_in_python",
         "home",
         "maze",
         "experiments/dragndrop",
