@@ -10,6 +10,7 @@
         "articles/concept_of_more_useful_types",
         "articles/multilayer_cache",
         "articles/io_bound_parallel_processing_in_python",
+        "articles/vscode_extensions_regardless_of_the_programming_language",
         "home",
         "maze",
         "experiments/dragndrop",
