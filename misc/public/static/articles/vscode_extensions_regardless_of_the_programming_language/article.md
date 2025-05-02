@@ -43,7 +43,7 @@
 
 ## Quick go to selected file path <a name="quick-go-to-selected-file-path"></a>
 **Link:**  
-[zaucy.symlink-follow](https://marketplace.visualstudio.com/items?itemName=zaucy.symlink-follow)  
+[duXing.quick-go-to-selected-file-path](https://marketplace.visualstudio.com/items/?itemName=duXing.quick-go-to-selected-file-path)  
 **Purpose:**  
 • Quicker navigation through the repository
 
