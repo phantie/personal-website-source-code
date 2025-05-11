@@ -14,7 +14,8 @@
         "home",
         "maze",
         "experiments/dragndrop",
-        "articles/event_processing"
+        "articles/event_processing",
+        "hydration"
     ],
     "rust-analyzer.cargo.features": [
         "ssr"
