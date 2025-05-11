@@ -54,7 +54,7 @@ async fn ensure_valid_artifacts(
                 // the easiest way
                 response.headers_mut().insert(
                     axum::http::header::CACHE_CONTROL,
-                    "no-store".parse().unwrap(),
+                    "no-store, no-cache".parse().unwrap(),
                 );
             }
         }
