@@ -2,7 +2,7 @@
 
 > А то как сапожник без сапог
 
-## Source code on [Github](https://github.com/phantie/leptos-wsite)
+## Source code on [Github](https://github.com/phantie/personal-website-source-code)
 
 ### Technology Stack
 
