@@ -19,6 +19,7 @@ async fn main() {
             move || shell(leptos_options.clone())
         })
         .fallback(leptos_axum::file_and_error_handler(shell))
+        .layer(axum::middleware::from_fn(ensure_valid_artifacts))
         .with_state(leptos_options);
 
     // run our app with hyper
@@ -35,4 +36,29 @@ pub fn main() {
     // no client-side main function
     // unless we want this to work with e.g., Trunk for pure client-side testing
     // see lib.rs for hydration function instead
+}
+
+async fn ensure_valid_artifacts(
+    request: axum::extract::Request,
+    next: axum::middleware::Next,
+) -> axum::response::Response {
+    let mut response = next.run(request).await;
+
+    // Post-processing of the response:
+    if let Some(content_type) = response.headers().get(axum::http::header::CONTENT_TYPE) {
+        if let Ok(ct_str) = content_type.to_str() {
+            let is_wasm = ct_str.contains("application/wasm");
+            let is_js = ct_str.contains("javascript");
+            let is_css = ct_str.contains("text/css");
+            if is_wasm || is_js || is_css {
+                // the easiest way
+                response.headers_mut().insert(
+                    axum::http::header::CACHE_CONTROL,
+                    "no-store".parse().unwrap(),
+                );
+            }
+        }
+    }
+
+    response
 }
