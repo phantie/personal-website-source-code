@@ -3,11 +3,13 @@
 When it comes to I/O, [*asyncio*](https://pypi.org/project/asyncio/) is a must.
 
 The state of modern Python programming is to prefer an async library over sync if it satisfies your needs because:
+
 ```txt
 - Efficient resource utilization for I/O tasks
 - A lot easier to get right than with *multiprocessing*
 - asyncio.to_thread can turn a sync function into async by running it in a thread pool
 ```
+
 The template for any async Python program is:
 
 ```python
@@ -62,7 +64,7 @@ def timer():
         print(f"elapsed time: {elapsed:.2f} seconds")
 ```
 
-## The first task the examples will use:
+## The first task the examples will use
 
 ```python
 import asyncio
@@ -145,6 +147,7 @@ There are several problems if we take the previous approach with *asyncio.gather
 ```
 
 So there are problems to solve:
+
 ```txt
 - Do not DDOS the services
 - Keep memory usage acceptable
@@ -262,6 +265,7 @@ async def main():
 ### Process unreliable tasks
 
 Cases to handle:
+
 ```txt
 - Timeouts
 - Expected exceptions
@@ -392,7 +396,7 @@ async def main():
 
 Chapter TODO
 
-## Further questions you might ask after implementing something like this:
+## Further questions you might ask after implementing something like this
 
 ```txt
 - What if the process crashes?

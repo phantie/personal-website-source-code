@@ -12,7 +12,7 @@ The problem to solve is one of repeatability, or idempotency. Most often, to mak
 
 Since the operation may only partially succeed, such a partial state is to be tolerable at least in the short term; in the long term, it may be ignored or later found and rolled back or canceled.
 
-### But how do you make an irreducible operation repeatable/idempotent?
+## But how do you make an irreducible operation repeatable/idempotent?
 
 According to Eric Normand, there are data, calculations, and side effects.
 
