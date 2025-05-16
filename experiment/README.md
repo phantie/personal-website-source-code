@@ -1,1 +1,1 @@
-A way to calm down Markdown Link Checker dlyz.md-link-checker in /README.md is this directory
+# A way to calm down Markdown Link Checker dlyz.md-link-checker in /README.md is this directory
