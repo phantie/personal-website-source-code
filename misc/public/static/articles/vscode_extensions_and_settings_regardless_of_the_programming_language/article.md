@@ -14,6 +14,20 @@ In *Preferences: Open Workspace Settings* add links to ignore
 
 ---
 
+### Start terminal from other dictory
+
+**Purpose:**
+
+In the case of [this-website-source-code](https://github.com/phantie/personal-website-source-code), when developing, I always go directly to the *./misc* directory to start development, run the local server, etc. This saves me from having to *cd misc* every time I open the project.
+
+**Enable:**  
+
+In *Preferences: Open Workspace Settings* set *terminal.integrated.cwd* to relative path from which the terminal will be started.
+
+Like *./misc* in my case.
+
+---
+
 ## Extensions
 
 ### Conventional commits
