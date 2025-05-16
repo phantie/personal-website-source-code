@@ -1,8 +1,22 @@
-# My VSCode extensions recommendations, regardless of the programming language
+# My VSCode extensions and settings recommendations, regardless of the programming language
+
+## Settings
+
+### Markdown Link Checker
+
+**Enable:**  
+
+In *Preferences* set *markdown.validate* to *true*
+
+#### Exlude links from checking
+
+In *Preferences: Open Workspace Settings* add links to ignore
 
 ---
 
-## Conventional commits
+## Extensions
+
+### Conventional commits
 
 **Link:**  
 [vivaxy.vscode-conventional-commits](https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits)  
@@ -13,7 +27,7 @@
 
 ---
 
-## markdownlint
+### markdownlint
 
 **Link:**  
 [davidanson.vscode-markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
@@ -22,13 +36,15 @@
 
 - .md validation
 - .md formatting
-- Link checking
 - Rich configuration (have not figured out yet)
 - Etc
 
+**Comment**
+Might be rather annoying until you figure out how to configure it
+
 ---
 
-## Error Lens
+### Error Lens
 
 **Link:**  
 [usernamehw.errorlens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)  
@@ -40,7 +56,7 @@
 
 ---
 
-## Symlink follow
+### Symlink follow
 
 **Link:**  
 [zaucy.symlink-follow](https://marketplace.visualstudio.com/items?itemName=zaucy.symlink-follow)  
@@ -57,7 +73,7 @@
 
 ---
 
-## Quick go to selected file path
+### Quick go to selected file path
 
 **Link:**  
 [duXing.quick-go-to-selected-file-path](https://marketplace.visualstudio.com/items/?itemName=duXing.quick-go-to-selected-file-path)
@@ -74,7 +90,7 @@
 
 ---
 
-## Copy filename
+### Copy filename
 
 **Link:**  
 [bradzacher.vscode-copy-filename](https://marketplace.visualstudio.com/items?itemName=bradzacher.vscode-copy-filename)  
@@ -90,7 +106,7 @@
 
 ---
 
-## .puml viewer
+### .puml viewer
 
 **Link:**  
 [jebbs.plantuml](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml)  
@@ -101,7 +117,7 @@
 
 ---
 
-## .md viewer
+### .md viewer
 
 **Link:**  
 [shd101wyy.markdown-preview-enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)  
@@ -112,7 +128,7 @@
 
 ---
 
-## .ansi/log viewer
+### .ansi/log viewer
 
 **Link:**  
 [iliazeus.vscode-ansi](https://marketplace.visualstudio.com/items?itemName=iliazeus.vscode-ansi)  
