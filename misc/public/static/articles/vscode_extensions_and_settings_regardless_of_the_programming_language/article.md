@@ -53,6 +53,16 @@ Like *./misc* in my case.
 - Rich configuration (have not figured out yet)
 - Etc
 
+<!-- markdownlint-disable-next-line MD036 -->
+**Tips**
+
+To turn off warning for a specific line use the example below with the appropriate warning code
+
+```md
+<!-- markdownlint-disable-next-line MD036 -->
+**Warned line**
+```
+
 **Comment**
 Might be rather annoying until you figure out how to configure it
 
