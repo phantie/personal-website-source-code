@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "dev",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "leptos",
+                "watch"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/misc"
+            },
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}
