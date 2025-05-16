@@ -6,6 +6,7 @@
         ".vscode/tasks.json",
         "hydration",
         "home",
+        ".common_links",
         "experiments/maze",
         "experiments/dragndrop",
         "articles",
