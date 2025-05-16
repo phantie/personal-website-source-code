@@ -1,17 +1,5 @@
 use crate::features::articles::defs::*;
 
-pub fn get_not_found_article() -> Article {
-    Article {
-        relative_source: RelativeLocalArticleSource {
-            relative_path: "not_found/not_found.md".into(),
-        },
-        id: "not_found".into(),
-        title: "Not found".into(),
-        description: Some("Sentinel article for 404".into()),
-        tags: vec![],
-    }
-}
-
 pub fn get_articles_chronological_order() -> ArticleList {
     vec![
         Article {
@@ -136,6 +124,21 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "sean rowe".into(),
             ],
         },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "white_roses_spread_on_the_ground/article.md".into(),
+            },
+            id: "white_roses_spread_on_the_ground".into(),
+            title: "White roses spread on the ground".into(),
+            description: Some("Thoughts on white roses spread on the ground occurence".into()),
+            tags: vec![
+                "thoughts".into(),
+                "roses".into(),
+                "uncertainty".into(),
+                "rejection".into(),
+                "spite".into(),
+            ],
+        },
     ]
 }
 
@@ -156,5 +159,17 @@ impl Default for Articles {
             not_found_article,
             ordered_articles,
         }
+    }
+}
+
+pub fn get_not_found_article() -> Article {
+    Article {
+        relative_source: RelativeLocalArticleSource {
+            relative_path: "not_found/not_found.md".into(),
+        },
+        id: "not_found".into(),
+        title: "Not found".into(),
+        description: Some("Sentinel article for 404".into()),
+        tags: vec![],
     }
 }

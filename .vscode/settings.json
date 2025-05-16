@@ -15,16 +15,18 @@
         "articles/about_site",
         "articles/concept_of_more_useful_types",
         "articles/multilayer_cache",
+        "articles/event_processing",
         "articles/io_bound_parallel_processing_in_python",
         "articles/vscode_extensions_and_settings_regardless_of_the_programming_language",
         "articles/a_poem_about_absolute_uncertainty",
-        "articles/event_processing",
+        "articles/white_roses_spread_on_the_ground",
     ],
     "rust-analyzer.cargo.features": [
         "ssr"
     ],
     "terminal.integrated.cwd": "./misc",
     "markdown.validate.enabled": true,
+    "markdownlint.run": "onSave",
     "markdown.validate.ignoredLinks": [
         "/static/articles/photography/6.jpg",
         "/static/articles/photography/5.jpg",
@@ -38,6 +40,6 @@
         "/static/articles/photography/12.jpg",
         "/static/articles/photography/7.jpg",
         "/static/articles/photography/3.jpg",
-        // "/static/articles/white_roses_on_the_ground/white_roses.jpg",
+        "/static/articles/white_roses_spread_on_the_ground/white_roses_spread_on_the_ground.jpg",
     ],
 }
