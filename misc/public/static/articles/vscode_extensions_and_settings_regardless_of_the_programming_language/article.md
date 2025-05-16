@@ -24,7 +24,7 @@ In the case of [this-website-source-code](https://github.com/phantie/personal-we
 
 In *Preferences: Open Workspace Settings* set *terminal.integrated.cwd* to relative path from which the terminal will be started.
 
-Like *./misc* in my case.
+Like *./misc* for [this-website-source-code](https://github.com/phantie/personal-website-source-code)
 
 ---
 
@@ -57,6 +57,11 @@ Like *./misc* in my case.
 **Tips**
 
 To turn off warning for a specific line use the example below with the appropriate warning code
+
+<!-- markdownlint-disable-next-line MD036 -->
+**Tune**
+
+- In *Preferences: Open Workspace Settings* set *markdownlint.run* to *onSave*
 
 ```md
 <!-- markdownlint-disable-next-line MD036 -->
