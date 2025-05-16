@@ -119,6 +119,21 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "recommendations".into(),
             ],
         },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "a_poem_about_absolute_uncertainty/article.md".into(),
+            },
+            id: "a_poem_about_absolute_uncertainty".into(),
+            title: "A poem about absolute uncertainty".into(),
+            description: Some("A poem about absolute uncertainty.".into()),
+            tags: vec![
+                "poem".into(),
+                "original".into(),
+                "alexander tokar".into(),
+                "uncertainty".into(),
+                "sean rowe".into(),
+            ],
+        },
     ]
 }
 
