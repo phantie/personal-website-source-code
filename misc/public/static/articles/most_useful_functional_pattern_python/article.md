@@ -1,10 +1,11 @@
 # Most useful functional pattern in Python
 
-### Problem
+## Problem
 
-**Python without external libraries lacks disjoined unions**
+### Python without external libraries lacks disjoined unions
 
 You may model this
+
 ```rust
 enum Currency {
     Euro,
@@ -14,6 +15,7 @@ enum Currency {
 ```
 
 Like so
+
 ```python
 from enum import Enum
 
@@ -24,6 +26,7 @@ class Currency(Enum):
 ```
 
 But what about
+
 ```rust
 enum Action {
     Start,
@@ -34,6 +37,7 @@ enum Action {
 ### Functional solution
 
 There comes pydantic and definition of Action
+
 ```python
 import pydantic
 from typing import Annotated
@@ -51,12 +55,14 @@ Action = Annotated[Start | Move, pydantic.Field(discriminator="choice")]
 ```
 
 Variants defined as variables
+
 ```python
 action: Action = Start()
 action: Action = Move(x=1, y=2)
 ```
 
 Conditioning based on variable class
+
 ```python
 if isinstance(action, Start):
     print(f"started")
@@ -66,9 +72,10 @@ elif isinstance(action, Move):
     print(f"moved {action.y=!r}")
 ```
 
-Or conditioning based on *choice* attribute 
+Or conditioning based on *choice* attribute
 > useful due to functional limitations, for example in Jinja/Django templates
 > or when bringing class references is burdensome
+
 ```python
 if action.choice == "start":
     print(f"started")
@@ -79,6 +86,7 @@ elif action.choice == "move":
 ```
 
 Parsing json using Action results in dispatch to the proper variants
+
 ```python
 start_json = "{\"choice\": \"start\"}"
 assert isinstance(pydantic.RootModel[Action].model_validate_json(start_json).root, Start)
@@ -86,7 +94,8 @@ move_json = "{\"choice\": \"move\", \"x\": 1, \"y\": 2}"
 assert isinstance(pydantic.RootModel[Action].model_validate_json(move_json).root, Move)
 ```
 
-#### *Bonus*, with generics:
+#### *Bonus*, with generics
+
 ```python
 
 from typing import Generic, TypeVar, Union, Literal
@@ -124,4 +133,5 @@ err_value: MyResult = Err(value=ZeroDivisionError())
 ```
 
 ## Conclusion
+
 This is a lifesafer for functional python programming

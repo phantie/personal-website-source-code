@@ -6,7 +6,7 @@
 
 For example, suppose we have files stored in an S3 bucket that we want to cache locally, and also cache the parsed data structures derived from these files. This results in a 2-layer cache structure, with the bucket serving as the data source.
 
-```
+```txt
 Bucket  
  ├── File Cache  
  │   ├── Parsed File Cache  
@@ -16,10 +16,8 @@ Say you want a parsed value, so you are concerned with the **Parsed File Cache**
 
 With both local caches empty, let's describe what happens during the first value retrieval.
 
-
 Since **Parsed File Cache** would *not* find it in the local cache, it would then try to retrieve it from its dependant - **File Cache**.
 **File Cache** would also *not* find a transformable value in its local cache, and to the dependant it goes - **Bucket**.
-
 
 **Bucket** may or may *not* have a value.
 If it doesn’t, no local cache updates occur, and the result of retrieval from **Parsed File Cache** is a value representing *Key not found*.
@@ -33,7 +31,7 @@ It's a simple recursive algorithm.
 
 For the sake of brevity, we investigate this minimal example, but arbitrary nested tree cache structures are possible nonetheless:
 
-```
+```txt
 Bucket  
  ├── File Cache  
  │   ├── Parsed File Cache  
@@ -49,7 +47,8 @@ Implementing such caching still may be a challenge. The implementation may suffe
 
 - spagetti
 (having a recursive nature, but with finite nesting. For your purposes, you might have started with one layer, but after adding a layer or two more, the code started looking like this from afar:)
-```
+
+```txt
 @@@@ outer layer get
   @@@@ middle layer get
     @@@@ inner layer get
@@ -60,7 +59,6 @@ Implementing such caching still may be a challenge. The implementation may suffe
 - imposing too tight contracts and controlling the local cache.
 
 - mixing in more logic than necessary (due to lack of formalization and restrictions).
-
 
 ### Approach
 

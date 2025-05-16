@@ -10,7 +10,8 @@ This is the third generation of my personal website.
 
 - **Elixir (Phoenix)** → **Rust (Yew)** → **Rust (Leptos)**
 
-### Implemented Features:
+### Implemented Features
+
 - **Articles**
   - Article reading progress bar
   - Code highlighting
@@ -30,6 +31,7 @@ This is the third generation of my personal website.
 - SSL included
 
 #### Minor Experiments
+
 - [Hidden maze](/experiment/maze)
   - Experiment with Leptos signals  
   - Unlike in React, only the affected cells, not the whole component, are redrawn.
@@ -37,4 +39,3 @@ This is the third generation of my personal website.
   - Experiment with JS drag events
   - Implemented drag-and-drop of local files
   - Discarding items using drag-and-drop
-
