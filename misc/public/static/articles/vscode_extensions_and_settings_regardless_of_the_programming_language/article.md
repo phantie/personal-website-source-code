@@ -15,6 +15,8 @@ It will save you and not once
 
 Don't check **Don't ask me again**, because it would reset the setting
 
+---
+
 ### Markdown Link Checker
 
 **Enable:**  
