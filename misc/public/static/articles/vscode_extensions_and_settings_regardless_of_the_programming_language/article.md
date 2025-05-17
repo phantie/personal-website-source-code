@@ -2,6 +2,19 @@
 
 ## Settings
 
+### Ensure confirmation when deleting files
+
+In *Preferences: Open User Settings* set *confirmDelete* to *true*
+
+**Purpose:**
+
+It will save you and not once
+
+<!-- markdownlint-disable-next-line MD036 -->
+**But**
+
+Don't check **Don't ask me again**, because it would reset the setting
+
 ### Markdown Link Checker
 
 **Enable:**  

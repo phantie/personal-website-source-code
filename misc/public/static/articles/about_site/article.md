@@ -39,3 +39,9 @@ This is the third generation of my personal website.
   - Experiment with JS drag events
   - Implemented drag-and-drop of local files
   - Discarding items using drag-and-drop
+
+### Dev Installation
+
+#### [Install Rust](https://www.rust-lang.org/tools/install)
+
+#### Then follow [Leptos Guide](/misc/readme.md)
