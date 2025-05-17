@@ -7,20 +7,20 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-leptos = { version = "0.7.4" }
-leptos_router = { version = "0.7.4" }
-axum = { version = "0.7", optional = true }
+leptos = { version = "0.8.2" }
+leptos_router = { version = "0.8.2" }
+axum = { version = "0.8", optional = true }
 console_error_panic_hook = "0.1"
-leptos_axum = { version = "0.7.4", optional = true }
-leptos_meta = { version = "0.7.4" }
+leptos_axum = { version = "0.8.2", optional = true }
+leptos_meta = { version = "0.8.2" }
 tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
-tower = { version = "0.4", optional = true }
-tower-http = { version = "0.5", features = ["fs"], optional = true }
+tower = { version = "0.5", optional = true }
+tower-http = { version = "0.6", features = ["fs"], optional = true }
 wasm-bindgen = "0.2.100"
-thiserror = "1"
+thiserror = "2"
 http = "1"
-serde = { version = "1.0.217", features = ["derive"] }
-pulldown-cmark = "0.12.2"
+serde = { version = "1.0.219", features = ["derive"] }
+pulldown-cmark = "0.13.0"
 web-sys= { version = "0.3", features = ["Element", "ScrollBehavior", "ScrollIntoViewOptions", "DataTransfer", "FileList", "File"] }
 regex = "1.11.1"
 
