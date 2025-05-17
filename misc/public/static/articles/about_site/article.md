@@ -45,3 +45,26 @@ This is the third generation of my personal website.
 #### [Install Rust](https://www.rust-lang.org/tools/install)
 
 #### Then follow [Leptos Guide](/misc/readme.md)
+
+#### Upgrade dependencies
+
+##### Install cargo-edit
+
+```bash
+cargo install cargo-edit
+```
+
+##### Updgrade dependencies via `cargo upgrade`
+
+```bash
+cargo upgrade --verbose
+```
+
+or
+
+> might break some things \
+> but after running the next command for 4 months since I started developing this project, nothing has broken
+
+```bash
+cargo upgrade --verbose --incompatible
+```

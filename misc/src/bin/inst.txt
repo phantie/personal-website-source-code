@@ -1,0 +1,48 @@
+Below is one simple way to consume the body of an axum::response::Response, compute a hash (e.g. SHA-256) over it, and do something with that hash. In this example, once you consume the body, the original response is no longer reusable as-is—if you need to forward the response back to the client, you will need to reconstruct it.
+
+--------------------------------------------------------------------------------
+// Cargo.toml dependencies:
+//
+// [dependencies]
+// axum = "0.6"
+// sha2 = "0.10"
+// tokio = { version = "1", features = ["macros"] }
+
+use axum::{
+    body::Body,
+    http::{Request, StatusCode},
+    response::Response,
+};
+use hyper::body::to_bytes;
+use sha2::{Digest, Sha256};
+
+#[tokio::main]
+async fn main() {
+    // Example: build a simple Response with a known body
+    let body_data = "this is some response content";
+    let response = Response::builder()
+        .status(StatusCode::OK)
+        .body(Body::from(body_data))
+        .unwrap();
+
+    // Convert the body into bytes
+    let bytes = to_bytes(response.into_body())
+        .await
+        .expect("failed to read response body");
+
+    // Calculate the SHA-256 hash of the body content
+    let mut hasher = Sha256::new();
+    hasher.update(&bytes);
+    let hash_result = hasher.finalize();
+
+    println!("Response body: {:?}", String::from_utf8_lossy(&bytes));
+    println!("SHA-256 hash: {:x}", hash_result);
+}
+--------------------------------------------------------------------------------
+
+Explanation:
+
+• response.into_body() moves the body out of the axum::response::Response.  
+• hyper::body::to_bytes(...) collects the entire response body into a single Bytes buffer.  
+• You can pass that buffer to any hashing function (like Sha256 from the sha2 crate).  
+• Once you consume the body, the original response no longer has a body, so if you need to send it back to a client, you’ll have to reconstruct a new response from the consumed bytes.

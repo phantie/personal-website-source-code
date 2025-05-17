@@ -52,7 +52,13 @@ async fn caching(
         );
     }
 
-    fn handle_image(response: &mut axum::response::Response) {
+    async fn handle_image(response: &mut axum::response::Response) {
+        // let bytes = hyper::body::to_bytes(response.into_body())
+        //     .await
+        //     .expect("failed to read response body");
+
+        // let a = response.body()
+
         let max_age_in_seconds = {
             let seconds_in_a_minute = 60;
             let minutes_in_an_hour = 60;
@@ -87,7 +93,7 @@ async fn caching(
             }
 
             if is_image {
-                handle_image(&mut response);
+                handle_image(&mut response).await;
             }
         }
     }
