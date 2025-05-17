@@ -61,22 +61,23 @@ Like *./misc* for [this-website-source-code](https://github.com/phantie/personal
 **Link:**  
 [davidanson.vscode-markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
 
-**Purpose:**  
+**Purpose:**
 
 - .md validation
 - .md formatting
-- Rich configuration (have not figured out yet)
-- Etc
-
-<!-- markdownlint-disable-next-line MD036 -->
-**Tips**
-
-To turn off warning for a specific line use the example below with the appropriate warning code
+- Warnings-ignoring configuration options
+- Rich configuration (not yet figured out the configuration files usage)
+- Etc.
 
 <!-- markdownlint-disable-next-line MD036 -->
 **Tune**
 
 - In *Preferences: Open Workspace Settings* set *markdownlint.run* to *onSave*
+
+<!-- markdownlint-disable-next-line MD036 -->
+**Tips**
+
+To turn off warning for a specific line use the example below with the appropriate warning code
 
 ```md
 <!-- markdownlint-disable-next-line MD036 -->
@@ -84,7 +85,7 @@ To turn off warning for a specific line use the example below with the appropria
 ```
 
 **Comment**
-Might be rather annoying until you figure out how to configure it
+It might be rather annoying until you figure out how to ignore the warnings or tune it.
 
 ---
 
