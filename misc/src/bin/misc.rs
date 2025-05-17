@@ -19,7 +19,7 @@ async fn main() {
             move || shell(leptos_options.clone())
         })
         .fallback(leptos_axum::file_and_error_handler(shell))
-        .layer(axum::middleware::from_fn(cache_control))
+        .layer(axum::middleware::from_fn(caching))
         .with_state(leptos_options);
 
     // run our app with hyper
@@ -38,48 +38,56 @@ pub fn main() {
     // see lib.rs for hydration function instead
 }
 
-async fn cache_control(
+async fn caching(
     request: axum::extract::Request,
     next: axum::middleware::Next,
 ) -> axum::response::Response {
     let mut response = next.run(request).await;
 
+    fn handle_artifact(response: &mut axum::response::Response) {
+        // the easiest way
+        response.headers_mut().insert(
+            axum::http::header::CACHE_CONTROL,
+            "no-store, no-cache".parse().unwrap(),
+        );
+    }
+
+    fn handle_image(response: &mut axum::response::Response) {
+        let max_age_in_seconds = {
+            let seconds_in_a_minute = 60;
+            let minutes_in_an_hour = 60;
+            let hours_in_a_day = 24;
+            let days = 2;
+
+            // cache for 2 days
+            std::time::Duration::from_secs(
+                seconds_in_a_minute * minutes_in_an_hour * hours_in_a_day * days,
+            )
+            .as_secs()
+        };
+
+        response.headers_mut().insert(
+            axum::http::header::CACHE_CONTROL,
+            format!("public, max-age={max_age_in_seconds}")
+                .parse()
+                .unwrap(),
+        );
+    }
+
     // Post-processing of the response:
     if let Some(content_type) = response.headers().get(axum::http::header::CONTENT_TYPE) {
-        if let Ok(ct_str) = content_type.to_str() {
-            let is_wasm = ct_str.contains("application/wasm");
-            let is_js = ct_str.contains("javascript");
-            let is_css = ct_str.contains("text/css");
-            let is_image = ct_str.contains("image/");
+        if let Ok(content_type_str) = content_type.to_str() {
+            let is_wasm = content_type_str.contains("application/wasm");
+            let is_js = content_type_str.contains("javascript");
+            let is_css = content_type_str.contains("text/css");
+            let is_image = content_type_str.contains("image/");
 
             if is_wasm || is_js || is_css {
-                // the easiest way
-                response.headers_mut().insert(
-                    axum::http::header::CACHE_CONTROL,
-                    "no-store, no-cache".parse().unwrap(),
-                );
+                handle_artifact(&mut response);
             }
 
             if is_image {
-                let max_age_in_seconds = {
-                    let seconds_in_a_minute = 60;
-                    let minutes_in_an_hour = 60;
-                    let hours_in_a_day = 24;
-                    let days = 2;
-
-                    // cache for 2 days
-                    std::time::Duration::from_secs(
-                        seconds_in_a_minute * minutes_in_an_hour * hours_in_a_day * days,
-                    )
-                    .as_secs()
-                };
-
-                response.headers_mut().insert(
-                    axum::http::header::CACHE_CONTROL,
-                    format!("public, max-age={max_age_in_seconds}")
-                        .parse()
-                        .unwrap(),
-                );
+                handle_image(&mut response);
             }
         }
     }
