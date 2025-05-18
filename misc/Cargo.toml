@@ -23,6 +23,8 @@ serde = { version = "1.0.219", features = ["derive"] }
 pulldown-cmark = "0.13.0"
 web-sys= { version = "0.3", features = ["Element", "ScrollBehavior", "ScrollIntoViewOptions", "DataTransfer", "FileList", "File"] }
 regex = "1.11.1"
+ahash = { version = "0.8.12", optional = true }
+bytes = "1.10.1"
 
 [features]
 hydrate = ["leptos/hydrate"]
@@ -32,6 +34,7 @@ ssr = [
     "dep:tower",
     "dep:tower-http",
     "dep:leptos_axum",
+    "dep:ahash",
     "leptos/ssr",
     "leptos_meta/ssr",
     "leptos_router/ssr",
