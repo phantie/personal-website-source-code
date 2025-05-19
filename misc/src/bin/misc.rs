@@ -52,9 +52,10 @@ async fn caching(
     // let request_etag_header = request.headers().get(http::header::ETAG).cloned();
     let request_if_none_match_header = request.headers().get(http::header::IF_NONE_MATCH).cloned();
 
+    #[allow(unused)]
     let uri_path = request.uri().path().to_string();
 
-    log!("{}", format!("{:?}", uri_path));
+    // log!("{}", format!("{:?}", uri_path));
 
     let mut response = next.run(request).await;
 
@@ -68,7 +69,6 @@ async fn caching(
         let mut hasher = ahash::AHasher::default();
         hasher.write(&body_bytes);
         let hash_value = hasher.finish();
-        log!("AHasher 64-bit hash: {}", hash_value);
         hash_value
     };
 
@@ -82,12 +82,10 @@ async fn caching(
         None => false,
     };
 
-    log!("{matches_etag:?}");
-
     // after std::mem::take you must place a value from where it was taken
     *response.body_mut() = axum::body::Body::from(body_bytes);
 
-    async fn handle_cachine(
+    async fn handle_caching(
         mut response: axum::response::Response,
         matches_etag: bool,
         response_etag: &str,
@@ -97,7 +95,10 @@ async fn caching(
 
             (
                 http::StatusCode::NOT_MODIFIED,
-                [(http::header::ETAG, response_etag)],
+                [
+                    (http::header::ETAG, response_etag),
+                    (http::header::CACHE_CONTROL, "no-cache, must-revalidate"),
+                ],
                 axum::body::Body::empty(),
             )
                 .into_response()
@@ -106,29 +107,39 @@ async fn caching(
                 .headers_mut()
                 .insert(http::header::ETAG, response_etag.try_into().unwrap());
 
+            response.headers_mut().insert(
+                http::header::CACHE_CONTROL,
+                "no-cache, must-revalidate".try_into().unwrap(),
+            );
+
             response
         }
     }
 
+    // log!(
+    //     "{}",
+    //     format!(
+    //         "uri_path {:?}, response content_type {:?}, matches_etag {:?} ",
+    //         uri_path,
+    //         response.headers().get(axum::http::header::CONTENT_TYPE),
+    //         matches_etag,
+    //     )
+    // );
+
     // Post-processing of the response:
     if let Some(content_type) = response.headers().get(axum::http::header::CONTENT_TYPE) {
         if let Ok(content_type_str) = content_type.to_str() {
-            log!("content_type_str {content_type_str:?}");
             let is_wasm = content_type_str.contains("application/wasm");
-            let is_js = content_type_str.contains("javascript");
+            let is_js = content_type_str.contains("text/javascript");
             let is_css = content_type_str.contains("text/css");
             let is_image = content_type_str.contains("image/");
 
             if is_wasm || is_js || is_css || is_image {
-                let response = handle_cachine(response, matches_etag, response_etag.as_str()).await;
+                let response = handle_caching(response, matches_etag, response_etag.as_str()).await;
                 return response;
             }
         }
     }
-
-    let headers = response.headers();
-
-    log!("{headers:?}");
 
     response
 }
