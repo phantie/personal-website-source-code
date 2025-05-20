@@ -89,6 +89,25 @@ It might be rather annoying until you figure out how to ignore the warnings or t
 
 ---
 
+### Markdown Enhanced Code Block
+
+**Link:**  
+[KiranMachhewar.markdown-enhanced-code-block](https://marketplace.visualstudio.com/items?itemName=KiranMachhewar.markdown-enhanced-code-block)
+
+**Purpose:**
+
+- Copy Code
+  - Enables a copy button on the code block in markdown files to copy the code
+
+- Run Code
+  - Enables a run button on the code block in markdown files to run the code in the current active terminal (Opens new terminal if there is no existing)
+    - Currently supported languages are
+    - Bash/Shell Script (Default)
+
+- Etc
+
+---
+
 ### Markdown Shortcuts
 
 **Link:**  

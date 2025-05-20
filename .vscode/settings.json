@@ -44,4 +44,7 @@
         "/static/articles/photography/3.jpg",
         "/static/articles/white_roses_spread_on_the_ground/white_roses_spread_on_the_ground.jpg",
     ],
+    "[markdown]": {
+        "editor.tabSize": 2
+    }
 }
