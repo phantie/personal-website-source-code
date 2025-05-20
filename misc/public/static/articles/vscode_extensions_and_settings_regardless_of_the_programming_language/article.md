@@ -103,6 +103,7 @@ It might be rather annoying until you figure out how to ignore the warnings or t
   - Enables a run button on the code block in markdown files to run the code in the current active terminal (Opens new terminal if there is no existing)
     - Currently supported languages are
       - Bash/Shell Script (Default)
+      - Etc (that I don't use)
 
 - Etc
 
