@@ -1,3 +1,5 @@
+use leptos::logging::log;
+
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
@@ -42,58 +44,99 @@ async fn caching(
     request: axum::extract::Request,
     next: axum::middleware::Next,
 ) -> axum::response::Response {
+    // get body preferably as hash
+    // get body hash
+    // form an Etag from the hash
+    // compare incoming Etag with current Etag
+
+    // let request_etag_header = request.headers().get(http::header::ETAG).cloned();
+    let request_if_none_match_header = request.headers().get(http::header::IF_NONE_MATCH).cloned();
+
+    #[allow(unused)]
+    let uri_path = request.uri().path().to_string();
+
+    // log!("{}", format!("{:?}", uri_path));
+
     let mut response = next.run(request).await;
 
-    fn handle_artifact(response: &mut axum::response::Response) {
-        // the easiest way
-        response.headers_mut().insert(
-            axum::http::header::CACHE_CONTROL,
-            "no-store, no-cache".parse().unwrap(),
-        );
-    }
+    // interesting discovery std::mem::take
+    let body = std::mem::take(response.body_mut());
 
-    async fn handle_image(response: &mut axum::response::Response) {
-        // let bytes = hyper::body::to_bytes(response.into_body())
-        //     .await
-        //     .expect("failed to read response body");
+    let body_bytes = axum::body::to_bytes(body, usize::MAX).await.unwrap(); // TODO handle maybe?
 
-        // let a = response.body()
+    let body_hash = {
+        use std::hash::Hasher;
+        let mut hasher = ahash::AHasher::default();
+        hasher.write(&body_bytes);
+        let hash_value = hasher.finish();
+        hash_value
+    };
 
-        let max_age_in_seconds = {
-            let seconds_in_a_minute = 60;
-            let minutes_in_an_hour = 60;
-            let hours_in_a_day = 24;
-            let days = 2;
+    let response_etag = body_hash.to_string();
 
-            // cache for 2 days
-            std::time::Duration::from_secs(
-                seconds_in_a_minute * minutes_in_an_hour * hours_in_a_day * days,
+    let matches_etag = match request_if_none_match_header {
+        Some(value) => match value.to_str() {
+            Ok(value) => response_etag.as_str() == value,
+            Err(_) => false,
+        },
+        None => false,
+    };
+
+    // after std::mem::take you must place a value from where it was taken
+    *response.body_mut() = axum::body::Body::from(body_bytes);
+
+    async fn handle_caching(
+        mut response: axum::response::Response,
+        matches_etag: bool,
+        response_etag: &str,
+    ) -> axum::response::Response {
+        if matches_etag {
+            use axum::response::IntoResponse;
+
+            (
+                http::StatusCode::NOT_MODIFIED,
+                [
+                    (http::header::ETAG, response_etag),
+                    (http::header::CACHE_CONTROL, "no-cache, must-revalidate"),
+                ],
+                axum::body::Body::empty(),
             )
-            .as_secs()
-        };
+                .into_response()
+        } else {
+            response
+                .headers_mut()
+                .insert(http::header::ETAG, response_etag.try_into().unwrap());
 
-        response.headers_mut().insert(
-            axum::http::header::CACHE_CONTROL,
-            format!("public, max-age={max_age_in_seconds}")
-                .parse()
-                .unwrap(),
-        );
+            response.headers_mut().insert(
+                http::header::CACHE_CONTROL,
+                "no-cache, must-revalidate".try_into().unwrap(),
+            );
+
+            response
+        }
     }
+
+    // log!(
+    //     "{}",
+    //     format!(
+    //         "uri_path {:?}, response content_type {:?}, matches_etag {:?} ",
+    //         uri_path,
+    //         response.headers().get(axum::http::header::CONTENT_TYPE),
+    //         matches_etag,
+    //     )
+    // );
 
     // Post-processing of the response:
     if let Some(content_type) = response.headers().get(axum::http::header::CONTENT_TYPE) {
         if let Ok(content_type_str) = content_type.to_str() {
             let is_wasm = content_type_str.contains("application/wasm");
-            let is_js = content_type_str.contains("javascript");
+            let is_js = content_type_str.contains("text/javascript");
             let is_css = content_type_str.contains("text/css");
             let is_image = content_type_str.contains("image/");
 
-            if is_wasm || is_js || is_css {
-                handle_artifact(&mut response);
-            }
-
-            if is_image {
-                handle_image(&mut response).await;
+            if is_wasm || is_js || is_css || is_image {
+                let response = handle_caching(response, matches_etag, response_etag.as_str()).await;
+                return response;
             }
         }
     }
