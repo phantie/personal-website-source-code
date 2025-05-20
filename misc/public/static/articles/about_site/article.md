@@ -62,8 +62,8 @@ cargo upgrade --verbose
 
 or
 
-> might break some things \
-> but after running the next command for 4 months since I started developing this project, nothing has broken
+> Might break the build.
+> But after running the next command after 4 months since I started developing this project, nothing has broken.
 
 ```bash
 cargo upgrade --verbose --incompatible
