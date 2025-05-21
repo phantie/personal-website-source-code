@@ -29,6 +29,18 @@ In *Preferences: Open User Settings* set `files.insertFinalNewline` to `true`
 
 ---
 
+### Remove trailing whitespaces on file save
+
+In *Preferences: Open User Settings* set `files.trimTrailingWhitespace` to `true`
+
+<!-- markdownlint-disable-next-line MD036 -->
+**Purpose:**
+
+- linters may complain
+- precommits settings requiring proper EOFs won't slow you down anymore
+
+---
+
 ### Markdown Link Checker
 
 **Enable:**  
