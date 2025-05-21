@@ -43,7 +43,7 @@ In *Preferences: Open User Settings* set `files.trimTrailingWhitespace` to `true
 
 ### Markdown Link Checker
 
-**Enable:**  
+**Enable:**
 
 In *Preferences* set `markdown.validate` to `true`
 
@@ -53,17 +53,33 @@ In *Preferences: Open Workspace Settings* add links to ignore
 
 ---
 
-### Start terminal from other dictory
+### New terminal from other directory
 
 **Purpose:**
 
 In the case of [this-website-source-code](https://github.com/phantie/personal-website-source-code), when developing, I always go directly to the *./misc* directory to start development, run the local server, etc. This saves me from having to *cd misc* every time I open the project.
 
-**Enable:**  
+**Enable:**
 
-In *Preferences: Open Workspace Settings* set *terminal.integrated.cwd* to relative path from which the terminal will be started.
+In *Preferences: Open Workspace Settings* set `terminal.integrated.cwd` to relative path from which the terminal will be started.
 
 Like *./misc* for [this-website-source-code](https://github.com/phantie/personal-website-source-code)
+
+---
+
+### Add paths to exclude from search
+
+**Purpose:**
+
+For example, I have a directory called `.common_links` in the root of my monorepository, which contains symlinks to commonly used files and directories. If I perform a search, the results will be duplicated: one in the original location and another via the symlink.
+
+The goal is to prevent duplication by excluding the directories you want to prevent the search in.
+
+**Enable:**
+
+In *Preferences: Open Workspace Settings* in `search.exclude` add paths to ignore.
+
+In my case I add `.common_links` to the list
 
 ---
 
@@ -71,10 +87,10 @@ Like *./misc* for [this-website-source-code](https://github.com/phantie/personal
 
 ### Conventional commits
 
-**Link:**  
-[vivaxy.vscode-conventional-commits](https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits)  
+**Link:**
+[vivaxy.vscode-conventional-commits](https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits)
 
-**Purpose:**  
+**Purpose:**
 
 - For commit standardization
 
@@ -82,7 +98,7 @@ Like *./misc* for [this-website-source-code](https://github.com/phantie/personal
 
 ### markdownlint
 
-**Link:**  
+**Link:**
 [davidanson.vscode-markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
 
 **Purpose:**
@@ -115,7 +131,7 @@ It might be rather annoying until you figure out how to ignore the warnings or t
 
 ### Markdown Enhanced Code Block
 
-**Link:**  
+**Link:**
 [KiranMachhewar.markdown-enhanced-code-block](https://marketplace.visualstudio.com/items?itemName=KiranMachhewar.markdown-enhanced-code-block)
 
 **Purpose:**
@@ -135,7 +151,7 @@ It might be rather annoying until you figure out how to ignore the warnings or t
 
 ### Markdown Shortcuts
 
-**Link:**  
+**Link:**
 [mdickin.markdown-shortcuts](https://marketplace.visualstudio.com/items?itemName=mdickin.markdown-shortcuts)
 
 **Purpose:**
@@ -165,72 +181,72 @@ Adds such shortcuts to preferences and key bindings as:
 
 ### Error Lens
 
-**Link:**  
-[usernamehw.errorlens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)  
+**Link:**
+[usernamehw.errorlens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)
 
-**Purpose:**  
+**Purpose:**
 
-- Shows an error on the exact line it occurs  
+- Shows an error on the exact line it occurs
 - More instant feedback compared to always needing to check the “Problems” in the terminal
 
 ---
 
 ### Symlink follow
 
-**Link:**  
-[zaucy.symlink-follow](https://marketplace.visualstudio.com/items?itemName=zaucy.symlink-follow)  
-**Purpose:**  
+**Link:**
+[zaucy.symlink-follow](https://marketplace.visualstudio.com/items?itemName=zaucy.symlink-follow)
+**Purpose:**
 
 - Opens the file the symlink points to
 
-**Recommendation:**  
+**Recommendation:**
 
-- Open Preferences (On MacOS Command+Shift+P)  
-- Select: “Preferences: Open User Settings”  
-- Find: symlink-follow.autoFollow  
+- Open Preferences (On MacOS Command+Shift+P)
+- Select: “Preferences: Open User Settings”
+- Find: symlink-follow.autoFollow
 - Set it to: ✓
 
 ---
 
 ### Quick go to selected file path
 
-**Link:**  
+**Link:**
 [duXing.quick-go-to-selected-file-path](https://marketplace.visualstudio.com/items/?itemName=duXing.quick-go-to-selected-file-path)
 
-**Purpose:**  
+**Purpose:**
 
 - Quicker navigation through the repository
 
-**Usage:**  
+**Usage:**
 
-1. Select a file path in the text editor or move cursor over the filename  
-2. Ctrl (or ⌘) + E: fill the text of selection to Quick Open panel  
+1. Select a file path in the text editor or move cursor over the filename
+2. Ctrl (or ⌘) + E: fill the text of selection to Quick Open panel
 3. Press Enter to confirm
 
 ---
 
 ### Copy filename
 
-**Link:**  
-[bradzacher.vscode-copy-filename](https://marketplace.visualstudio.com/items?itemName=bradzacher.vscode-copy-filename)  
+**Link:**
+[bradzacher.vscode-copy-filename](https://marketplace.visualstudio.com/items?itemName=bradzacher.vscode-copy-filename)
 
-**Purpose:**  
+**Purpose:**
 
 - Adds options to copy directory name / file name / file name without extensions by right-clicking on the file in the Explorer
 
-**Exact commands added:**  
+**Exact commands added:**
 
-- Copy Filename  
+- Copy Filename
 - Copy Filename Without Extensions
 
 ---
 
 ### .puml viewer
 
-**Link:**  
-[jebbs.plantuml](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml)  
+**Link:**
+[jebbs.plantuml](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml)
 
-**Purpose:**  
+**Purpose:**
 
 - For .puml preview
 
@@ -238,10 +254,10 @@ Adds such shortcuts to preferences and key bindings as:
 
 ### .md viewer
 
-**Link:**  
-[shd101wyy.markdown-preview-enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)  
+**Link:**
+[shd101wyy.markdown-preview-enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)
 
-**Purpose:**  
+**Purpose:**
 
 - For .md preview
 
@@ -249,10 +265,10 @@ Adds such shortcuts to preferences and key bindings as:
 
 ### .ansi/log viewer
 
-**Link:**  
-[iliazeus.vscode-ansi](https://marketplace.visualstudio.com/items?itemName=iliazeus.vscode-ansi)  
+**Link:**
+[iliazeus.vscode-ansi](https://marketplace.visualstudio.com/items?itemName=iliazeus.vscode-ansi)
 
-**Purpose:**  
+**Purpose:**
 
 - Provides a colorful preview for log files, matching console output conventions
 

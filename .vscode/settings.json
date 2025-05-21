@@ -46,5 +46,8 @@
     ],
     "[markdown]": {
         "editor.tabSize": 2
+    },
+    "search.exclude": {
+        ".common_links": true
     }
 }
