@@ -17,11 +17,23 @@ Don't check **Don't ask me again**, because it would reset the setting
 
 ---
 
+### Fix EOF (End of file) on file save
+
+In *Preferences: Open User Settings* set `files.insertFinalNewline` to `true`
+
+<!-- markdownlint-disable-next-line MD036 -->
+**Purpose:**
+
+- linters may complain
+- precommits settings requiring proper EOFs won't slow you down anymore
+
+---
+
 ### Markdown Link Checker
 
 **Enable:**  
 
-In *Preferences* set *markdown.validate* to *true*
+In *Preferences* set `markdown.validate` to `true`
 
 #### Exlude links from checking
 
