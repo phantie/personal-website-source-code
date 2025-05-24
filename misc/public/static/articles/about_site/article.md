@@ -39,3 +39,32 @@ This is the third generation of my personal website.
   - Experiment with JS drag events
   - Implemented drag-and-drop of local files
   - Discarding items using drag-and-drop
+
+### Dev Installation
+
+#### [Install Rust](https://www.rust-lang.org/tools/install)
+
+#### Then follow [Leptos Guide](/misc/readme.md)
+
+#### Upgrade dependencies
+
+##### Install cargo-edit
+
+```bash
+cargo install cargo-edit
+```
+
+##### Updgrade dependencies via `cargo upgrade`
+
+```bash
+cargo upgrade --verbose
+```
+
+or
+
+> Might break the build.
+> But after running the next command after 4 months since I started developing this project, nothing has broken.
+
+```bash
+cargo upgrade --verbose --incompatible
+```

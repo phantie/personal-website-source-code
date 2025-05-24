@@ -57,7 +57,8 @@ pub async fn get_preload_images_links(take_first: usize) -> Result<Vec<String>, 
     let contents = fs::read_to_string(base).unwrap();
 
     use regex::Regex;
-    let re = Regex::new(r"(/static/articles/photography/\d+\.jpg)").unwrap();
+    let re = Regex::new(r"(/static/articles/photography/images/[A-Za-z0-9_]+\.jpg)").unwrap();
+
     let urls = re
         .captures_iter(&contents)
         .filter_map(|cap| cap.get(1))
