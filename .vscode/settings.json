@@ -32,6 +32,8 @@
     "markdown.validate.ignoredLinks": [
         "/static/articles/photography/images/*",
         "/static/articles/white_roses_spread_on_the_ground/white_roses_spread_on_the_ground.jpg",
+        "/experiment/maze",
+        "/experiment/dragndrop",
     ],
     "[markdown]": {
         "editor.tabSize": 2
