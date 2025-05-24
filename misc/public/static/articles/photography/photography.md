@@ -2,6 +2,7 @@
 
 ![x](/static/articles/photography/images/IMG_2256.jpg)
 ![x](/static/articles/photography/images/IMG_2250.jpg)
+![x](/static/articles/photography/images/IMG_2217.jpg)
 ![x](/static/articles/photography/images/IMG_2098.jpg)
 ![x](/static/articles/photography/images/IMG_1952.jpg)
 ![x](/static/articles/photography/images/IMG_1938.jpg)
