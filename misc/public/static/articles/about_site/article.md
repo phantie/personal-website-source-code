@@ -21,7 +21,26 @@ This is the third generation of my personal website.
   - HTML meta tags (description, keywords) for SEO
 
 - **Hydration**
-  - Fixed stale artifacts serving
+  - Fixed stale artifacts serving and site breaking because of it
+
+- **Artifact Caching**
+  - In dev:
+    - Optimal caching with Etags
+  - In prod and in front of CloudFlare:
+    - Optimal caching with Etags for images
+    - Yet not working with Etags for .wasm, .js, .css
+
+### Features planned to be implemented
+
+- Finish Artifact Caching
+- SEO site optimize site description
+- Add categories to articles
+- Add bio articles with links
+- Add a placeholder for still loading images
+- Implement articles preload
+  - Of the next few
+  - Of the hovered over for a while
+- Implement and connect dynamic content server (for images/articles) for quicker article modifications
 
 ### Deployment
 
@@ -29,16 +48,6 @@ This is the third generation of my personal website.
 - Deployed as a DigitalOcean App using *misc/Dockerfile*
 - Connected to *phantie.dev*
 - SSL included
-
-#### Minor Experiments
-
-- [Hidden maze](/experiment/maze)
-  - Experiment with Leptos signals  
-  - Unlike in React, only the affected cells, not the whole component, are redrawn.
-- [DragAndDrop](/experiment/dragndrop)
-  - Experiment with JS drag events
-  - Implemented drag-and-drop of local files
-  - Discarding items using drag-and-drop
 
 ### Dev Installation
 
@@ -69,3 +78,12 @@ or
 cargo upgrade --verbose --incompatible
 ```
 
+#### Minor Experiments
+
+- [Hidden maze](/experiment/maze)
+  - Experiment with Leptos signals
+  - Unlike in React, only the affected cells, not the whole component, are redrawn.
+- [DragAndDrop](/experiment/dragndrop)
+  - Experiment with JS drag events
+  - Implemented drag-and-drop of local files
+  - Discarding items using drag-and-drop
