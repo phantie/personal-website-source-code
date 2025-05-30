@@ -39,6 +39,7 @@
         "editor.tabSize": 2
     },
     "search.exclude": {
-        ".common_links": true
+        ".common_links": true,
+        "static": true
     }
 }
