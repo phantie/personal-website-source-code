@@ -10,6 +10,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             title: "About site".into(),
             description: None,
             tags: vec!["about site".into()],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -27,6 +28,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "functional programming".into(),
                 "python".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -41,6 +43,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "functional programming".into(),
                 "python".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -56,6 +59,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "functional programming".into(),
                 "python".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -69,6 +73,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "idempotency".into(),
                 "operations".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -84,6 +89,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "python".into(),
                 "producer-consumer".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -99,6 +105,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "preferences".into(),
                 "recommendations".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -114,6 +121,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "uncertainty".into(),
                 "sean rowe".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -123,6 +131,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             title: "Photography (updated 25/05/2025)".into(),
             description: None,
             tags: vec!["photography".into()],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -138,6 +147,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "rejection".into(),
                 "spite".into(),
             ],
+            timestamp_info_str: None,
         },
     ]
 }
@@ -171,5 +181,6 @@ pub fn get_not_found_article() -> Article {
         title: "Not found".into(),
         description: Some("Sentinel article for 404".into()),
         tags: vec![],
+        timestamp_info_str: None,
     }
 }

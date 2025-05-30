@@ -38,6 +38,7 @@ pub struct Article {
     pub title: ArticleTitle,
     pub tags: Vec<ArticleTag>,
     pub description: Option<String>,
+    pub timestamp_info_str: Option<String>, // TEMP to keep track of post timings, refactor later
 }
 
 pub struct Articles {
