@@ -10,6 +10,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             title: "About site".into(),
             description: None,
             tags: vec!["about site".into()],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -27,6 +28,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "functional programming".into(),
                 "python".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -41,6 +43,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "functional programming".into(),
                 "python".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -56,6 +59,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "functional programming".into(),
                 "python".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -69,6 +73,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "idempotency".into(),
                 "operations".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -84,13 +89,14 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "python".into(),
                 "producer-consumer".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
                 relative_path: "vscode_extensions_and_settings_regardless_of_the_programming_language/article.md".into(),
             },
             id: "vscode_extensions_and_settings_regardless_of_the_programming_language".into(),
-            title: "My VSCode extensions and settings recommendations, regardless of the programming language".into(),
+            title: "My VSCode extensions and settings recommendations, regardless of the programming language (updated 30/05/2025)".into(),
             description: Some("This article recommends extensions and settings for VSCode regardless of the programming language.".into()),
             tags: vec![
                 "vscode".into(),
@@ -99,6 +105,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "preferences".into(),
                 "recommendations".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -114,15 +121,17 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "uncertainty".into(),
                 "sean rowe".into(),
             ],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "photography/photography.md".into(),
+                relative_path: "photography/article.md".into(),
             },
             id: "photography".into(),
             title: "Photography (updated 25/05/2025)".into(),
             description: None,
             tags: vec!["photography".into()],
+            timestamp_info_str: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -137,7 +146,24 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "uncertainty".into(),
                 "rejection".into(),
                 "spite".into(),
+                "flowers".into(),
             ],
+            timestamp_info_str: None,
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "unflourished/article.md".into(),
+            },
+            id: "unflourished".into(),
+            title: "Unflourished".into(),
+            description: Some("Unflorished flower".into()),
+            tags: vec![
+                "life".into(),
+                "hopes".into(),
+                "nature".into(),
+                "flowers".into(),
+            ],
+            timestamp_info_str: Some("created_at:30/05/25;".into()),
         },
     ]
 }
@@ -171,5 +197,6 @@ pub fn get_not_found_article() -> Article {
         title: "Not found".into(),
         description: Some("Sentinel article for 404".into()),
         tags: vec![],
+        timestamp_info_str: None,
     }
 }
