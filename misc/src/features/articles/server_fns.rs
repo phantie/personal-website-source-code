@@ -51,7 +51,7 @@ pub async fn get_preload_images_links(take_first: usize) -> Result<Vec<String>, 
     let conf = get_configuration(None).unwrap();
     let leptos_options = conf.leptos_options;
     let mut base = PathBuf::from(&*leptos_options.site_root);
-    base.push("static/articles/photography/photography.md");
+    base.push("static/articles/photography/article.md");
 
     use std::fs;
     let contents = fs::read_to_string(base).unwrap();

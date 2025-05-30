@@ -125,7 +125,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "photography/photography.md".into(),
+                relative_path: "photography/article.md".into(),
             },
             id: "photography".into(),
             title: "Photography (updated 25/05/2025)".into(),
