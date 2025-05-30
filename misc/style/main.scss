@@ -1,3 +1,9 @@
+:root {
+    --background-color: #0d1117;
+    --background-color-contrast: #131922;
+    --background-color-contrast-focus: #19202c;
+}
+
 html {
     font-size: 16px;
 }
@@ -5,13 +11,9 @@ html {
 body {
     font-family: sans-serif;
     text-align: center;
+    background-color: var(--background-color);
 }
 
-:root {
-    --background-color: #0d1117;
-    --background-color-contrast: #131922;
-    --background-color-contrast-focus: #19202c;
-}
 
 /// START ARTICLES
 
