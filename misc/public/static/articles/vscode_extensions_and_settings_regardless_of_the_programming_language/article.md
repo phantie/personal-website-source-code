@@ -288,3 +288,19 @@ Adds such shortcuts to preferences and key bindings as:
 - Provides a colorful preview for log files, matching console output conventions
 
 ---
+
+### Copy Json Path as `a.b.c.d`
+
+**Link:**
+[Malo.copy-json-path](https://marketplace.visualstudio.com/items?itemName=Malo.copy-json-path)
+
+**Purpose:**
+
+- Optimizes workflow JSON files if you need to copy a path to a nested value as `a.b.c.d`
+
+---
+
+## Change Log
+
+- 30/05/25 added `Malo.copy-json-path`
+- 30/05/25 added `ziyasal.vscode-open-in-github`

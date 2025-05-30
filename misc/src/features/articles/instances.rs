@@ -90,7 +90,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 relative_path: "vscode_extensions_and_settings_regardless_of_the_programming_language/article.md".into(),
             },
             id: "vscode_extensions_and_settings_regardless_of_the_programming_language".into(),
-            title: "My VSCode extensions and settings recommendations, regardless of the programming language".into(),
+            title: "My VSCode extensions and settings recommendations, regardless of the programming language (updated 30/05/2025)".into(),
             description: Some("This article recommends extensions and settings for VSCode regardless of the programming language.".into()),
             tags: vec![
                 "vscode".into(),
