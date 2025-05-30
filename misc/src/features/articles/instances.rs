@@ -146,8 +146,24 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "uncertainty".into(),
                 "rejection".into(),
                 "spite".into(),
+                "flowers".into(),
             ],
             timestamp_info_str: None,
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "unflourished/article.md".into(),
+            },
+            id: "unflourished".into(),
+            title: "Unflourished".into(),
+            description: Some("Unflorished flower".into()),
+            tags: vec![
+                "life".into(),
+                "hopes".into(),
+                "nature".into(),
+                "flowers".into(),
+            ],
+            timestamp_info_str: Some("created_at:30/05/25;".into()),
         },
     ]
 }
