@@ -96,6 +96,21 @@ In my case I add `.common_links` to the list
 
 ---
 
+### Quick navigation between open repository and `GitHub, Bitbucket, Gitlab, VisualStudio.com`
+
+**Link:**
+[ziyasal.vscode-open-in-github](https://marketplace.visualstudio.com/items?itemName=ziyasal.vscode-open-in-github)
+
+**Github repository example commands:**
+
+- `Open in GitHub`
+- `Copy GitHub link to clipboard`
+- `Open Pull Request`
+
+> also available through Explorer or shortcut keyboard commands
+
+---
+
 ### markdownlint
 
 **Link:**
