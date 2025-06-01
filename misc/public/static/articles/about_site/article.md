@@ -30,18 +30,6 @@ This is the third generation of my personal website.
     - Optimal caching with Etags for images
     - Yet not working with Etags for .wasm, .js, .css
 
-### Features planned to be implemented
-
-- Finish Artifact Caching
-- SEO site optimize site description
-- Add categories to articles
-- Add bio articles with links
-- Add a placeholder for still loading images
-- Implement articles preload
-  - Of the next few
-  - Of the hovered over for a while
-- Implement and connect dynamic content server (for images/articles) for quicker article modifications
-
 ### Deployment
 
 - Continuous deployment on *main* branch push
