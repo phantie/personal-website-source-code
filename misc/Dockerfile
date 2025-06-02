@@ -4,6 +4,8 @@ FROM rust:alpine as builder
 
 ARG GIT_BRANCH=main
 
+RUN echo "GIT_BRANCH=$GIT_BRANCH"
+
 RUN apk update && \
     apk add --no-cache bash curl npm libc-dev binaryen
 
@@ -17,9 +19,11 @@ RUN rustup target add wasm32-unknown-unknown
 WORKDIR /work
 COPY . .
 
-RUN if [ "$GIT_BRANCH" = "main" ] ; then \
+RUN if [ "$GIT_BRANCH" = "main" ]; then \
+echo "🚀 Building with RELEASE mode"; \
 cargo leptos build --release -vv; \
 else \
+echo "🔧 Building with DEBUG mode"; \
 cargo leptos build -vv; \
 fi
 
