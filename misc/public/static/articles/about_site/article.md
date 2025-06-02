@@ -43,7 +43,7 @@ This is the third generation of my personal website.
 
 #### Then follow [Leptos Guide](/misc/readme.md)
 
-#### Upgrade dependencies
+#### Upgrade dependencies (optional)
 
 ##### Install cargo-edit
 
