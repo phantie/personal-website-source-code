@@ -68,10 +68,10 @@ cargo upgrade --verbose --incompatible
 
 #### Minor Experiments
 
-- [Hidden maze](/experiment/maze)
+- [Hidden maze](https://phantie.dev/experiment/maze)
   - Experiment with Leptos signals
   - Unlike in React, only the affected cells, not the whole component, are redrawn.
-- [DragAndDrop](/experiment/dragndrop)
+- [DragAndDrop](https://phantie.dev/experiment/dragndrop)
   - Experiment with JS drag events
   - Implemented drag-and-drop of local files
   - Discarding items using drag-and-drop
