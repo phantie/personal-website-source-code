@@ -23,7 +23,10 @@
         "articles/unflourished",
         "caching",
         "repository",
-        "favicon.ico"
+        "favicon.ico",
+        "env/prod",
+        "env/staging",
+        "env/dev",
     ],
     "rust-analyzer.cargo.features": [
         "ssr"

@@ -2,6 +2,8 @@
 # FROM rustlang/rust:nightly-alpine as builder
 FROM rust:alpine as builder
 
+ARG GIT_BRANCH=main
+
 RUN apk update && \
     apk add --no-cache bash curl npm libc-dev binaryen
 
@@ -15,7 +17,11 @@ RUN rustup target add wasm32-unknown-unknown
 WORKDIR /work
 COPY . .
 
-RUN cargo leptos build --release -vv
+RUN if [ "$GIT_BRANCH" = "main" ] ; then \
+cargo leptos build --release -vv; \
+else \
+cargo leptos build -vv; \
+fi
 
 FROM rustlang/rust:nightly-alpine as runner
 
