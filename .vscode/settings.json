@@ -22,7 +22,8 @@
         "articles/white_roses_spread_on_the_ground",
         "articles/unflourished",
         "caching",
-        "repository"
+        "repository",
+        "favicon.ico"
     ],
     "rust-analyzer.cargo.features": [
         "ssr"
