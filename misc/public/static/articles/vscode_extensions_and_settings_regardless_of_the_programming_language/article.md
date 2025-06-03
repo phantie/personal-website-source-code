@@ -142,6 +142,17 @@ To turn off warning for a specific line use the example below with the appropria
 **Comment**
 It might be rather annoying until you figure out how to ignore the warnings or tune it.
 
+**Also**
+Add to ./.vscode/settings.json to make tabsize to be 2 for `.md` files
+
+```json
+{
+  "[markdown]": {
+      "editor.tabSize": 2
+  }
+}
+```
+
 ---
 
 ### Markdown Enhanced Code Block
