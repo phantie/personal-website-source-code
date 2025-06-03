@@ -29,11 +29,8 @@
         "ssr"
     ],
     "terminal.integrated.cwd": "./misc",
-    "markdown.validate.enabled": true,
     "markdownlint.run": "onSave",
     "markdown.validate.ignoredLinks": [
-        "/static/articles/photography/images/*",
-        "/static/articles/white_roses_spread_on_the_ground/white_roses_spread_on_the_ground.jpg",
         "/experiment/maze",
         "/experiment/dragndrop",
     ],
@@ -43,5 +40,7 @@
     "search.exclude": {
         ".common_links": true,
         "static": true
-    }
+    },
+    "markdown.validate.enabled": true,
+    "markdown.validate.referenceLinks.enabled": "ignore"
 }
