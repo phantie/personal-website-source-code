@@ -46,10 +46,11 @@ In *Preferences: Open User Settings* set `files.trimTrailingWhitespace` to `true
 **Enable:**
 
 In *Preferences* set `markdown.validate` to `true`
+In *Preferences* set `markdown.validate.referenceLinks.enabled` to `"ignore"` since VSCode markdown still does not support footnote link validation
 
 #### Exlude links from checking
 
-In *Preferences: Open Workspace Settings* add links to ignore
+In *Preferences: Open Workspace Settings* add files to ignore in `markdown.validate.ignoredLinks`
 
 ---
 
