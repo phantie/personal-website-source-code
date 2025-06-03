@@ -156,6 +156,26 @@ h6 {
 
 /// END ARTICLES
 
+/// START FOOTNOTES
+
+body sup.footnote-reference,
+body sup.footnote-definition-label {
+    font-size: 100%;
+}
+
+body sup.footnote-reference>a {
+    padding-left: 0.25em;
+    padding-bottom: 0.5em;
+    padding-right: 0.1em;
+    padding-top: 0.1em;
+}
+
+body .footnote-definition {
+    padding-top: 1rem;
+}
+
+/// END FOOTNOTES
+
 /// START CLICK MAZE
 
 .click-maze {

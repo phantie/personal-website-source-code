@@ -46,10 +46,11 @@ In *Preferences: Open User Settings* set `files.trimTrailingWhitespace` to `true
 **Enable:**
 
 In *Preferences* set `markdown.validate` to `true`
+In *Preferences* set `markdown.validate.referenceLinks.enabled` to `"ignore"` since VSCode markdown still does not support footnote link validation
 
 #### Exlude links from checking
 
-In *Preferences: Open Workspace Settings* add links to ignore
+In *Preferences: Open Workspace Settings* add files to ignore in `markdown.validate.ignoredLinks`
 
 ---
 
@@ -139,8 +140,23 @@ To turn off warning for a specific line use the example below with the appropria
 **Warned line**
 ```
 
+<!-- markdownlint-disable-next-line MD036 -->
 **Comment**
+
 It might be rather annoying until you figure out how to ignore the warnings or tune it.
+
+<!-- markdownlint-disable-next-line MD036 -->
+**Also**
+
+Add to ./.vscode/settings.json to make tabsize to be 2 for `.md` files
+
+```json
+{
+  "[markdown]": {
+      "editor.tabSize": 2
+  }
+}
+```
 
 ---
 
@@ -210,6 +226,7 @@ Adds such shortcuts to preferences and key bindings as:
 
 **Link:**
 [zaucy.symlink-follow](https://marketplace.visualstudio.com/items?itemName=zaucy.symlink-follow)
+
 **Purpose:**
 
 - Opens the file the symlink points to
