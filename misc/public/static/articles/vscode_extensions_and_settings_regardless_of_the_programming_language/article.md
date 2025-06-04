@@ -193,7 +193,7 @@ Adds such shortcuts to preferences and key bindings as:
 - md-shortcut.toggleItalic Make *italic* ctrl+I
 - md-shortcut.toggleStrikethrough Make ~~strikethrough~~
 - md-shortcut.toggleLink Make [a hyperlink](https://www.example.org) ctrl+L
-- md-shortcut.toggleImage Make an image ![an image](/misc/public/favicon.ico) ctrl+shift+L
+- md-shortcut.toggleImage Make an image ![an image](/favicon.ico) ctrl+shift+L
 - md-shortcut.toggleCodeBlock Make ```a code block``` ctrl+M ctrl+C
 - md-shortcut.toggleInlineCode Make `inline code` ctrl+M ctrl+I
 - md-shortcut.toggleBullets Make * bullet point ctrl+M ctrl+B
