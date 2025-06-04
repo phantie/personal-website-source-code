@@ -9,7 +9,7 @@ use leptos_router::hooks::{use_params, use_query};
 use leptos_router::params::Params;
 
 use crate::features::articles::defs::*;
-use crate::features::articles::server_fns::{get_any_article_id, get_article, get_article_content};
+use crate::features::articles::server_fns::{get_any_article_id, get_article_content};
 
 #[derive(Params, PartialEq)]
 struct ArticleParams {
