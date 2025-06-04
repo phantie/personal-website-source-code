@@ -199,12 +199,14 @@ impl Default for Articles {
     }
 }
 
+pub const NOT_FOUND_ARTICLE_ID: &str = "not_found";
+
 pub fn get_not_found_article() -> Article {
     Article {
         relative_source: RelativeLocalArticleSource {
             relative_path: "not_found/not_found.md".into(),
         },
-        id: "not_found".into(),
+        id: NOT_FOUND_ARTICLE_ID.into(),
         title: "Not found".into(),
         description: Some("Sentinel article for 404".into()),
         tags: vec![],

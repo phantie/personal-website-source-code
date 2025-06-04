@@ -12,6 +12,7 @@ use web_sys::Event;
 
 use crate::features::articles::components::params::article_id;
 use crate::features::articles::defs::*;
+use crate::features::articles::instances::NOT_FOUND_ARTICLE_ID;
 use crate::features::articles::server_fns::{get_any_article_id, get_article, get_article_content};
 
 #[component]
@@ -68,7 +69,19 @@ pub fn Article() -> impl IntoView {
         {
             move || Suspend::new(async move {
                 let article = get_article_resource.await;
+
                 if let Ok(article) = article {
+
+                    #[cfg(feature = "ssr")]
+                    {
+                        if article.id == NOT_FOUND_ARTICLE_ID {
+                            use leptos_axum::ResponseOptions;
+                            use http::StatusCode;
+                            let response = expect_context::<ResponseOptions>();
+                            response.set_status(StatusCode::NOT_FOUND);
+                        }
+                    }
+
                     let description_meta = view! { <Meta name="description" content={article.description.unwrap_or_default()}/> };
                     let keywords_meta = view! { <Meta name="keywords" content={article.tags.join(", ")} /> };
 
