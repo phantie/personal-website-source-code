@@ -33,7 +33,7 @@ pub fn ArticleList() -> impl IntoView {
             .into_iter()
             .map(|link| {
                 view! {
-                    <link rel="preload" href={link} r#as="image"/>
+                    <link rel="prefetch" href={link} r#as="image"/>
                 }
             })
             .collect::<Vec<_>>()
