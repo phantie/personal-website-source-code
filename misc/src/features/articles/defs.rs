@@ -32,12 +32,20 @@ impl ArticleSource for LocalArticleSource {
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
+pub enum ArticleCategory {
+    Engineering,
+    Life,
+    Noop,
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct Article {
     pub relative_source: RelativeLocalArticleSource,
     pub id: ArticleId,
     pub title: ArticleTitle,
     pub tags: Vec<ArticleTag>,
     pub description: Option<String>,
+    pub category: ArticleCategory,
     pub timestamp_info_str: Option<String>, // TEMP to keep track of post timings, refactor later
 }
 

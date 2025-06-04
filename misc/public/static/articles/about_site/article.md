@@ -19,6 +19,8 @@ This is the third generation of my personal website.
   - Auto anchor creation
   - SSR (Server-side rendering) and CSR (Client-side rendering)
   - HTML meta tags (description, keywords) for SEO
+  - Support footnotes
+  - Return 404 status code on SSR for not found articles for SEO caching
 
 - **Hydration**
   - Fixed stale artifacts serving and site breaking because of it
@@ -30,12 +32,17 @@ This is the third generation of my personal website.
     - Optimal caching with Etags for images
     - Yet not working with Etags for .wasm, .js, .css
 
-### Deployment
+### Production Deployment
 
 - Continuous deployment on *main* branch push
 - Deployed as a DigitalOcean App using *misc/Dockerfile*
 - Connected to *phantie.dev*
 - SSL included
+
+### Staging Deployment
+
+- Continuous deployment on *staging* branch push
+- Deployed as a DigitalOcean App using *misc/Dockerfile*
 
 ### Dev Installation
 

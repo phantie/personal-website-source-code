@@ -10,6 +10,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             title: "About site".into(),
             description: None,
             tags: vec!["about site".into()],
+            category: ArticleCategory::Noop,
             timestamp_info_str: None,
         },
         Article {
@@ -28,6 +29,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "functional programming".into(),
                 "python".into(),
             ],
+            category: ArticleCategory::Engineering,
             timestamp_info_str: None,
         },
         Article {
@@ -43,6 +45,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "functional programming".into(),
                 "python".into(),
             ],
+            category: ArticleCategory::Engineering,
             timestamp_info_str: None,
         },
         Article {
@@ -59,6 +62,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "functional programming".into(),
                 "python".into(),
             ],
+            category: ArticleCategory::Engineering,
             timestamp_info_str: None,
         },
         Article {
@@ -73,6 +77,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "idempotency".into(),
                 "operations".into(),
             ],
+            category: ArticleCategory::Engineering,
             timestamp_info_str: None,
         },
         Article {
@@ -89,6 +94,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "python".into(),
                 "producer-consumer".into(),
             ],
+            category: ArticleCategory::Engineering,
             timestamp_info_str: None,
         },
         Article {
@@ -105,6 +111,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "preferences".into(),
                 "recommendations".into(),
             ],
+            category: ArticleCategory::Engineering,
             timestamp_info_str: None,
         },
         Article {
@@ -121,6 +128,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "uncertainty".into(),
                 "sean rowe".into(),
             ],
+            category: ArticleCategory::Life,
             timestamp_info_str: None,
         },
         Article {
@@ -131,6 +139,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             title: "Photography (updated 25/05/2025)".into(),
             description: None,
             tags: vec!["photography".into()],
+            category: ArticleCategory::Life,
             timestamp_info_str: None,
         },
         Article {
@@ -148,6 +157,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "spite".into(),
                 "flowers".into(),
             ],
+            category: ArticleCategory::Life,
             timestamp_info_str: None,
         },
         Article {
@@ -163,6 +173,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "nature".into(),
                 "flowers".into(),
             ],
+            category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:30/05/25;".into()),
         },
     ]
@@ -188,15 +199,18 @@ impl Default for Articles {
     }
 }
 
+pub const NOT_FOUND_ARTICLE_ID: &str = "not_found";
+
 pub fn get_not_found_article() -> Article {
     Article {
         relative_source: RelativeLocalArticleSource {
             relative_path: "not_found/not_found.md".into(),
         },
-        id: "not_found".into(),
+        id: NOT_FOUND_ARTICLE_ID.into(),
         title: "Not found".into(),
         description: Some("Sentinel article for 404".into()),
         tags: vec![],
+        category: ArticleCategory::Noop,
         timestamp_info_str: None,
     }
 }
