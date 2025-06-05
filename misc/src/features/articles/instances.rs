@@ -122,8 +122,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             title: "A poem about absolute uncertainty".into(),
             description: Some("A poem about absolute uncertainty.".into()),
             tags: vec![
-                "poem".into(),
-                "original".into(),
+                "original poem".into(),
                 "alexander tokar".into(),
                 "uncertainty".into(),
                 "sean rowe".into(),
@@ -175,6 +174,23 @@ pub fn get_articles_chronological_order() -> ArticleList {
             ],
             category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:30/05/25;".into()),
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "poems/farewell_father/article.md".into(),
+            },
+            id: "farewell_father".into(),
+            title: "Farewell, Father".into(),
+            description: Some("A poem about about my late father".into()),
+            tags: vec![
+                "original poem".into(),
+                "alexander tokar".into(),
+                "late father".into(),
+                "war against Ukraine".into(),
+                "with photos".into(),
+            ],
+            category: ArticleCategory::Life,
+            timestamp_info_str: Some("created_at:05/06/25;written_on:07/08/23".into()),
         },
     ]
 }
