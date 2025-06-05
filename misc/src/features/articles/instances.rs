@@ -120,7 +120,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             },
             id: "a_poem_about_absolute_uncertainty".into(),
             title: "A poem about absolute uncertainty".into(),
-            description: Some("A poem about absolute uncertainty.".into()),
+            description: Some("A poem named 'A poem about absolute uncertainty'".into()),
             tags: vec![
                 "original poem".into(),
                 "alexander tokar".into(),
@@ -128,7 +128,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "sean rowe".into(),
             ],
             category: ArticleCategory::Life,
-            timestamp_info_str: None,
+            timestamp_info_str: Some("written_on:08/04/24".into()),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -181,7 +181,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             },
             id: "farewell_father".into(),
             title: "Farewell, Father".into(),
-            description: Some("A poem about about my late father".into()),
+            description: Some("A poem named 'Farewell, Father'".into()),
             tags: vec![
                 "original poem".into(),
                 "alexander tokar".into(),
@@ -191,6 +191,20 @@ pub fn get_articles_chronological_order() -> ArticleList {
             ],
             category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:05/06/25;written_on:07/08/23".into()),
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "poems/the_list/article.md".into(),
+            },
+            id: "the_list".into(),
+            title: "The List".into(),
+            description: Some("A poem named 'The List'".into()),
+            tags: vec![
+                "original poem".into(),
+                "alexander tokar".into(),
+            ],
+            category: ArticleCategory::Life,
+            timestamp_info_str: Some("created_at:05/06/25;written_on:05/06/25".into()),
         },
     ]
 }

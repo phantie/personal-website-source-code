@@ -1,6 +1,6 @@
 # A poem about absolute uncertainty
 
-Written by Alexander Tokar on April 8th 2024
+Written by Alexander Tokar on April 8th, 2024
 
 ```txt
 Thoughts.
