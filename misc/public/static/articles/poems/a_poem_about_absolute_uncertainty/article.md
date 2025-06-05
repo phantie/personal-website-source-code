@@ -1,6 +1,6 @@
 # A poem about absolute uncertainty
 
-Written by Alexander Tokar on April 8th 2024
+Written by Alexander Tokar on April 8th, 2024
 
 ```txt
 Thoughts.
@@ -31,6 +31,8 @@ Some future.
 Maybe future.
 Maybe.
 ```
+
+---
 
 The first line originally was "Depression."
 
