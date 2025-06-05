@@ -32,6 +32,8 @@ Maybe future.
 Maybe.
 ```
 
+---
+
 The first line originally was "Depression."
 
 But how Sean Rowe sang in his song "Lemon tree":
