@@ -15,7 +15,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "most_useful_functional_pattern_python/article.md".into(),
+                relative_path: "engineering/most_useful_functional_pattern_python/article.md".into(),
             },
             id: "most_useful_functional_pattern_python".into(),
             title: "Most useful functional pattern in Python".into(),
@@ -34,7 +34,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "concept_of_more_useful_types/article.md".into(),
+                relative_path: "engineering/concept_of_more_useful_types/article.md".into(),
             },
             id: "concept_of_more_useful_types".into(),
             title: "Concept of more useful types".into(),
@@ -50,7 +50,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "multilayer_cache/article.md".into(),
+                relative_path: "engineering/multilayer_cache/article.md".into(),
             },
             id: "multilayer_cache".into(),
             title: "Nano framework for implementing multilayered caching".into(),
@@ -67,7 +67,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "event_processing/article.md".into(),
+                relative_path: "engineering/event_processing/article.md".into(),
             },
             id: "event_processing".into(),
             title: "Event processing".into(),
@@ -82,7 +82,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "io_bound_parallel_processing_in_python/article.md".into(),
+                relative_path: "engineering/io_bound_parallel_processing_in_python/article.md".into(),
             },
             id: "io_bound_parallel_processing_in_python".into(),
             title: "I/O Bound Parallel Processing in Python".into(),
@@ -99,7 +99,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "vscode_extensions_and_settings_regardless_of_the_programming_language/article.md".into(),
+                relative_path: "engineering/vscode_extensions_and_settings_regardless_of_the_programming_language/article.md".into(),
             },
             id: "vscode_extensions_and_settings_regardless_of_the_programming_language".into(),
             title: "My VSCode extensions and settings recommendations, regardless of the programming language (updated 30/05/2025)".into(),
@@ -116,14 +116,13 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "a_poem_about_absolute_uncertainty/article.md".into(),
+                relative_path: "poems/a_poem_about_absolute_uncertainty/article.md".into(),
             },
             id: "a_poem_about_absolute_uncertainty".into(),
             title: "A poem about absolute uncertainty".into(),
             description: Some("A poem about absolute uncertainty.".into()),
             tags: vec![
-                "poem".into(),
-                "original".into(),
+                "original poem".into(),
                 "alexander tokar".into(),
                 "uncertainty".into(),
                 "sean rowe".into(),
@@ -175,6 +174,23 @@ pub fn get_articles_chronological_order() -> ArticleList {
             ],
             category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:30/05/25;".into()),
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "poems/farewell_father/article.md".into(),
+            },
+            id: "farewell_father".into(),
+            title: "Farewell, Father".into(),
+            description: Some("A poem about about my late father".into()),
+            tags: vec![
+                "original poem".into(),
+                "alexander tokar".into(),
+                "late father".into(),
+                "war against Ukraine".into(),
+                "with photos".into(),
+            ],
+            category: ArticleCategory::Life,
+            timestamp_info_str: Some("created_at:05/06/25;written_on:07/08/23".into()),
         },
     ]
 }
