@@ -303,7 +303,9 @@ body .footnote-definition {
 
 /// START HOME
 ///
+
 :root {
+    /* Color Palette Variables */
     --orange: #F66E00;
     --orange-yellow: #F99003;
     --very-light-beige: #FFEED0;
@@ -317,6 +319,7 @@ body .footnote-definition {
     flex-direction: column;
     min-height: 100vh;
     width: 100%;
+    padding: 2rem;
     font-family: "Dancing Script", cursive;
     font-optical-sizing: auto;
     font-style: normal;
@@ -327,7 +330,6 @@ body .footnote-definition {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 2rem;
     align-items: center;
     justify-content: center;
 }
@@ -345,19 +347,19 @@ body .footnote-definition {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    gap: 2rem;
 }
 
 .home-sections-sections>div {
     display: flex;
-    width: 150px;
-    height: 150px;
-    min-width: 150px;
-    min-height: 150px;
-    margin: 30px;
+    width: 12rem;
+    height: 12rem;
+    min-width: 12rem;
+    min-height: 12rem;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     cursor: pointer;
     position: relative;
@@ -365,12 +367,12 @@ body .footnote-definition {
 }
 
 .home-sections-sections>div:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-0.3rem);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
 }
 
 .home-sections-sections>div:active {
-    transform: translateY(-2px);
+    transform: translateY(-0.1rem);
     transition: all 0.1s ease;
 }
 
@@ -396,7 +398,6 @@ body .footnote-definition {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 2rem;
     align-items: center;
     justify-content: center;
 }
@@ -414,17 +415,17 @@ body .footnote-definition {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 1.5rem;
 }
 
 .home-links-sections>div {
     display: flex;
-    width: 200px;
-    height: 60px;
+    width: 15rem;
+    height: 4rem;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     cursor: pointer;
     position: relative;
@@ -432,12 +433,12 @@ body .footnote-definition {
 }
 
 .home-links-sections>div:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-0.2rem);
+    box-shadow: 0 0.4rem 1.25rem rgba(0, 0, 0, 0.15);
 }
 
 .home-links-sections>div:active {
-    transform: translateY(-1px);
+    transform: translateY(-0.05rem);
     transition: all 0.1s ease;
 }
 
@@ -475,7 +476,7 @@ body .footnote-definition {
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(1.25rem);
     }
 
     to {
@@ -517,12 +518,21 @@ body .footnote-definition {
     .home-sections-sections,
     .home-links-sections {
         flex-direction: column;
+        width: 100%;
+    }
+
+    .home-sections-sections>div {
+        width: 50%;
+        height: 8rem;
+        min-width: 50%;
+        min-height: 8rem;
+        margin: 0.5rem 0;
     }
 
     .home-links-sections>div {
-        width: 180px;
-        margin: 10px 0;
+        width: 50%;
+        height: 3.5rem;
+        min-width: 50%;
+        margin: 0.5rem 0;
     }
 }
-
-/// END HOME
