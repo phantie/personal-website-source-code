@@ -303,6 +303,8 @@ body .footnote-definition {
 
 /// START HOME
 ///
+
+
 :root {
     /* Color Palette Variables */
     --orange: #F66E00;
@@ -350,7 +352,9 @@ body .footnote-definition {
     gap: 2rem;
 }
 
-.home-sections-sections>div {
+/* Updated selector to include both div and a elements */
+.home-sections-sections>div,
+.home-sections-sections>a {
     display: flex;
     width: 12rem;
     height: 12rem;
@@ -364,14 +368,18 @@ body .footnote-definition {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    text-decoration: none;
+    /* Remove underline from links */
 }
 
-.home-sections-sections>div:hover {
+.home-sections-sections>div:hover,
+.home-sections-sections>a:hover {
     transform: translateY(-0.3rem);
     box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
 }
 
-.home-sections-sections>div:active {
+.home-sections-sections>div:active,
+.home-sections-sections>a:active {
     transform: translateY(-0.1rem);
     transition: all 0.1s ease;
 }
@@ -418,7 +426,6 @@ body .footnote-definition {
     gap: 1.5rem;
 }
 
-/* Updated selector to include both div and a elements */
 .home-links-sections>div,
 .home-links-sections>a {
     display: flex;
@@ -433,7 +440,6 @@ body .footnote-definition {
     position: relative;
     overflow: hidden;
     text-decoration: none;
-    /* Remove underline from links */
 }
 
 .home-links-sections>div:hover,
@@ -492,17 +498,18 @@ body .footnote-definition {
 }
 
 .home-sections-sections>div,
+.home-sections-sections>a,
 .home-links-sections>div,
 .home-links-sections>a {
     animation: fadeInUp 0.6s ease forwards;
 }
 
 /* Stagger animation for sections */
-.home-sections-sections>div:nth-child(1) {
+.home-sections-sections>a:nth-child(1) {
     animation-delay: 0.1s;
 }
 
-.home-sections-sections>div:nth-child(2) {
+.home-sections-sections>a:nth-child(2) {
     animation-delay: 0.2s;
 }
 
@@ -535,7 +542,8 @@ body .footnote-definition {
         width: 100%;
     }
 
-    .home-sections-sections>div {
+    .home-sections-sections>div,
+    .home-sections-sections>a {
         width: 50%;
         height: 8rem;
         min-width: 50%;
