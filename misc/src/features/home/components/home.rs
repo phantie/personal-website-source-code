@@ -32,17 +32,17 @@ pub fn Home() -> impl IntoView {
             <div class="home-links-title"><h1>{"Links"}</h1></div>
 
             <div class="home-links-sections">
-                <div class="home-links-youtube">
+                <a href="https://www.youtube.com/@government_authority" target="_blank" rel="noopener noreferrer" class="home-links-youtube">
                 <h2>{"YouTube"}</h2>
-                </div>
+                </a>
 
-                <div class="home-links-github">
+                <a href="https://github.com/phantie" target="_blank" rel="noopener noreferrer" class="home-links-github">
                 <h2>{"GitHub"}</h2>
-                </div>
+                </a>
 
-                <div class="home-links-telegram">
+                <a href="https://t.me/phantie" target="_blank" rel="noopener noreferrer" class="home-links-telegram">
                 <h2>{"Telegram"}</h2>
-                </div>
+                </a>
             </div>
         </div>
     </div>
