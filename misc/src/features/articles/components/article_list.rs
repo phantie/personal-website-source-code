@@ -2,8 +2,9 @@ use crate::features::articles::components::params::article_id;
 use crate::features::articles::defs::*;
 use crate::features::articles::server_fns::get_preload_images_links;
 use leptos::{logging::log, prelude::*};
-use leptos_router::components::{Outlet, A};
-use leptos_router::hooks::use_query_map;
+use leptos_router::components::{Outlet, Redirect, A};
+use leptos_router::hooks::{use_navigate, use_query_map};
+use leptos_router::NavigateOptions;
 
 use crate::features::articles::defs::ArticleCategory;
 use crate::features::articles::fns::get_article_category_from_query_params;
@@ -12,6 +13,8 @@ use crate::features::articles::fns::get_article_category_from_query_params;
 #[component]
 pub fn ArticleList() -> impl IntoView {
     use crate::components::header::primary_header::PrimaryHeader;
+
+    let navigate = use_navigate();
 
     let articles: Articles = Articles::default();
 
@@ -42,6 +45,10 @@ pub fn ArticleList() -> impl IntoView {
             }
         })
         .collect::<Vec<_>>();
+
+    if article_list.is_empty() {
+        return view! { <Redirect path="/" /> }.into_any();
+    }
 
     let get_preload_images_els = |links: Vec<String>| {
         links
@@ -76,5 +83,5 @@ pub fn ArticleList() -> impl IntoView {
                 }
             </Suspense>
         </div>
-    }
+    }.into_any()
 }
