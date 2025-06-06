@@ -1,3 +1,4 @@
+use crate::features::articles::defs::ArticleCategory;
 use crate::features::articles::defs::*;
 use leptos::prelude::*;
 
@@ -9,9 +10,22 @@ pub async fn get_article(article_id: ArticleId) -> Result<Article, ServerFnError
 }
 
 #[server]
-pub async fn get_any_article_id() -> Result<ArticleId, ServerFnError> {
+pub async fn get_latest_article_id(
+    article_category: Option<ArticleCategory>,
+) -> Result<ArticleId, ServerFnError> {
     let articles = Articles::default();
-    let article = articles.ordered_articles.first().unwrap();
+    let article = articles
+        .ordered_articles
+        .into_iter()
+        .filter(|article| {
+            if let Some(article_category) = &article_category {
+                article.category == *article_category
+            } else {
+                true
+            }
+        })
+        .next()
+        .unwrap_or(articles.not_found_article);
     Ok(article.id.clone())
 }
 

@@ -3,19 +3,32 @@ use crate::features::articles::defs::*;
 use crate::features::articles::server_fns::get_preload_images_links;
 use leptos::{logging::log, prelude::*};
 use leptos_router::components::{Outlet, A};
+use leptos_router::hooks::use_query_map;
+
+use crate::features::articles::defs::ArticleCategory;
+use crate::features::articles::fns::get_article_category_from_query_params;
 
 /// Renders the article list
 #[component]
 pub fn ArticleList() -> impl IntoView {
     use crate::components::header::primary_header::PrimaryHeader;
 
-    let articles = Articles::default();
+    let articles: Articles = Articles::default();
+
+    let article_category = if let Some(article_id) = article_id()() {
+        let article = articles.get_by_id(article_id);
+        article.category
+    } else {
+        let article_category = get_article_category_from_query_params();
+        article_category.unwrap_or(ArticleCategory::Noop)
+    };
 
     let article_list = articles
         .ordered_articles
         .into_iter()
         // .cycle()
         // .take(20)
+        .filter(|article| article.category == article_category)
         .map(|article| {
             let url = format!("/articles/{}", article.id);
             view! {

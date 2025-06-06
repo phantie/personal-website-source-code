@@ -19,11 +19,11 @@ pub fn Home() -> impl IntoView {
                 <div class="home-sections-title"><h1>{"Sections"}</h1></div>
 
                 <div class="home-sections-sections">
-                    <a href="/articles?section=engineering" class="home-sections-engineering">
+                    <a href="/articles?category=engineering" class="home-sections-engineering">
                     <h2>{"Engineering"}</h2>
                     </a>
 
-                    <a href="/articles?section=life" class="home-sections-life">
+                    <a href="/articles?category=life" class="home-sections-life">
                     <h2>{"Life"}</h2>
                     </a>
                 </div>

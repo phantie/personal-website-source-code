@@ -12,16 +12,25 @@ use web_sys::Event;
 
 use crate::features::articles::components::params::article_id;
 use crate::features::articles::defs::*;
+use crate::features::articles::fns::get_article_category_from_query_params;
 use crate::features::articles::instances::NOT_FOUND_ARTICLE_ID;
-use crate::features::articles::server_fns::{get_any_article_id, get_article, get_article_content};
+use crate::features::articles::server_fns::{
+    get_article, get_article_content, get_latest_article_id,
+};
+use leptos_router::hooks::{use_location, use_navigate};
 
 #[component]
 pub fn Article() -> impl IntoView {
-    let get_article_id = Resource::new_blocking(article_id(), |id| async move {
+    let navigate = use_navigate();
+    let location = use_location();
+
+    let article_category = get_article_category_from_query_params();
+
+    let get_article_id = Resource::new_blocking(article_id(), move |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
-            let id = get_any_article_id().await;
+            let id = get_latest_article_id(article_category).await;
             id
         };
 
@@ -29,26 +38,54 @@ pub fn Article() -> impl IntoView {
     });
 
     // let get_article_content_resource = Resource::new_blocking(id_memo, |id| async move {
-    let get_article_content_resource = Resource::new(article_id(), |id| async move {
+    let get_article_content_resource = Resource::new(article_id(), move |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
-            let id = get_any_article_id().await;
+            let id = get_latest_article_id(article_category).await;
             id
         }?;
 
         get_article_content(id).await
     });
 
-    let get_article_resource = Resource::new_blocking(article_id(), |id| async move {
+    let get_article_resource = Resource::new_blocking(article_id(), move |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
-            let id = get_any_article_id().await;
+            let id = get_latest_article_id(article_category).await;
             id
         }?;
 
         get_article(id).await
+    });
+
+    // Effect to automatically add category query param when article loads
+    Effect::new({
+        let navigate = navigate.clone();
+        let location = location.clone();
+        move |_| {
+            if let Some(Ok(article)) = get_article_resource.get() {
+                let current_search = location.search.get();
+
+                // Check if category param already exists
+                if !current_search.contains("category=") {
+                    let current_pathname = location.pathname.get();
+                    let category = article.category.to_string();
+
+                    let new_url = if current_search.is_empty() {
+                        format!("{}?category={}", current_pathname, category)
+                    } else {
+                        format!(
+                            "{}{}&category={}",
+                            current_pathname, current_search, category
+                        )
+                    };
+
+                    navigate(&new_url, Default::default());
+                }
+            }
+        }
     });
 
     let (article_content_loaded_rs, article_content_loaded_ws) = signal(false);
