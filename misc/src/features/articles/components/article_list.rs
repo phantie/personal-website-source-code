@@ -3,11 +3,22 @@ use crate::features::articles::defs::*;
 use crate::features::articles::server_fns::get_preload_images_links;
 use leptos::{logging::log, prelude::*};
 use leptos_router::components::{Outlet, A};
+use leptos_router::hooks::use_query_map;
+
+use crate::features::articles::defs::ArticleCategory;
 
 /// Renders the article list
 #[component]
 pub fn ArticleList() -> impl IntoView {
     use crate::components::header::primary_header::PrimaryHeader;
+
+    let query = use_query_map();
+
+    let article_category = match query.with(|q| q.get("category")).as_deref() {
+        Some("engineering") => Some(ArticleCategory::Engineering),
+        Some("life") => Some(ArticleCategory::Life),
+        _ => None,
+    };
 
     let articles = Articles::default();
 
@@ -16,6 +27,13 @@ pub fn ArticleList() -> impl IntoView {
         .into_iter()
         // .cycle()
         // .take(20)
+        .filter(|article| {
+            if let Some(article_category) = &article_category {
+                article.category == *article_category
+            } else {
+                true
+            }
+        })
         .map(|article| {
             let url = format!("/articles/{}", article.id);
             view! {

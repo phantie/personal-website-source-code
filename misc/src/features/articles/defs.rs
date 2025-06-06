@@ -31,7 +31,7 @@ impl ArticleSource for LocalArticleSource {
     }
 }
 
-#[derive(Clone, Serialize, Deserialize, Debug)]
+#[derive(Clone, Serialize, Deserialize, Debug, PartialEq)]
 pub enum ArticleCategory {
     Engineering,
     Life,
