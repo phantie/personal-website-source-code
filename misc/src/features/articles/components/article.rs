@@ -12,7 +12,7 @@ use web_sys::Event;
 
 use crate::features::articles::components::params::article_id;
 use crate::features::articles::defs::*;
-use crate::features::articles::fns::get_article_category;
+use crate::features::articles::fns::get_article_category_from_query_params;
 use crate::features::articles::instances::NOT_FOUND_ARTICLE_ID;
 use crate::features::articles::server_fns::{
     get_article, get_article_content, get_latest_article_id,
@@ -24,7 +24,7 @@ pub fn Article() -> impl IntoView {
     let navigate = use_navigate();
     let location = use_location();
 
-    let article_category = get_article_category();
+    let article_category = get_article_category_from_query_params();
 
     let get_article_id = Resource::new_blocking(article_id(), move |id| async move {
         let id = if let Some(id) = id {

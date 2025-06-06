@@ -7,7 +7,7 @@ use leptos::{logging::log, prelude::*};
 use leptos_router::components::{Outlet, A};
 use leptos_router::hooks::use_query_map;
 
-pub fn get_article_category() -> Option<ArticleCategory> {
+pub fn get_article_category_from_query_params() -> Option<ArticleCategory> {
     let query = use_query_map();
     match query.with(|q| q.get("category")).as_deref() {
         Some("engineering") => Some(ArticleCategory::Engineering),
