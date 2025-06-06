@@ -305,18 +305,17 @@ body .footnote-definition {
 
 .home-container {
     display: flex;
+    // height: 100vh;
     height: 100%;
     width: 100%;
     font-family: "Dancing Script", cursive;
     font-optical-sizing: auto;
-    // font-weight: 700;
     font-style: normal;
-    background-color: white;
+    background: linear-gradient(135deg, #FFEED0, #94EAC6);
 }
 
-
 .home-sections {
-    width: 100%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     padding: 2rem;
@@ -324,11 +323,14 @@ body .footnote-definition {
     justify-content: center;
 }
 
-// .home-sections>.home-sections-sections>.home-sections-title {
-//     font-size: ;
-// }
+.home-sections-title h1 {
+    color: #F66E00;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-.home-sections>.home-sections-sections {
+.home-sections-sections {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -336,7 +338,7 @@ body .footnote-definition {
     justify-content: center;
 }
 
-.home-sections>.home-sections-sections>div {
+.home-sections-sections>div {
     display: flex;
     width: 150px;
     height: 150px;
@@ -345,8 +347,6 @@ body .footnote-definition {
     margin: 30px;
     align-items: center;
     justify-content: center;
-
-    /* Enhanced styling */
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -355,35 +355,113 @@ body .footnote-definition {
     overflow: hidden;
 }
 
-.home-sections>.home-sections-sections>div:hover {
+.home-sections-sections>div:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.home-sections>.home-sections-sections>div:active {
+.home-sections-sections>div:active {
     transform: translateY(-2px);
     transition: all 0.1s ease;
 }
 
-.home-sections>.home-sections-sections>.home-sections-engineering {
-    background: linear-gradient(135deg, #ff8c00, #ff6b35);
+.home-sections-engineering {
+    background: linear-gradient(135deg, #F66E00, #F99003);
     color: white;
 }
 
-.home-sections>.home-sections-sections>.home-sections-engineering:hover {
-    background: linear-gradient(135deg, #ff6b35, #ff4500);
+.home-sections-engineering:hover {
+    background: linear-gradient(135deg, #F99003, #F66E00);
 }
 
-.home-sections>.home-sections-sections>.home-sections-life {
-    background: linear-gradient(135deg, #32cd32, #228b22);
+.home-sections-life {
+    background: linear-gradient(135deg, #66DDAA, #28BB94);
     color: white;
 }
 
-.home-sections>.home-sections-sections>.home-sections-life:hover {
-    background: linear-gradient(135deg, #228b22, #006400);
+.home-sections-life:hover {
+    background: linear-gradient(135deg, #28BB94, #66DDAA);
 }
 
-/* Optional: Add a subtle animation */
+.home-links {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-links-title h1 {
+    color: #28BB94;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.home-links-sections {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.home-links-sections>div {
+    display: flex;
+    width: 200px;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.home-links-sections>div:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.home-links-sections>div:active {
+    transform: translateY(-1px);
+    transition: all 0.1s ease;
+}
+
+.home-links-youtube {
+    background: linear-gradient(135deg, #F66E00, #F99003);
+    color: white;
+}
+
+.home-links-youtube:hover {
+    background: linear-gradient(135deg, #F99003, #FFEED0);
+    color: #F66E00;
+}
+
+.home-links-github {
+    background: linear-gradient(135deg, #28BB94, #66DDAA);
+    color: white;
+}
+
+.home-links-github:hover {
+    background: linear-gradient(135deg, #66DDAA, #94EAC6);
+    color: #28BB94;
+}
+
+.home-links-telegram {
+    background: linear-gradient(135deg, #94EAC6, #66DDAA);
+    color: #28BB94;
+}
+
+.home-links-telegram:hover {
+    background: linear-gradient(135deg, #66DDAA, #28BB94);
+    color: white;
+}
+
+/* Animations */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -396,25 +474,53 @@ body .footnote-definition {
     }
 }
 
-.home-sections>.home-sections-sections>div {
+.home-sections-sections>div,
+.home-links-sections>div {
     animation: fadeInUp 0.6s ease forwards;
 }
 
-/* Stagger animation for multiple elements */
-.home-sections>.home-sections-sections>div:nth-child(1) {
+/* Stagger animation for sections */
+.home-sections-sections>div:nth-child(1) {
     animation-delay: 0.1s;
 }
 
-.home-sections>.home-sections-sections>div:nth-child(2) {
+.home-sections-sections>div:nth-child(2) {
     animation-delay: 0.2s;
 }
 
-.home-sections>.home-sections-sections>div:nth-child(3) {
+/* Stagger animation for links */
+.home-links-sections>div:nth-child(1) {
     animation-delay: 0.3s;
 }
 
-.home-links {
-    display: flex;
+.home-links-sections>div:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.home-links-sections>div:nth-child(3) {
+    animation-delay: 0.5s;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .home-container {
+        flex-direction: column;
+    }
+
+    .home-sections,
+    .home-links {
+        width: 100%;
+    }
+
+    .home-links-sections {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .home-links-sections>div {
+        width: 150px;
+        height: 50px;
+    }
 }
 
 /// END HOME
