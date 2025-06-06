@@ -11,16 +11,11 @@ use crate::features::articles::defs::ArticleCategory;
 #[component]
 pub fn ArticleList() -> impl IntoView {
     use crate::components::header::primary_header::PrimaryHeader;
+    use crate::features::articles::fns::get_article_category;
 
-    let query = use_query_map();
+    let article_category = get_article_category();
 
-    let article_category = match query.with(|q| q.get("category")).as_deref() {
-        Some("engineering") => Some(ArticleCategory::Engineering),
-        Some("life") => Some(ArticleCategory::Life),
-        _ => None,
-    };
-
-    let articles = Articles::default();
+    let articles: Articles = Articles::default();
 
     let article_list = articles
         .ordered_articles

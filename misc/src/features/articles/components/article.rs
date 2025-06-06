@@ -12,16 +12,21 @@ use web_sys::Event;
 
 use crate::features::articles::components::params::article_id;
 use crate::features::articles::defs::*;
+use crate::features::articles::fns::get_article_category;
 use crate::features::articles::instances::NOT_FOUND_ARTICLE_ID;
-use crate::features::articles::server_fns::{get_any_article_id, get_article, get_article_content};
+use crate::features::articles::server_fns::{
+    get_article, get_article_content, get_latest_article_id,
+};
 
 #[component]
 pub fn Article() -> impl IntoView {
-    let get_article_id = Resource::new_blocking(article_id(), |id| async move {
+    let article_category = get_article_category();
+
+    let get_article_id = Resource::new_blocking(article_id(), move |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
-            let id = get_any_article_id().await;
+            let id = get_latest_article_id(article_category).await;
             id
         };
 
@@ -29,22 +34,22 @@ pub fn Article() -> impl IntoView {
     });
 
     // let get_article_content_resource = Resource::new_blocking(id_memo, |id| async move {
-    let get_article_content_resource = Resource::new(article_id(), |id| async move {
+    let get_article_content_resource = Resource::new(article_id(), move |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
-            let id = get_any_article_id().await;
+            let id = get_latest_article_id(article_category).await;
             id
         }?;
 
         get_article_content(id).await
     });
 
-    let get_article_resource = Resource::new_blocking(article_id(), |id| async move {
+    let get_article_resource = Resource::new_blocking(article_id(), move |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
-            let id = get_any_article_id().await;
+            let id = get_latest_article_id(article_category).await;
             id
         }?;
 
