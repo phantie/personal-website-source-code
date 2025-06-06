@@ -21,7 +21,7 @@ pub async fn get_latest_article_id(
             if let Some(article_category) = &article_category {
                 article.category == *article_category
             } else {
-                true
+                false
             }
         })
         .next()
