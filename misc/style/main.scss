@@ -302,20 +302,29 @@ body .footnote-definition {
 }
 
 /// START HOME
+///
+:root {
+    --orange: #F66E00;
+    --orange-yellow: #F99003;
+    --very-light-beige: #FFEED0;
+    --light-mint-green: #94EAC6;
+    --medium-aquamarine: #66DDAA;
+    --teal-green: #28BB94;
+}
 
 .home-container {
     display: flex;
-    // height: 100vh;
-    height: 100%;
+    flex-direction: column;
+    min-height: 100vh;
     width: 100%;
     font-family: "Dancing Script", cursive;
     font-optical-sizing: auto;
     font-style: normal;
-    background: linear-gradient(135deg, #FFEED0, #94EAC6);
+    background: linear-gradient(135deg, var(--very-light-beige), var(--light-mint-green));
 }
 
 .home-sections {
-    width: 50%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     padding: 2rem;
@@ -324,7 +333,7 @@ body .footnote-definition {
 }
 
 .home-sections-title h1 {
-    color: #F66E00;
+    color: var(--orange);
     font-size: 2.5rem;
     margin-bottom: 2rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -366,25 +375,25 @@ body .footnote-definition {
 }
 
 .home-sections-engineering {
-    background: linear-gradient(135deg, #F66E00, #F99003);
+    background: linear-gradient(135deg, var(--orange), var(--orange-yellow));
     color: white;
 }
 
 .home-sections-engineering:hover {
-    background: linear-gradient(135deg, #F99003, #F66E00);
+    background: linear-gradient(135deg, var(--orange-yellow), var(--orange));
 }
 
 .home-sections-life {
-    background: linear-gradient(135deg, #66DDAA, #28BB94);
+    background: linear-gradient(135deg, var(--medium-aquamarine), var(--teal-green));
     color: white;
 }
 
 .home-sections-life:hover {
-    background: linear-gradient(135deg, #28BB94, #66DDAA);
+    background: linear-gradient(135deg, var(--teal-green), var(--medium-aquamarine));
 }
 
 .home-links {
-    width: 50%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     padding: 2rem;
@@ -393,7 +402,7 @@ body .footnote-definition {
 }
 
 .home-links-title h1 {
-    color: #28BB94;
+    color: var(--teal-green);
     font-size: 2.5rem;
     margin-bottom: 2rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -401,7 +410,8 @@ body .footnote-definition {
 
 .home-links-sections {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 20px;
@@ -432,32 +442,32 @@ body .footnote-definition {
 }
 
 .home-links-youtube {
-    background: linear-gradient(135deg, #F66E00, #F99003);
+    background: linear-gradient(135deg, var(--orange), var(--orange-yellow));
     color: white;
 }
 
 .home-links-youtube:hover {
-    background: linear-gradient(135deg, #F99003, #FFEED0);
-    color: #F66E00;
+    background: linear-gradient(135deg, var(--orange-yellow), var(--very-light-beige));
+    color: var(--orange);
 }
 
 .home-links-github {
-    background: linear-gradient(135deg, #28BB94, #66DDAA);
+    background: linear-gradient(135deg, var(--teal-green), var(--medium-aquamarine));
     color: white;
 }
 
 .home-links-github:hover {
-    background: linear-gradient(135deg, #66DDAA, #94EAC6);
-    color: #28BB94;
+    background: linear-gradient(135deg, var(--medium-aquamarine), var(--light-mint-green));
+    color: var(--teal-green);
 }
 
 .home-links-telegram {
-    background: linear-gradient(135deg, #94EAC6, #66DDAA);
-    color: #28BB94;
+    background: linear-gradient(135deg, var(--light-mint-green), var(--medium-aquamarine));
+    color: var(--teal-green);
 }
 
 .home-links-telegram:hover {
-    background: linear-gradient(135deg, #66DDAA, #28BB94);
+    background: linear-gradient(135deg, var(--medium-aquamarine), var(--teal-green));
     color: white;
 }
 
@@ -503,23 +513,15 @@ body .footnote-definition {
 
 /* Responsive design */
 @media (max-width: 768px) {
-    .home-container {
+
+    .home-sections-sections,
+    .home-links-sections {
         flex-direction: column;
     }
 
-    .home-sections,
-    .home-links {
-        width: 100%;
-    }
-
-    .home-links-sections {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
     .home-links-sections>div {
-        width: 150px;
-        height: 50px;
+        width: 180px;
+        margin: 10px 0;
     }
 }
 
