@@ -304,15 +304,13 @@ body .footnote-definition {
 /// START HOME
 ///
 
-
 :root {
     /* Color Palette Variables */
-    --orange: #F66E00;
-    --orange-yellow: #F99003;
-    --very-light-beige: #FFEED0;
-    --light-mint-green: #94EAC6;
-    --medium-aquamarine: #66DDAA;
-    --teal-green: #28BB94;
+    --deep-navy: #020d19;
+    --dark-teal: #03242d;
+    --sage-green: #4f7376;
+    --mint-blue: #8cbfb7;
+    --light-gray: #d9dddd;
 }
 
 .home-container {
@@ -324,7 +322,7 @@ body .footnote-definition {
     font-family: "Dancing Script", cursive;
     font-optical-sizing: auto;
     font-style: normal;
-    background: linear-gradient(135deg, var(--very-light-beige), var(--light-mint-green));
+    background: var(--deep-navy);
     gap: 2rem;
 }
 
@@ -337,10 +335,10 @@ body .footnote-definition {
 }
 
 .home-sections-title h1 {
-    color: var(--orange);
+    color: var(--light-gray);
     font-size: 2.5rem;
     margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .home-sections-sections {
@@ -363,7 +361,7 @@ body .footnote-definition {
     align-items: center;
     justify-content: center;
     border-radius: 1rem;
-    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     cursor: pointer;
     position: relative;
@@ -375,7 +373,7 @@ body .footnote-definition {
 .home-sections-sections>div:hover,
 .home-sections-sections>a:hover {
     transform: translateY(-0.3rem);
-    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.4);
 }
 
 .home-sections-sections>div:active,
@@ -385,21 +383,23 @@ body .footnote-definition {
 }
 
 .home-sections-engineering {
-    background: linear-gradient(135deg, var(--orange), var(--orange-yellow));
-    color: white;
+    background: linear-gradient(135deg, var(--dark-teal), var(--sage-green));
+    color: var(--light-gray);
 }
 
 .home-sections-engineering:hover {
-    background: linear-gradient(135deg, var(--orange-yellow), var(--orange));
+    background: linear-gradient(135deg, var(--sage-green), var(--mint-blue));
+    color: var(--deep-navy);
 }
 
 .home-sections-life {
-    background: linear-gradient(135deg, var(--medium-aquamarine), var(--teal-green));
-    color: white;
+    background: linear-gradient(135deg, var(--sage-green), var(--mint-blue));
+    color: var(--deep-navy);
 }
 
 .home-sections-life:hover {
-    background: linear-gradient(135deg, var(--teal-green), var(--medium-aquamarine));
+    background: linear-gradient(135deg, var(--mint-blue), var(--light-gray));
+    color: var(--deep-navy);
 }
 
 .home-links {
@@ -411,10 +411,10 @@ body .footnote-definition {
 }
 
 .home-links-title h1 {
-    color: var(--teal-green);
+    color: var(--mint-blue);
     font-size: 2.5rem;
     margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .home-links-sections {
@@ -434,7 +434,7 @@ body .footnote-definition {
     align-items: center;
     justify-content: center;
     border-radius: 1rem;
-    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     cursor: pointer;
     position: relative;
@@ -445,7 +445,7 @@ body .footnote-definition {
 .home-links-sections>div:hover,
 .home-links-sections>a:hover {
     transform: translateY(-0.2rem);
-    box-shadow: 0 0.4rem 1.25rem rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0.4rem 1.25rem rgba(0, 0, 0, 0.4);
 }
 
 .home-links-sections>div:active,
@@ -455,33 +455,33 @@ body .footnote-definition {
 }
 
 .home-links-youtube {
-    background: linear-gradient(135deg, var(--orange), var(--orange-yellow));
-    color: white;
+    background: linear-gradient(135deg, var(--dark-teal), var(--sage-green));
+    color: var(--light-gray);
 }
 
 .home-links-youtube:hover {
-    background: linear-gradient(135deg, var(--orange-yellow), var(--very-light-beige));
-    color: var(--orange);
+    background: linear-gradient(135deg, var(--sage-green), var(--mint-blue));
+    color: var(--deep-navy);
 }
 
 .home-links-github {
-    background: linear-gradient(135deg, var(--teal-green), var(--medium-aquamarine));
-    color: white;
+    background: linear-gradient(135deg, var(--sage-green), var(--mint-blue));
+    color: var(--deep-navy);
 }
 
 .home-links-github:hover {
-    background: linear-gradient(135deg, var(--medium-aquamarine), var(--light-mint-green));
-    color: var(--teal-green);
+    background: linear-gradient(135deg, var(--mint-blue), var(--light-gray));
+    color: var(--deep-navy);
 }
 
 .home-links-telegram {
-    background: linear-gradient(135deg, var(--light-mint-green), var(--medium-aquamarine));
-    color: var(--teal-green);
+    background: linear-gradient(135deg, var(--mint-blue), var(--light-gray));
+    color: var(--deep-navy);
 }
 
 .home-links-telegram:hover {
-    background: linear-gradient(135deg, var(--medium-aquamarine), var(--teal-green));
-    color: white;
+    background: linear-gradient(135deg, var(--light-gray), var(--mint-blue));
+    color: var(--deep-navy);
 }
 
 /* Animations */
