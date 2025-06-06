@@ -25,7 +25,7 @@
         "articles/poems/the_list",
         "caching",
         "repository",
-        "favicon.ico"
+        "favicon.ico",
     ],
     "rust-analyzer.cargo.features": [
         "ssr"

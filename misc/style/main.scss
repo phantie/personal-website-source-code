@@ -300,3 +300,121 @@ body .footnote-definition {
     width: 25%;
     height: 25vh;
 }
+
+/// START HOME
+
+.home-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    // font-weight: 700;
+    font-style: normal;
+    background-color: white;
+}
+
+
+.home-sections {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+// .home-sections>.home-sections-sections>.home-sections-title {
+//     font-size: ;
+// }
+
+.home-sections>.home-sections-sections {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-sections>.home-sections-sections>div {
+    display: flex;
+    width: 150px;
+    height: 150px;
+    min-width: 150px;
+    min-height: 150px;
+    margin: 30px;
+    align-items: center;
+    justify-content: center;
+
+    /* Enhanced styling */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.home-sections>.home-sections-sections>div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.home-sections>.home-sections-sections>div:active {
+    transform: translateY(-2px);
+    transition: all 0.1s ease;
+}
+
+.home-sections>.home-sections-sections>.home-sections-engineering {
+    background: linear-gradient(135deg, #ff8c00, #ff6b35);
+    color: white;
+}
+
+.home-sections>.home-sections-sections>.home-sections-engineering:hover {
+    background: linear-gradient(135deg, #ff6b35, #ff4500);
+}
+
+.home-sections>.home-sections-sections>.home-sections-life {
+    background: linear-gradient(135deg, #32cd32, #228b22);
+    color: white;
+}
+
+.home-sections>.home-sections-sections>.home-sections-life:hover {
+    background: linear-gradient(135deg, #228b22, #006400);
+}
+
+/* Optional: Add a subtle animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.home-sections>.home-sections-sections>div {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Stagger animation for multiple elements */
+.home-sections>.home-sections-sections>div:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.home-sections>.home-sections-sections>div:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.home-sections>.home-sections-sections>div:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.home-links {
+    display: flex;
+}
+
+/// END HOME
