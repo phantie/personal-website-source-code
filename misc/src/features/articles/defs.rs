@@ -38,6 +38,17 @@ pub enum ArticleCategory {
     Noop,
 }
 
+impl ToString for ArticleCategory {
+    fn to_string(&self) -> String {
+        match *self {
+            Self::Engineering => "engineering",
+            Self::Life => "life",
+            Self::Noop => "noop",
+        }
+        .to_owned()
+    }
+}
+
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct Article {
     pub relative_source: RelativeLocalArticleSource,
