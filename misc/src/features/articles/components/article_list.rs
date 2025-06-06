@@ -7,6 +7,8 @@ use leptos_router::components::{Outlet, A};
 /// Renders the article list
 #[component]
 pub fn ArticleList() -> impl IntoView {
+    use crate::components::header::primary_header::PrimaryHeader;
+
     let articles = Articles::default();
 
     let article_list = articles
@@ -43,9 +45,10 @@ pub fn ArticleList() -> impl IntoView {
         Resource::new(|| (), |id| async move { get_preload_images_links(5).await });
 
     view! {
+        <PrimaryHeader/>
+
         <div class="articles">
             <div class="articles-list" class:focus={move || article_id()().is_none() }>
-            <h1>"Posts"</h1>
                 <div class="articles-list-items">
                 {article_list}
                 </div>
