@@ -217,7 +217,8 @@ mod js {
 
 fn apply_js() {
     js::hljs::highlight_all();
-    js::anchors::add_default();
+    js::anchors::add_with_selector("div.articles-article h2, div.articles-article h3, div.articles-article h4, div.articles-article h5, div.articles-article h6".to_string());
+
     js::scroll_to_hash_element();
 }
 
