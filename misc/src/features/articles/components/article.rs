@@ -66,23 +66,26 @@ pub fn Article() -> impl IntoView {
         let location = location.clone();
         move |_| {
             if let Some(Ok(article)) = get_article_resource.get() {
+                let current_pathname = location.pathname.get();
                 let current_search = location.search.get();
 
-                // Check if category param already exists
-                if !current_search.contains("category=") {
-                    let current_pathname = location.pathname.get();
-                    let category = article.category.to_string();
+                // Only preserve category if we're in the /articles/* namespace
+                if current_pathname.starts_with("/articles/") {
+                    // Check if category param already exists
+                    if !current_search.contains("category=") {
+                        let category = article.category.to_string();
 
-                    let new_url = if current_search.is_empty() {
-                        format!("{}?category={}", current_pathname, category)
-                    } else {
-                        format!(
-                            "{}{}&category={}",
-                            current_pathname, current_search, category
-                        )
-                    };
+                        let new_url = if current_search.is_empty() {
+                            format!("{}?category={}", current_pathname, category)
+                        } else {
+                            format!(
+                                "{}{}&category={}",
+                                current_pathname, current_search, category
+                            )
+                        };
 
-                    navigate(&new_url, Default::default());
+                        navigate(&new_url, Default::default());
+                    }
                 }
             }
         }
