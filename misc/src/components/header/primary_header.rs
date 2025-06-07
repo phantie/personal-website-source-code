@@ -11,7 +11,7 @@ use leptos_router::{
 pub fn PrimaryHeader() -> impl IntoView {
     view! {
         <header class="primary">
-            <a href="/h" class="home-link">
+            <a href="/" class="home-link">
                 <h2>"Home"</h2>
             </a>
         </header>

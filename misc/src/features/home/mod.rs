@@ -11,11 +11,9 @@ pub mod components;
 #[component(transparent)]
 pub fn HomeRoutes() -> impl MatchNestedRoutes + Clone {
     use components::home::Home;
-    use components::old_home::OldHome;
 
     view! {
-        <Route path=StaticSegment("/") view=OldHome />
-        <Route path=StaticSegment("/h") view=Home />
+        <Route path=StaticSegment("/") view=Home />
     }
     .into_inner()
 }
