@@ -1,7 +1,7 @@
 #![allow(unused)]
 
 use leptos::prelude::*;
-use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
+use leptos_meta::{provide_meta_context, Meta, MetaTags, Stylesheet, Title};
 use leptos_router::{
     components::{ParentRoute, Redirect, Route, Router, Routes},
     path, MatchNestedRoutes, StaticSegment,
@@ -10,6 +10,11 @@ use leptos_router::{
 #[component]
 pub fn Home() -> impl IntoView {
     view! {
+        <Title text={"Alexander Tokar's Blog"} />
+
+        <Meta name="description" content="Blog about life and software engineering" />
+        <Meta name="keywords" content="software engineering, functional programming, life, poetry, thoughts" />
+
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
         <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
@@ -19,11 +24,11 @@ pub fn Home() -> impl IntoView {
                 <div class="home-sections-title"><h1>{"Sections"}</h1></div>
 
                 <div class="home-sections-sections">
-                    <a href="/articles?section=engineering" class="home-sections-engineering">
+                    <a href="/articles?category=engineering" class="home-sections-engineering">
                     <h2>{"Engineering"}</h2>
                     </a>
 
-                    <a href="/articles?section=life" class="home-sections-life">
+                    <a href="/articles?category=life" class="home-sections-life">
                     <h2>{"Life"}</h2>
                     </a>
                 </div>

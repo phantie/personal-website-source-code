@@ -10,7 +10,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             title: "About site".into(),
             description: None,
             tags: vec!["about site".into()],
-            category: ArticleCategory::Noop,
+            category: ArticleCategory::Engineering,
             timestamp_info_str: None,
         },
         Article {
