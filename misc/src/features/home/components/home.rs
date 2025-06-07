@@ -1,7 +1,7 @@
 #![allow(unused)]
 
 use leptos::prelude::*;
-use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
+use leptos_meta::{provide_meta_context, Meta, MetaTags, Stylesheet, Title};
 use leptos_router::{
     components::{ParentRoute, Redirect, Route, Router, Routes},
     path, MatchNestedRoutes, StaticSegment,
@@ -10,7 +10,10 @@ use leptos_router::{
 #[component]
 pub fn Home() -> impl IntoView {
     view! {
-        <Title text={"Alexander Tokar's (phantie) blog"} />
+        <Title text={"Alexander Tokar's Blog"} />
+
+        <Meta name="description" content="Blog about life and software engineering" />
+        <Meta name="keywords" content="software engineering, functional programming, life, poetry, thoughts" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
