@@ -300,3 +300,359 @@ body .footnote-definition {
     width: 25%;
     height: 25vh;
 }
+
+/// START HOME
+
+:root {
+    /* Color Palette Variables */
+    --deep-navy: #020d19;
+    --dark-teal: #03242d;
+    --sage-green: #4f7376;
+    --mint-blue: #8cbfb7;
+    --light-gray: #d9dddd;
+}
+
+.home-container {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    width: 100%;
+    padding: 2rem;
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-style: normal;
+    background: var(--deep-navy);
+    gap: 2rem;
+}
+
+.home-sections {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-sections-title h1 {
+    color: var(--light-gray);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.home-sections-sections {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+/* Updated selector to include both div and a elements */
+.home-sections-sections>div,
+.home-sections-sections>a {
+    display: flex;
+    width: 12rem;
+    height: 12rem;
+    min-width: 12rem;
+    min-height: 12rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    /* Remove underline from links */
+}
+
+.home-sections-sections>div:hover,
+.home-sections-sections>a:hover {
+    transform: translateY(-0.3rem);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.4);
+}
+
+.home-sections-sections>div:active,
+.home-sections-sections>a:active {
+    transform: translateY(-0.1rem);
+    transition: all 0.1s ease;
+}
+
+.home-sections-engineering {
+    background: linear-gradient(135deg, var(--dark-teal), var(--sage-green));
+    color: var(--light-gray);
+}
+
+.home-sections-engineering:hover {
+    background: linear-gradient(135deg, var(--sage-green), var(--mint-blue));
+    color: var(--deep-navy);
+}
+
+.home-sections-life {
+    background: linear-gradient(135deg, var(--sage-green), var(--mint-blue));
+    color: var(--deep-navy);
+}
+
+.home-sections-life:hover {
+    background: linear-gradient(135deg, var(--mint-blue), var(--light-gray));
+    color: var(--deep-navy);
+}
+
+.home-links {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-links-title h1 {
+    color: var(--mint-blue);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.home-links-sections {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.home-links-sections>div,
+.home-links-sections>a {
+    display: flex;
+    width: 15rem;
+    height: 4rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.home-links-sections>div:hover,
+.home-links-sections>a:hover {
+    transform: translateY(-0.2rem);
+    box-shadow: 0 0.4rem 1.25rem rgba(0, 0, 0, 0.4);
+}
+
+.home-links-sections>div:active,
+.home-links-sections>a:active {
+    transform: translateY(-0.05rem);
+    transition: all 0.1s ease;
+}
+
+.home-links-youtube {
+    background: linear-gradient(135deg, var(--dark-teal), var(--sage-green));
+    color: var(--light-gray);
+}
+
+.home-links-youtube:hover {
+    background: linear-gradient(135deg, var(--sage-green), var(--mint-blue));
+    color: var(--deep-navy);
+}
+
+.home-links-github {
+    background: linear-gradient(135deg, var(--sage-green), var(--mint-blue));
+    color: var(--deep-navy);
+}
+
+.home-links-github:hover {
+    background: linear-gradient(135deg, var(--mint-blue), var(--light-gray));
+    color: var(--deep-navy);
+}
+
+.home-links-telegram {
+    background: linear-gradient(135deg, var(--mint-blue), var(--light-gray));
+    color: var(--deep-navy);
+}
+
+.home-links-telegram:hover {
+    background: linear-gradient(135deg, var(--light-gray), var(--mint-blue));
+    color: var(--deep-navy);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(1.25rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.home-sections-sections>div,
+.home-sections-sections>a,
+.home-links-sections>div,
+.home-links-sections>a {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Stagger animation for sections */
+.home-sections-sections>a:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.home-sections-sections>a:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+/* Stagger animation for links */
+.home-links-sections>a:nth-child(1) {
+    animation-delay: 0.3s;
+}
+
+.home-links-sections>a:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.home-links-sections>a:nth-child(3) {
+    animation-delay: 0.5s;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .home-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .home-sections-sections,
+    .home-links-sections {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .home-sections-sections>div,
+    .home-sections-sections>a {
+        width: 50%;
+        height: 8rem;
+        min-width: 50%;
+        min-height: 8rem;
+        margin: 0.5rem 0;
+    }
+
+    .home-links-sections>div,
+    .home-links-sections>a {
+        width: 50%;
+        height: 3.5rem;
+        min-width: 50%;
+        margin: 0.5rem 0;
+    }
+}
+
+/// END HOME
+
+/// START PRIMARY HEADER
+header.primary {
+    background-color: var(--background-color);
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    transition: all 0.3s ease;
+}
+
+.home-link {
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.home-link h2 {
+    font-family: "Dancing Script", cursive;
+    font-weight: bold;
+    font-size: 1.75rem;
+    margin: 0;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.home-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.home-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.home-link:hover h2 {
+    color: #f0f0f0;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.home-link:hover::before {
+    left: 100%;
+}
+
+.home-link:active h2 {
+    transform: scale(0.98);
+}
+
+/* Loading animation */
+@keyframes shimmer {
+    0% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.8;
+    }
+}
+
+.home-link.loading h2 {
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Mobile styles - center the home link */
+@media (max-width: 768px) {
+    header.primary {
+        justify-content: center;
+        padding: 1rem;
+    }
+}
+
+/* Desktop styles - align left with space */
+@media (min-width: 769px) {
+    header.primary {
+        justify-content: flex-start;
+        padding-left: 3rem;
+    }
+}
+
+/// END PRIMARY HEADER

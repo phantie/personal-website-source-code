@@ -31,11 +31,22 @@ impl ArticleSource for LocalArticleSource {
     }
 }
 
-#[derive(Clone, Serialize, Deserialize, Debug)]
+#[derive(Clone, Copy, Serialize, Deserialize, Debug, PartialEq)]
 pub enum ArticleCategory {
     Engineering,
     Life,
     Noop,
+}
+
+impl ToString for ArticleCategory {
+    fn to_string(&self) -> String {
+        match *self {
+            Self::Engineering => "engineering",
+            Self::Life => "life",
+            Self::Noop => "noop",
+        }
+        .to_owned()
+    }
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug)]

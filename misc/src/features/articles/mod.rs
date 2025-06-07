@@ -6,6 +6,7 @@ use leptos_router::{
 };
 pub mod components;
 pub mod defs;
+pub mod fns;
 pub mod instances;
 pub mod server_fns;
 
