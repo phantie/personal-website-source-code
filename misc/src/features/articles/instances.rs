@@ -135,7 +135,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 relative_path: "photography/article.md".into(),
             },
             id: "photography".into(),
-            title: "Photography (updated 25/05/2025)".into(),
+            title: "Photography (updated 10/06/2025)".into(),
             description: None,
             tags: vec!["photography".into()],
             category: ArticleCategory::Life,
