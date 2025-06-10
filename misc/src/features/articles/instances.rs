@@ -7,11 +7,11 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 relative_path: "about_site/article.md".into(),
             },
             id: "about_site".into(),
-            title: "About site".into(),
+            title: "About site (updated 10/06/2025)".into(),
             description: None,
             tags: vec!["about site".into()],
             category: ArticleCategory::Engineering,
-            timestamp_info_str: None,
+            timestamp_info_str: Some("updated_on:10/06/25".into()),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -38,7 +38,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             },
             id: "concept_of_more_useful_types".into(),
             title: "Concept of more useful types".into(),
-            description: Some("When designing a system, it’s often helpful to choose the most broadly applicable representation of your data—one that can be reached easily from multiple sources. By selecting a more general “useful” type, you reduce unnecessary conversions and ensure your design remains flexible and performant.".into()),
+            description: Some("Identifying more useful types would save you from later refactoring, positively impact performance by cutting indirection and aid in writing reusable code.".into()),
             tags: vec![
                 "concept".into(),
                 "types".into(),
@@ -54,7 +54,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             },
             id: "multilayer_cache".into(),
             title: "Nano framework for implementing multilayered caching".into(),
-            description: Some("An overview of a flexible, multi-layer caching approach in Python, where each cache layer can depend on another in a chain or tree-like structure. It illustrates how data moves from a source (e.g., an S3 bucket) through in-memory caches—such as a file cache and a parsed file cache—so that once a value is locally cached, it can be quickly retrieved without repeatedly contacting upstream layers. The article includes a step-by-step example featuring a two-layer implementation, discusses common pitfalls of multi-layer caching (like code complexity and tight coupling), and introduces the “multilayer_cache” library, offering both synchronous and asynchronous caching solutions.".into()),
+            description: Some("Flexible multilayer caching implemented functionally".into()),
             tags: vec![
                 "caching".into(),
                 "framework".into(),
@@ -71,7 +71,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             },
             id: "event_processing".into(),
             title: "Event processing".into(),
-            description: Some("This article explores how events transition between states and the inherent need for repeatable (idempotent) operations. It contrasts pure calculations (which leave no trace) with side effects (which alter state) and argues that, even when outcomes are partial or uncertain, designing resilient, retry-friendly processes ensures consistency in complex systems.".into()),
+            description: Some("Explore indemportency and event processing for designing resilient, retry-friendly processes ensuring consistency in complex systems.".into()),
             tags: vec![
                 "event processing".into(),
                 "idempotency".into(),
@@ -86,7 +86,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             },
             id: "io_bound_parallel_processing_in_python".into(),
             title: "I/O Bound Parallel Processing in Python".into(),
-            description: Some("This article shows how to handle I/O-heavy work efficiently in Python using asyncio. It covers setting up async functions, using asyncio.gather for parallelism, and managing large task loads with producer-consumer queues. Practical examples illustrate handling timeouts, exceptions, and scaling concurrency while keeping your code robust and maintainable.".into()),
+            description: Some("Handle I/O-heavy work efficiently in Python using asyncio. Explore producer-consumer pattern and solutions to common problems for robust concurrent processing.".into()),
             tags: vec![
                 "parallel processing".into(),
                 "asyncio".into(),
@@ -103,7 +103,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
             },
             id: "vscode_extensions_and_settings_regardless_of_the_programming_language".into(),
             title: "My VSCode extensions and settings recommendations, regardless of the programming language (updated 30/05/2025)".into(),
-            description: Some("This article recommends extensions and settings for VSCode regardless of the programming language.".into()),
+            description: Some("My VSCode extensions and settings recommendations, regardless of the programming language.".into()),
             tags: vec![
                 "vscode".into(),
                 "extensions".into(),
