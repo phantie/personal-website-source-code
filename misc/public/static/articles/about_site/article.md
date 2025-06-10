@@ -32,6 +32,10 @@ This is the third generation of my personal website.
     - Optimal caching with Etags for images
     - Yet not working with Etags for .wasm, .js, .css
 
+- **Front page**
+
+- **Header**
+
 ### Production Deployment
 
 - Continuous deployment on *main* branch push
