@@ -206,6 +206,20 @@ pub fn get_articles_chronological_order() -> ArticleList {
             category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:05/06/25;written_on:05/06/25".into()),
         },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "poems/why_are_you_like_this/article.md".into(),
+            },
+            id: "why_are_you_like_this".into(),
+            title: "Why are you like this?".into(),
+            description: Some("A poem named 'Why are you like this?'".into()),
+            tags: vec![
+                "original poem".into(),
+                "alexander tokar".into(),
+            ],
+            category: ArticleCategory::Life,
+            timestamp_info_str: Some("created_at:11/06/25;written_on:10-11/06/25".into()),
+        },
     ]
 }
 
