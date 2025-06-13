@@ -232,6 +232,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "compression algorithms".into(),
                 "problem solving".into(),
                 "bit operations".into(),
+                "rust lang".into(),
             ],
             category: ArticleCategory::Engineering,
             timestamp_info_str: Some("created_at:14/06/25;written_on:13-14/06/25".into()),
