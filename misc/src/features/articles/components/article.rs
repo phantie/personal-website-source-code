@@ -122,7 +122,23 @@ pub fn Article() -> impl IntoView {
                         }
                     }
 
-                    let description_meta = view! { <Meta name="description" content={article.description.unwrap_or_default()}/> };
+                    let meta_tags = view! {
+                        // Standard Meta
+                        <Meta name="description" content={article.description.clone().unwrap_or_default()}/>
+                        <Title text={article.title.clone()}/>
+
+                        // Open Graph
+                        <Meta property="og:type" content="website"/>
+                        <Meta property="og:title" content={article.title.clone()}/>
+                        <Meta property="og:description" content={article.description.clone().unwrap_or_default()}/>
+
+                        // Twitter Card (summary for text-only)
+                        <Meta name="twitter:card" content="summary"/>
+                        <Meta name="twitter:title" content={article.title.clone()}/>
+                        <Meta name="twitter:description" content={article.description.unwrap_or_default()}/>
+                    };
+
+
                     let keywords_meta = view! { <Meta name="keywords" content={article.tags.join(", ")} /> };
 
                     // log!("applying suspense");
@@ -132,7 +148,7 @@ pub fn Article() -> impl IntoView {
                     {
                         return view! {
                             <Title text={article.title} />
-                            {description_meta}
+                            {meta_tags}
                             {keywords_meta}
                         }.into_any()
                     }
