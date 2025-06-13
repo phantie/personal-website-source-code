@@ -220,6 +220,23 @@ pub fn get_articles_chronological_order() -> ArticleList {
             category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:11/06/25;written_on:10-11/06/25".into()),
         },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "engineering/inventing_a_better_compression_algorithm_for_a_specific_problem/article.md".into(),
+            },
+            id: "inventing_a_better_compression_algorithm_for_a_specific_problem".into(),
+            title: "Inventing a Better Compression Algorithm for a Specific Problem".into(),
+            description: Some("An article about how to leverage domain knowledge to invent spectacular data compression algorithms".into()),
+            tags: vec![
+                "domain knowledge".into(),
+                "compression algorithms".into(),
+                "problem solving".into(),
+                "bit operations".into(),
+                "rust lang".into(),
+            ],
+            category: ArticleCategory::Engineering,
+            timestamp_info_str: Some("created_at:14/06/25;written_on:13-14/06/25".into()),
+        },
     ]
 }
 
