@@ -317,7 +317,21 @@ Adds such shortcuts to preferences and key bindings as:
 
 ---
 
+> "regardless of programming language" rule ends here because I don't like adding new articles for a few extensions
+
+## Extensions for Rust
+
+### Format Leptos
+
+**Link:**
+[masterustacean.leptos-fmt](https://marketplace.visualstudio.com/items?itemName=masterustacean.leptos-fmt)
+
+**Purpose:**
+
+- Useful for `view!{}` macro formatting which `cargo format` does not do
+
 ## Change Log
 
 - 30/05/25 added `Malo.copy-json-path`
 - 30/05/25 added `ziyasal.vscode-open-in-github`
+- 15/06/25 added `masterustacean.leptos-fmt`
