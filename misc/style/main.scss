@@ -398,8 +398,6 @@ header.primary {
 }
 
 /// END PRIMARY HEADER
-
-
 /// START HOME
 :root {
     /* Color Palette Variables */
@@ -581,16 +579,6 @@ header.primary {
     transition: all 0.1s ease;
 }
 
-.home-links-youtube {
-    background: linear-gradient(135deg, var(--dark-teal), var(--sage-green));
-    color: var(--light-gray);
-}
-
-.home-links-youtube:hover {
-    background: linear-gradient(135deg, var(--sage-green), var(--mint-blue));
-    color: var(--deep-navy);
-}
-
 .home-links-github {
     background: linear-gradient(135deg, var(--sage-green), var(--mint-blue));
     color: var(--deep-navy);
@@ -601,13 +589,33 @@ header.primary {
     color: var(--deep-navy);
 }
 
-.home-links-telegram {
+.home-links-youtube {
+    background: linear-gradient(135deg, var(--dark-teal), var(--sage-green));
+    color: var(--light-gray);
+}
+
+.home-links-youtube:hover {
+    background: linear-gradient(135deg, var(--sage-green), var(--mint-blue));
+    color: var(--deep-navy);
+}
+
+.home-links-instagram {
     background: linear-gradient(135deg, var(--mint-blue), var(--light-gray));
     color: var(--deep-navy);
 }
 
-.home-links-telegram:hover {
+.home-links-instagram:hover {
     background: linear-gradient(135deg, var(--light-gray), var(--mint-blue));
+    color: var(--deep-navy);
+}
+
+.home-links-telegram {
+    background: linear-gradient(135deg, var(--dark-teal), var(--mint-blue));
+    color: var(--light-gray);
+}
+
+.home-links-telegram:hover {
+    background: linear-gradient(135deg, var(--mint-blue), var(--sage-green));
     color: var(--deep-navy);
 }
 
@@ -657,6 +665,10 @@ header.primary {
 
 .home-links-sections>a:nth-child(3) {
     animation-delay: 0.5s;
+}
+
+.home-links-sections>a:nth-child(4) {
+    animation-delay: 0.6s;
 }
 
 /* Responsive design */
