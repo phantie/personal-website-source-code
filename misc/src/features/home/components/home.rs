@@ -6,6 +6,7 @@ use leptos_router::{
     components::{ParentRoute, Redirect, Route, Router, Routes},
     path, MatchNestedRoutes, StaticSegment,
 };
+
 #[component]
 pub fn Home() -> impl IntoView {
     view! {
@@ -49,6 +50,15 @@ pub fn Home() -> impl IntoView {
 
                     <div class="home-links-sections">
                         <a
+                            href="https://github.com/phantie"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="home-links-github"
+                        >
+                            <h2>{"GitHub"}</h2>
+                        </a>
+
+                        <a
                             href="https://www.youtube.com/@government_authority"
                             target="_blank"
                             rel="noopener noreferrer"
@@ -58,12 +68,12 @@ pub fn Home() -> impl IntoView {
                         </a>
 
                         <a
-                            href="https://github.com/phantie"
+                            href="/articles/photography"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="home-links-github"
+                            class="home-links-instagram"
                         >
-                            <h2>{"GitHub"}</h2>
+                            <h2>{"Instagram"}</h2>
                         </a>
 
                         <a
