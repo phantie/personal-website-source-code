@@ -237,6 +237,20 @@ pub fn get_articles_chronological_order() -> ArticleList {
             category: ArticleCategory::Engineering,
             timestamp_info_str: Some("created_at:14/06/25;written_on:13-14/06/25".into()),
         },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "poems/look_down_on_those_lights/article.md".into(),
+            },
+            id: "look_down_on_those_lights".into(),
+            title: "Look down on those lights".into(),
+            description: Some("A poem named 'Look down on those lights'".into()),
+            tags: vec![
+                "original poem".into(),
+                "alexander tokar".into(),
+            ],
+            category: ArticleCategory::Life,
+            timestamp_info_str: Some("created_at:20/06/25;written_on:19-20/06/25".into()),
+        },
     ]
 }
 
