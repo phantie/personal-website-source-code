@@ -143,7 +143,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "white_roses_spread_on_the_ground/article.md".into(),
+                relative_path: "life/white_roses_spread_on_the_ground/article.md".into(),
             },
             id: "white_roses_spread_on_the_ground".into(),
             title: "White roses spread on the ground".into(),
@@ -161,7 +161,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "unflourished/article.md".into(),
+                relative_path: "life/unflourished/article.md".into(),
             },
             id: "unflourished".into(),
             title: "Unflourished".into(),
