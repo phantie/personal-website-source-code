@@ -8,7 +8,7 @@
 
 *I hate roses!*
 
-![white_roses_spread_on_the_ground](/static/articles/white_roses_spread_on_the_ground/white_roses_spread_on_the_ground.jpg)
+![white_roses_spread_on_the_ground](/static/articles/life/white_roses_spread_on_the_ground/white_roses_spread_on_the_ground.jpg)
 
 <!-- markdownlint-disable-next-line MD036 -->
 *Taken on 3rd October, 2024*
