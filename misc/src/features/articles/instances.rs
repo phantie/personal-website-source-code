@@ -251,6 +251,20 @@ pub fn get_articles_chronological_order() -> ArticleList {
             category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:20/06/25;written_on:19-20/06/25".into()),
         },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "life/to_my_sister_and_other_graduates/article.md".into(),
+            },
+            id: "to_my_sister_and_other_graduates".into(),
+            title: "To my sister and other graduates".into(),
+            description: None,
+            tags: vec![
+                "photography".into(),
+                "best wishes".into(),
+            ],
+            category: ArticleCategory::Life,
+            timestamp_info_str: Some("created_at:22/06/25;written_on:22/06/25".into()),
+        },
     ]
 }
 
