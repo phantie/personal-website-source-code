@@ -143,7 +143,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "white_roses_spread_on_the_ground/article.md".into(),
+                relative_path: "life/white_roses_spread_on_the_ground/article.md".into(),
             },
             id: "white_roses_spread_on_the_ground".into(),
             title: "White roses spread on the ground".into(),
@@ -161,7 +161,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "unflourished/article.md".into(),
+                relative_path: "life/unflourished/article.md".into(),
             },
             id: "unflourished".into(),
             title: "Unflourished".into(),
@@ -250,6 +250,20 @@ pub fn get_articles_chronological_order() -> ArticleList {
             ],
             category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:20/06/25;written_on:19-20/06/25".into()),
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "life/to_my_sister_and_other_graduates/article.md".into(),
+            },
+            id: "to_my_sister_and_other_graduates".into(),
+            title: "To my sister and other graduates".into(),
+            description: None,
+            tags: vec![
+                "photography".into(),
+                "best wishes".into(),
+            ],
+            category: ArticleCategory::Life,
+            timestamp_info_str: Some("created_at:22/06/25;written_on:22/06/25".into()),
         },
     ]
 }
