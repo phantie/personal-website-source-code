@@ -261,10 +261,24 @@ pub fn get_articles_chronological_order() -> ArticleList {
             tags: vec![
                 "photography".into(),
                 "best wishes".into(),
-            ],
-            category: ArticleCategory::Life,
-            timestamp_info_str: Some("created_at:22/06/25;written_on:22/06/25".into()),
-        },
+                ],
+                category: ArticleCategory::Life,
+                timestamp_info_str: Some("created_at:22/06/25;written_on:22/06/25".into()),
+            },
+            Article {
+                relative_source: RelativeLocalArticleSource {
+                    relative_path: "poems/when_days_become_shorter/article.md".into(),
+                },
+                id: "when_days_become_shorter".into(),
+                title: "When days become shorter".into(),
+                description: Some("A poem named 'When days become shorter'".into()),
+                tags: vec![
+                    "original poem".into(),
+                    "alexander tokar".into(),
+                ],
+                category: ArticleCategory::Life,
+                timestamp_info_str: Some("created_at:25/06/25;written_on:25/06/25".into()),
+            },
     ]
 }
 
