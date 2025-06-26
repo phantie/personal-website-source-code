@@ -2,6 +2,8 @@
 
 **Domain-specific knowledge can lead to dramatically better compression results compared to general-purpose algorithms like `brotli`.**
 
+> Discussion on [/r/rust](https://www.reddit.com/r/rust/comments/1lasrgu/inventing_a_better_compression_algorithm_for_a/)
+
 ## What domain are we entwined with for today?
 
 A game of snake. We are only interested that it can be represented as a sequence of coordinates on infinite (not really) integer space, where the first coordinate is the head of a snake.
