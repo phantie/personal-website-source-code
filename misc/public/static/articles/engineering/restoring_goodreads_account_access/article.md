@@ -14,7 +14,7 @@ I had access to a Goodreads account created in August 2023: <https://www.goodrea
 
 In June 2025, when I signed in via Google SSO using the same email, Goodreads created a new account: <https://www.goodreads.com/user/show/190893720-alexander-tokar> (by the time this is written this link no longer works, so here's it [archived](https://web.archive.org/web/20250603114410/https://www.goodreads.com/user/show/190893720-alexander-tokar)).
 
-So I can no longer access the old account via email/password. It just logs me into the new account.
+But I can no longer access the old account via email/password. It just logs me into the new account.
 
 ## Contacting Support
 
@@ -33,7 +33,7 @@ I provided every needed from my perspective proof like:
 
     ![x](/static/articles/engineering/restoring_goodreads_account_access/images/support/books_on_hard_drive_subset.jpg)
 
-I went on for a while, but you can't convince a brick.
+It went on for a while, but you can't convince a brick.
 
 Eventually I've given up upon receiving: "Thanks for reaching out! As mentioned, in order to access or remove a Goodreads account you need to remember and have access to the email address you used to create the account."
 
@@ -67,11 +67,11 @@ But <https://www.goodreads.com/user/show/168712587-alex> profile still exists.
 
 So is it that:
 
-- Can it mean that there’s a bug that not only deleted a new account, but also unattached the old account from this email?
+- Is there a bug that not only deleted a new account, but also unattached the old account from this email?
   - Unlikely. From the beginning they relied on email/password, so the email column would most likely be non-null. Since the new profile link stopped working immediately but the old one still works, this suggests the account deletion feature isn't eventually consistent.
 
 - Is it eventually consistent?
-  - Unlikely. The user base isn't that huge, and eventual consistency rarely applies to this part of the system. They provide data downloads and wouldn't want valid profile links just hanging there after users confirm permanent deletion.
+  - Unlikely. The user base isn't enormous, and eventual consistency rarely applies to this part of the system. They provide data downloads and wouldn't want valid profile links just hanging there after users confirm permanent deletion.
 
 - Can it be that it’s eventually consistent, but accounts just flagged this account data for deletion, and this check is a gatekeeper to login/account information?
   - Possible.
@@ -116,11 +116,11 @@ Apple SSO works properly.
 ## Conclusions
 
 - The goal is achieved - account access restored.
-- Goodreads support was useless and cringe in treating me like I didn't know to what email the old account was attached to after providing an exhaustive amount of proofs. **Yes, it was a bug, and it persists with Google SSO still.**
+- Goodreads support was useless and cringe in treating me like I didn't know to which email the old account was attached to after providing an exhaustive amount of proofs. **Yes, it was a bug, and it persists with Google SSO still.**
   - Yet, I cannot fully make sense of why this system exhibits such behaviour. Poorly implemented Google SSO likely affects the entire user account management process. They probably know about it, since signup isn't available from root <https://www.goodreads.com/> as of 06/30/25. But the [Login](https://www.goodreads.com/user/sign_in) page offers Google SSO. Looking at Internet Archive, Google SSO was implemented between 01/01/2021 and 01/01/2022. It still doesn't work properly, perhaps that's why it's not on the root page.
 
 *Also, I will no longer use Goodreads as the only place to keep book progress, quotes, etc.*
 
-It took an effort to find the old account profile and a lot of luck. In the worst case all that history would be lost, and now it’s certain the support wouldn't have helped to even find the profile page.
+It took an effort to find the old account profile and a unusual amount of luck. In the worst case all that history would be lost (I mostly cared about quotes), and now it’s certain the support wouldn't have helped to even find the profile page.
 
 Still, it was an interesting experience in reverse engineering.
