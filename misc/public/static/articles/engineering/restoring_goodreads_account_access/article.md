@@ -23,18 +23,18 @@ I provided every needed from my perspective proof like:
 - Previous emails I'd received
   - Showing the email address to prove it was the same account
 
-    ![x](/static/articles/engineering/restoring_goodreads_account/images/support/old_received_emails/with_email_account_shown.png)
+    ![x](/static/articles/engineering/restoring_goodreads_account_access/images/support/old_received_emails/with_email_account_shown.png)
 
   - Showing dates that aligned with when I finished books like "Kubernetes in Practice"
 
-    ![x](/static/articles/engineering/restoring_goodreads_account/images/support/old_received_emails/with_dates.png)
+    ![x](/static/articles/engineering/restoring_goodreads_account_access/images/support/old_received_emails/with_dates.png)
 
 - Subset of books I had on my hard drive
-    ![x](/static/articles/engineering/restoring_goodreads_account/images/support/books_on_hard_drive/subset.png)
+    ![x](/static/articles/engineering/restoring_goodreads_account_access/images/support/books_on_hard_drive/subset.png)
 
 I received ***very reasonable*** final responses: "Thanks for reaching out! As mentioned, in order to access or remove a Goodreads account you need to remember and have access to the email address you used to create the account."
 
-![x](/static/articles/engineering/restoring_goodreads_account/images/support/final_responses/final_responses_1.png)
+![x](/static/articles/engineering/restoring_goodreads_account_access/images/support/final_responses/final_responses_1.png)
 
 **"It's a bug in your system," I said.
 "No it's not — you just don't remember the email from your old account," they replied.**
@@ -45,13 +45,13 @@ Email/password login still directs me to the new account.
 
 Let's sign in via Google SSO and delete the new account:
 
-![x](/static/articles/engineering/restoring_goodreads_account/images/myself/deleting_2nd_account.png)
+![x](/static/articles/engineering/restoring_goodreads_account_access/images/myself/deleting_2nd_account.png)
 
 The new account is deleted, and the profile link (<https://www.goodreads.com/user/show/190893720-alexander-tokar>) no longer works.
 
 Let's try logging in again using email/password instead of Google SSO:
 
-![x](/static/articles/engineering/restoring_goodreads_account/images/myself/email_does_not_exist_after_deleting_2nd_account.png)
+![x](/static/articles/engineering/restoring_goodreads_account_access/images/myself/email_does_not_exist_after_deleting_2nd_account.png)
 
 "No such account exists!"
 
@@ -82,7 +82,7 @@ A new profile is created: <https://www.goodreads.com/user/show/191618437-alexand
 
 Let's try email login again.
 
-![x](/static/articles/engineering/restoring_goodreads_account/images/myself/wrong_password_after_creating_3rd_account.png)
+![x](/static/articles/engineering/restoring_goodreads_account_access/images/myself/wrong_password_after_creating_3rd_account.png)
 
 Wrong password. Let's reset it.
 
@@ -102,7 +102,7 @@ No, Cannot find an account with this email address, even after confirming the ne
 
 Let's try Apple SSO:
 
-![x](/static/articles/engineering/restoring_goodreads_account/images/myself/success_with_apple_sso.png)
+![x](/static/articles/engineering/restoring_goodreads_account_access/images/myself/success_with_apple_sso.png)
 
 Goodness gracious. We're in the old account.
 Apple SSO works properly.
