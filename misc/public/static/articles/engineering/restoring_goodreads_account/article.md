@@ -6,26 +6,31 @@ I’ve lost access to an old Goodreads account after trying logging in with Goog
 
 ## TLDR
 
-TLDR; travelling back in time to this section… if you cannot login into your old account after trying Google SSO (email/password won’t be of use any more) try Apple SSO (with the same email). It helped me to get access.
+Travelling back in time to this section… if you cannot login into your old account after trying Google SSO (email/password won’t be of use any more) try Apple SSO (with the same email). It helped me to get access.
 
 ## Context
 
-Context: I’ve had access to a Goodreads account created in August 2023 <https://www.goodreads.com/user/show/168712587-alex>. By logging in via Google SSO using the same email Goodreads created a new account <https://www.goodreads.com/user/show/190893720-alexander-tokar> (by the time this is written this link no longer works, so here’s it archived <https://web.archive.org/web/20250603114410/https://www.goodreads.com/user/show/190893720-alexander-tokar>). So I cannot access the old account via email/password (as it seems I was doing before). It just logs me in into the new account.
+I’ve had access to a Goodreads account created in August 2023 <https://www.goodreads.com/user/show/168712587-alex>. By logging in via Google SSO using the same email Goodreads created a new account <https://www.goodreads.com/user/show/190893720-alexander-tokar> (by the time this is written this link no longer works, so here’s it archived <https://web.archive.org/web/20250603114410/https://www.goodreads.com/user/show/190893720-alexander-tokar>). So I cannot access the old account via email/password (as it seems I was doing before). It just logs me in into the new account.
+
+## Contacting support
 
 Provided every single from my perspective proof like:
-emails I was receiving before -
-With email address visible (<https://drive.google.com/file/d/1sJOU_33zpiUiMEnP8veW3UkVJTKtF8_B/view?usp=drive_link>).
-Which shows that it is this same email
-With dates visible (<https://drive.google.com/file/d/1b2ZksVRtGJERWAKw3uNSEVqDGylXQ44w/view?usp=drive_link>)
-Which shows that the received emails dates align with when books such as “Kubernetes in Practice” were finished
-books I’ve had on hard drive ( <https://drive.google.com/drive/folders/1Kw3fDgpdcOgS3xZ6TGhFJb8Y5a_isoFU?usp=drive_link> )
+
+- emails I was receiving before -
+  - With email address visible (<https://drive.google.com/file/d/1sJOU_33zpiUiMEnP8veW3UkVJTKtF8_B/view?usp=drive_link>).
+      Which shows that it is this same email
+
+  - With dates visible (<https://drive.google.com/file/d/1b2ZksVRtGJERWAKw3uNSEVqDGylXQ44w/view?usp=drive_link>)
+      Which shows that the received emails dates align with when books such as “Kubernetes in Practice” were finished
+
+  - books I’ve had on hard drive ( <https://drive.google.com/drive/folders/1Kw3fDgpdcOgS3xZ6TGhFJb8Y5a_isoFU?usp=drive_link> )
+
+I received very reasonable final responses: “Thanks for reaching out! As mentioned, in order to access or remove a Goodreads account you need to remember and have access to the email address you used to create the account.” (<https://drive.google.com/drive/folders/1bL1VJ1aIxvP9aqs-NAcVaHYsHJVz7Isj?usp=drive_link>)
 
 “It’s a bug in your system.”, - says I.
 “No it’s not - you certainly don’t remember the email from an old account”, - they say.
 
-I received very reasonable final responses: “Thanks for reaching out! As mentioned, in order to access or remove a Goodreads account you need to remember and have access to the email address you used to create the account.” (<https://drive.google.com/drive/folders/1bL1VJ1aIxvP9aqs-NAcVaHYsHJVz7Isj?usp=drive_link>)
-
-So no help is coming.
+## So no help is coming
 
 Let’s try to login using not Google SSO, but email/password:
 (video)
