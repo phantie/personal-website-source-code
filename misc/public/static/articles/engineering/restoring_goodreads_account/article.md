@@ -30,14 +30,14 @@ I provided every needed from my perspective proof like:
     ![x](/static/articles/engineering/restoring_goodreads_account/images/support/old_received_emails/with_dates.png)
 
 - Books I had on my hard drive
-    ![x](/static/articles/engineering/restoring_goodreads_account/images/support/books_on_hard_drive/1.png)
-    ![x](/static/articles/engineering/restoring_goodreads_account/images/support/books_on_hard_drive/2.png)
-    ![x](/static/articles/engineering/restoring_goodreads_account/images/support/books_on_hard_drive/3.png)
+    ![x](/static/articles/engineering/restoring_goodreads_account/images/support/books_on_hard_drive/books_on_hard_drive_1.png)
+    ![x](/static/articles/engineering/restoring_goodreads_account/images/support/books_on_hard_drive/books_on_hard_drive_2.png)
+    ![x](/static/articles/engineering/restoring_goodreads_account/images/support/books_on_hard_drive/books_on_hard_drive_3.png)
 
 I received ***very reasonable*** final responses: "Thanks for reaching out! As mentioned, in order to access or remove a Goodreads account you need to remember and have access to the email address you used to create the account."
 
-![x](/static/articles/engineering/restoring_goodreads_account/images/support/final_responses/1.png)
-![x](/static/articles/engineering/restoring_goodreads_account/images/support/final_responses/2.png)
+![x](/static/articles/engineering/restoring_goodreads_account/images/support/final_responses/final_responses_1.png)
+![x](/static/articles/engineering/restoring_goodreads_account/images/support/final_responses/final_responses_2.png)
 
 **"It's a bug in your system," I said.
 "No it's not — you simply don't remember the email from your old account," they replied.**
