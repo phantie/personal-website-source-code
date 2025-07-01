@@ -6,7 +6,7 @@ I lost access to an old Goodreads account after attempting to sign in with Googl
 
 ## TLDR
 
-Travelling back in time to this section… if you can't access your old account after trying Google SSO (email/password login becomes useless), try Apple SSO with the same email. That's what worked for me.
+Wellp. It seems I was using Apple SSO with private relay all along. So Apple private relay email was forwarding emails to my private email.
 
 ## Context
 
@@ -109,18 +109,9 @@ Let's try Apple SSO:
 ![x](/static/articles/engineering/restoring_goodreads_account_access/images/myself/success_with_apple_sso.jpg)
 
 Goodness gracious. We're in the old account.
-Apple SSO works properly.
 
-> Email/password still logs me into the newest account.
+But it seems I was using Apple SSO with private relay all along. Hmmmm...
 
-## Conclusions
+It explains a lot.
 
-- The goal is achieved - account access restored.
-- Goodreads support was useless and cringe in treating me like I didn't know to which email the old account was attached to after providing an exhaustive amount of proofs. **Yes, it was a bug, and it persists with Google SSO still.**
-  - Yet, I cannot fully make sense of why this system exhibits such behaviour. Poorly implemented Google SSO likely affects the entire user account management process. They probably know about it, since signup isn't available from root <https://www.goodreads.com/> as of 06/30/25. But the [Login](https://www.goodreads.com/user/sign_in) page offers Google SSO. Looking at Internet Archive, Google SSO was implemented between 01/01/2021 and 01/01/2022. It still doesn't work properly, perhaps that's why it's not on the root page.
-
-*Also, I will no longer use Goodreads as the only place to keep book progress, quotes, etc.*
-
-It took an effort to find the old account profile and a unusual amount of luck. In the worst case all that history would be lost (I mostly cared about quotes), and now it’s certain the support wouldn't have helped to even find the profile page.
-
-Still, it was an interesting experience in reverse engineering.
+This article stays in the repo. But I am not sure about displaying it on the site.

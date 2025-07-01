@@ -250,54 +250,36 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 ],
                 category: ArticleCategory::Life,
                 timestamp_info_str: Some("created_at:20/06/25;written_on:19-20/06/25".into()),
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "life/to_my_sister_and_other_graduates/article.md".into(),
             },
-            Article {
-                relative_source: RelativeLocalArticleSource {
-                    relative_path: "life/to_my_sister_and_other_graduates/article.md".into(),
-                },
-                id: "to_my_sister_and_other_graduates".into(),
-                title: "To my sister and other graduates".into(),
-                description: None,
-                tags: vec![
-                    "photography".into(),
-                    "best wishes".into(),
-                    ],
-                    category: ArticleCategory::Life,
-                    timestamp_info_str: Some("created_at:22/06/25;written_on:22/06/25".into()),
-                },
-                Article {
-                    relative_source: RelativeLocalArticleSource {
-                        relative_path: "poems/when_days_become_shorter/article.md".into(),
-                    },
-                    id: "when_days_become_shorter".into(),
-                    title: "When days become shorter".into(),
-                    description: Some("A poem named 'When days become shorter'".into()),
-                    tags: vec![
-                        "original poem".into(),
-                        "alexander tokar".into(),
-                        ],
-                        category: ArticleCategory::Life,
-                        timestamp_info_str: Some("created_at:25/06/25;written_on:25/06/25".into()),
-                    },
-                    Article {
-                        relative_source: RelativeLocalArticleSource {
-                            relative_path: "engineering/restoring_goodreads_account_access/article.md".into(),
-                        },
-                        id: "restoring_goodreads_account_access".into(),
-                        title: "Using Software Engineering Knowledge in Pursuit of Restoring My Goodreads Account".into(),
-                        description: Some("Using Software Engineering Knowledge in Pursuit of Restoring My Goodreads Account".into()),
-                        tags: vec![
-                            "goodreads".into(),
-                            "useless support".into(),
-                            "google sso".into(),
-                            "system bug".into(),
-                            "reverse engineering".into(),
-                            "account access".into(),
-                        ],
-                        category: ArticleCategory::Engineering,
-                        timestamp_info_str: Some("created_at:30/06/25;written_on:30/06/25".into()),
-                    },
-                    ]
+            id: "to_my_sister_and_other_graduates".into(),
+            title: "To my sister and other graduates".into(),
+            description: None,
+            tags: vec![
+                "photography".into(),
+                "best wishes".into(),
+                ],
+                category: ArticleCategory::Life,
+                timestamp_info_str: Some("created_at:22/06/25;written_on:22/06/25".into()),
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "poems/when_days_become_shorter/article.md".into(),
+            },
+            id: "when_days_become_shorter".into(),
+            title: "When days become shorter".into(),
+            description: Some("A poem named 'When days become shorter'".into()),
+            tags: vec![
+                "original poem".into(),
+                "alexander tokar".into(),
+            ],
+            category: ArticleCategory::Life,
+            timestamp_info_str: Some("created_at:25/06/25;written_on:25/06/25".into()),
+        },
+    ]
 }
 
 impl Default for Articles {
