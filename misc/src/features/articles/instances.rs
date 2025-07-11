@@ -279,6 +279,20 @@ pub fn get_articles_chronological_order() -> ArticleList {
             category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:25/06/25;written_on:25/06/25".into()),
         },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "poems/to_universe/article.md".into(),
+            },
+            id: "to_universe".into(),
+            title: "To Universe".into(),
+            description: Some("A poem named 'To Universe'".into()),
+            tags: vec![
+                "original poem".into(),
+                "alexander tokar".into(),
+            ],
+            category: ArticleCategory::Life,
+            timestamp_info_str: Some("created_at:12/07/25;written_on:12/07/25".into()),
+        },
     ]
 }
 
