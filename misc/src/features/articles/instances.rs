@@ -307,6 +307,20 @@ pub fn get_articles_chronological_order() -> ArticleList {
             category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:18/07/25;written_on:18/07/25".into()),
         },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "poems/some_days_are_just_days/article.md".into(),
+            },
+            id: "some_days_are_just_days".into(),
+            title: "Some days are just days".into(),
+            description: Some("A poem named 'Some days are just days'".into()),
+            tags: vec![
+                "original poem".into(),
+                "alexander tokar".into(),
+            ],
+            category: ArticleCategory::Life,
+            timestamp_info_str: Some("created_at:28/07/25;written_on:24-27/07/25".into()),
+        },
     ]
 }
 
