@@ -1,5 +1,12 @@
 # Photography
 
+![x](/static/articles/photography/images/IMG_2818.jpg)
+![x](/static/articles/photography/images/IMG_2814.jpg)
+![x](/static/articles/photography/images/IMG_2812.jpg)
+![x](/static/articles/photography/images/IMG_2808.jpg)
+![x](/static/articles/photography/images/IMG_2803.jpg)
+![x](/static/articles/photography/images/IMG_2769.jpg)
+![x](/static/articles/photography/images/IMG_2756.jpg)
 ![x](/static/articles/photography/images/IMG_2727.jpg)
 ![x](/static/articles/photography/images/IMG_2711.jpg)
 ![x](/static/articles/photography/images/IMG_2706.jpg)

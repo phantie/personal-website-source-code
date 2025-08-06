@@ -135,7 +135,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 relative_path: "photography/article.md".into(),
             },
             id: "photography".into(),
-            title: "Photography (updated 14/07/2025)".into(),
+            title: "Photography (updated 07/08/2025)".into(),
             description: None,
             tags: vec!["photography".into()],
             category: ArticleCategory::Life,
@@ -320,6 +320,20 @@ pub fn get_articles_chronological_order() -> ArticleList {
             ],
             category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:28/07/25;written_on:24-27/07/25".into()),
+        },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "poems/and_i_still_wonder/article.md".into(),
+            },
+            id: "and_i_still_wonder".into(),
+            title: "And I still wonder".into(),
+            description: Some("A poem named 'And I still wonder'".into()),
+            tags: vec![
+                "original poem".into(),
+                "alexander tokar".into(),
+            ],
+            category: ArticleCategory::Life,
+            timestamp_info_str: Some("created_at:07/08/25;written_on:06/08/25".into()),
         },
     ]
 }
