@@ -10,9 +10,9 @@ The most useful concept here is *expected value*. Though it's used with subjecti
 
 Real cases have a probability **distribution** of different outcomes.
 
-As I said, it's used with subjective probabilities. So instead of robust numbers, I use subjective evaluation, though I try to translate it to numbers rather than just using the *certain/never happening* spectrum.
+As I said, it's used with subjective probabilities. So instead of robust numbers, I use subjective evaluation, though I try to translate it to numbers rather than just using the *certain/never happening* spectrum. Most probabilities are either *certain/never happening*, close to 1 or close to 0; so they either won't affect a choice (multiply by 1) or throw out a choice (multiply by 0).
 
-The entire field of probability and statistics is applicable here, though it's almost always applied casually due to a lack of data and is based mostly, in some sense, on gut feeling. Most probabilities are either always or never happens, close to 1 or close to 0; so they either won't affect a choice (multiply by 1) or throw out a choice (multiply by 0).
+The entire field of probability and statistics is applicable here, though it's almost always applied casually due to a lack of data and is based mostly, in some sense, on gut feeling.
 
 ### An example
 
