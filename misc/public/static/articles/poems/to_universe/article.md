@@ -1,7 +1,5 @@
 # To Universe
 
-Written by Alexander Tokar on July 12th, 2025
-
 ```txt
 Universe!
 O Holy!
@@ -24,3 +22,5 @@ Like justness soaping its hands!
 Whisper not.
 Whilst crickets chirp.
 ```
+
+July 12th, 2025

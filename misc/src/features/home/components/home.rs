@@ -37,6 +37,10 @@ pub fn Home() -> impl IntoView {
                             <h2>{"Engineering"}</h2>
                         </a>
 
+                        <a href="/articles?category=poetry" class="home-sections-poetry">
+                            <h2>{"Poetry"}</h2>
+                        </a>
+
                         <a href="/articles?category=life" class="home-sections-life">
                             <h2>{"Life"}</h2>
                         </a>

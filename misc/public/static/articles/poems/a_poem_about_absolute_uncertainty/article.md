@@ -1,7 +1,5 @@
 # A poem about absolute uncertainty
 
-Written by Alexander Tokar on April 8th, 2024
-
 ```txt
 Thoughts.
 Lack of thoughts.
@@ -32,11 +30,4 @@ Maybe future.
 Maybe.
 ```
 
----
-
-The first line originally was "Depression."
-
-But how Sean Rowe sang in his song "Lemon tree":
-
-> And nobody ever wrote the right song \
-> While they were in the middle of feeling good
+April 8th, 2024

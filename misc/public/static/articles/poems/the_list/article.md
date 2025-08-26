@@ -1,7 +1,5 @@
 # The List
 
-Written by Alexander Tokar on June 5th, 2025
-
 ```txt
 I am to live.
 For I am blessed.
@@ -28,3 +26,5 @@ For I ran through the smoking fields.
 I am to love.
 For good.
 ```
+
+June 5th, 2025

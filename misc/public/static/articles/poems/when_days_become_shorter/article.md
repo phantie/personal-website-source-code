@@ -1,7 +1,5 @@
 # When days become shorter
 
-Written by Alexander Tokar on June 25th, 2025
-
 ```txt
 A mere few birthdays I know.
 
@@ -48,3 +46,5 @@ Back then we were too young to know.
 What it was.
 What it will be.
 ```
+
+June 25th, 2025

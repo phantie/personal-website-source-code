@@ -127,7 +127,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "uncertainty".into(),
                 "sean rowe".into(),
             ],
-            category: ArticleCategory::Life,
+            category: ArticleCategory::Poetry,
             timestamp_info_str: Some("written_on:08/04/24".into()),
         },
         Article {
@@ -189,7 +189,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "war against Ukraine".into(),
                 "with photos".into(),
             ],
-            category: ArticleCategory::Life,
+            category: ArticleCategory::Poetry,
             timestamp_info_str: Some("created_at:05/06/25;written_on:07/08/23".into()),
         },
         Article {
@@ -203,7 +203,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "original poem".into(),
                 "alexander tokar".into(),
             ],
-            category: ArticleCategory::Life,
+            category: ArticleCategory::Poetry,
             timestamp_info_str: Some("created_at:05/06/25;written_on:05/06/25".into()),
         },
         Article {
@@ -217,7 +217,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "original poem".into(),
                 "alexander tokar".into(),
             ],
-            category: ArticleCategory::Life,
+            category: ArticleCategory::Poetry,
             timestamp_info_str: Some("created_at:11/06/25;written_on:10-11/06/25".into()),
         },
         Article {
@@ -248,7 +248,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "original poem".into(),
                 "alexander tokar".into(),
                 ],
-                category: ArticleCategory::Life,
+                category: ArticleCategory::Poetry,
                 timestamp_info_str: Some("created_at:20/06/25;written_on:19-20/06/25".into()),
         },
         Article {
@@ -276,7 +276,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "original poem".into(),
                 "alexander tokar".into(),
             ],
-            category: ArticleCategory::Life,
+            category: ArticleCategory::Poetry,
             timestamp_info_str: Some("created_at:25/06/25;written_on:25/06/25".into()),
         },
         Article {
@@ -290,7 +290,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "original poem".into(),
                 "alexander tokar".into(),
             ],
-            category: ArticleCategory::Life,
+            category: ArticleCategory::Poetry,
             timestamp_info_str: Some("created_at:12/07/25;written_on:12/07/25".into()),
         },
         Article {
@@ -304,7 +304,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "original poem".into(),
                 "alexander tokar".into(),
             ],
-            category: ArticleCategory::Life,
+            category: ArticleCategory::Poetry,
             timestamp_info_str: Some("created_at:18/07/25;written_on:18/07/25".into()),
         },
         Article {
@@ -318,7 +318,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "original poem".into(),
                 "alexander tokar".into(),
             ],
-            category: ArticleCategory::Life,
+            category: ArticleCategory::Poetry,
             timestamp_info_str: Some("created_at:28/07/25;written_on:24-27/07/25".into()),
         },
         Article {
@@ -332,7 +332,7 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "original poem".into(),
                 "alexander tokar".into(),
             ],
-            category: ArticleCategory::Life,
+            category: ArticleCategory::Poetry,
             timestamp_info_str: Some("created_at:07/08/25;written_on:06/08/25".into()),
         },
         Article {
