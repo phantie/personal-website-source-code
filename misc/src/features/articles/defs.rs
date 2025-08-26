@@ -35,13 +35,29 @@ impl ArticleSource for LocalArticleSource {
 pub enum ArticleCategory {
     Engineering,
     Life,
+    Poetry,
     Noop,
+}
+
+impl TryFrom<&str> for ArticleCategory {
+    type Error = ();
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        match value {
+            "engineering" => Ok(ArticleCategory::Engineering),
+            "life" => Ok(ArticleCategory::Life),
+            "poetry" => Ok(ArticleCategory::Poetry),
+            "noop" => Ok(ArticleCategory::Noop),
+            _ => Err(()),
+        }
+    }
 }
 
 impl ToString for ArticleCategory {
     fn to_string(&self) -> String {
         match *self {
             Self::Engineering => "engineering",
+            Self::Poetry => "poetry",
             Self::Life => "life",
             Self::Noop => "noop",
         }

@@ -1,7 +1,5 @@
 # Look down on those lights
 
-Written by Alexander Tokar on June 19th-20th, 2025
-
 ```txt
 Look down on those lights.
 
@@ -34,3 +32,5 @@ I'm at home.
 Thankful for this gentle light.
 And this place, where my feet rest.
 ```
+
+June 19th-20th, 2025

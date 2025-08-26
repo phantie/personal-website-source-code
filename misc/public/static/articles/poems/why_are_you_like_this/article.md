@@ -1,7 +1,5 @@
 # Why are you like this?
 
-Written by Alexander Tokar on June 10th-11th, 2025
-
 ```txt
 Just overestimated myself.
 This time.
@@ -28,3 +26,5 @@ The bird orchestra, thankful for fruits not yet rotten.
 The raindrops weeping for voiceless generous land.
 Why are you like this?
 ```
+
+June 10th-11th, 2025
