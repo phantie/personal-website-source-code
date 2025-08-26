@@ -335,6 +335,19 @@ pub fn get_articles_chronological_order() -> ArticleList {
             category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:07/08/25;written_on:06/08/25".into()),
         },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "life/methods_helping_in_life/article.md".into(),
+            },
+            id: "methods_helping_in_life".into(),
+            title: "Methods helping in life".into(),
+            description: Some("Methods helping in life".into()),
+            tags: vec![
+                "thoughts".into(),
+            ],
+            category: ArticleCategory::Life,
+            timestamp_info_str: Some("created_at:26/08/25;written_on:26/08/25".into()),
+        },
     ]
 }
 
