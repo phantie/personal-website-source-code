@@ -1,7 +1,5 @@
 # Farewell, Father
 
-Written by Alexander Tokar on August 7th, 2023 — the day we learned that the father had died defending our country.
-
 ```txt
 He will never smile at his daughter and his wife again.
 Won't feel their love and touch.
@@ -15,6 +13,8 @@ Won't see his grandchildren or the war's end.
 Won't be proven wrong or right.
 Won't get the ending he deserved.
 ```
+
+August 7th, 2023 — the day we learned that father had died defending our country.
 
 ---
 

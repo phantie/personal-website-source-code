@@ -516,6 +516,16 @@ header.primary {
     color: var(--deep-navy);
 }
 
+.home-sections-poetry {
+    background: linear-gradient(135deg, var(--mint-blue), var(--light-gray));
+    color: var(--deep-navy);
+}
+
+.home-sections-poetry:hover {
+    background: linear-gradient(135deg, var(--light-gray), var(--mint-blue));
+    color: var(--deep-navy);
+}
+
 .home-sections-life {
     background: linear-gradient(135deg, var(--sage-green), var(--mint-blue));
     color: var(--deep-navy);
@@ -653,21 +663,25 @@ header.primary {
     animation-delay: 0.2s;
 }
 
-/* Stagger animation for links */
-.home-links-sections>a:nth-child(1) {
+.home-sections-sections>a:nth-child(3) {
     animation-delay: 0.3s;
 }
 
-.home-links-sections>a:nth-child(2) {
+/* Stagger animation for links */
+.home-links-sections>a:nth-child(1) {
     animation-delay: 0.4s;
 }
 
-.home-links-sections>a:nth-child(3) {
+.home-links-sections>a:nth-child(2) {
     animation-delay: 0.5s;
 }
 
-.home-links-sections>a:nth-child(4) {
+.home-links-sections>a:nth-child(3) {
     animation-delay: 0.6s;
+}
+
+.home-links-sections>a:nth-child(4) {
+    animation-delay: 0.7s;
 }
 
 /* Responsive design */

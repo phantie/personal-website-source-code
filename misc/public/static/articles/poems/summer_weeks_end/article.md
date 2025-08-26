@@ -1,7 +1,5 @@
 # Summer week's end
 
-Written by Alexander Tokar on July 18th, 2025
-
 ```txt
 Curtains breath.
 Breeze brushes laudably.
@@ -11,3 +9,5 @@ Cherish kind pillow.
 Close your eyes.
 Dream content.
 ```
+
+July 18th, 2025
