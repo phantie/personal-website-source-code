@@ -22,7 +22,7 @@ So my thoughts here were: with some probability she might come—so I'd better c
 
 Story ends with: she calls, says she wanted to come yesterday, but I ignored her message, then she states that she wants to come tomorrow. I say okay, she doesn't come. Then it's planned for another day, I say okay, she doesn't come. She wasn't in the country.
 
-Concluding this case with an observation—people will plot something, lie to you, and pressure you even when it's undeserved.
+Concluding this case with an observation—some people will plot something, lie to you, and pressure you even when it's undeserved.
 
 ## Concluding Probabilistic Method
 
