@@ -348,6 +348,20 @@ pub fn get_articles_chronological_order() -> ArticleList {
             category: ArticleCategory::Life,
             timestamp_info_str: Some("created_at:26/08/25;written_on:26/08/25".into()),
         },
+        Article {
+            relative_source: RelativeLocalArticleSource {
+                relative_path: "poems/i_dont_speak_much_lately/article.md".into(),
+            },
+            id: "i_dont_speak_much_lately".into(),
+            title: "I don't speak much lately".into(),
+            description: Some("A poem named 'I don't speak much lately'".into()),
+            tags: vec![
+                "original poem".into(),
+                "alexander tokar".into(),
+            ],
+            category: ArticleCategory::Poetry,
+            timestamp_info_str: Some("created_at:27/05/26;written_on:27/05/26".into()),
+        },
     ]
 }
 
