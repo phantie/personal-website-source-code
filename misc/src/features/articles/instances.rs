@@ -194,20 +194,6 @@ pub fn get_articles_chronological_order() -> ArticleList {
         },
         Article {
             relative_source: RelativeLocalArticleSource {
-                relative_path: "poems/the_list/article.md".into(),
-            },
-            id: "the_list".into(),
-            title: "The List".into(),
-            description: Some("A poem named 'The List'".into()),
-            tags: vec![
-                "original poem".into(),
-                "alexander tokar".into(),
-            ],
-            category: ArticleCategory::Poetry,
-            timestamp_info_str: Some("created_at:05/06/25;written_on:05/06/25".into()),
-        },
-        Article {
-            relative_source: RelativeLocalArticleSource {
                 relative_path: "poems/why_are_you_like_this/article.md".into(),
             },
             id: "why_are_you_like_this".into(),
