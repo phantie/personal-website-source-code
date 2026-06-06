@@ -1,4 +1,10 @@
+use chrono::NaiveDate;
+
 use crate::features::articles::defs::*;
+
+fn d(year: i32, month: u32, day: u32) -> Option<NaiveDate> {
+    Some(NaiveDate::from_ymd_opt(year, month, day).expect("invalid date in article definition"))
+}
 
 pub fn get_articles_chronological_order() -> ArticleList {
     vec![
@@ -11,7 +17,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
             description: None,
             tags: vec!["about site".into()],
             category: ArticleCategory::Engineering,
-            timestamp_info_str: Some("updated_on:10/06/25".into()),
+            created_at: d(2025, 6, 10),
+            written_on: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -30,7 +37,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "python".into(),
             ],
             category: ArticleCategory::Engineering,
-            timestamp_info_str: None,
+            created_at: None,
+            written_on: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -46,7 +54,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "python".into(),
             ],
             category: ArticleCategory::Engineering,
-            timestamp_info_str: None,
+            created_at: None,
+            written_on: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -63,7 +72,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "python".into(),
             ],
             category: ArticleCategory::Engineering,
-            timestamp_info_str: None,
+            created_at: None,
+            written_on: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -78,7 +88,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "operations".into(),
             ],
             category: ArticleCategory::Engineering,
-            timestamp_info_str: None,
+            created_at: None,
+            written_on: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -95,7 +106,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "producer-consumer".into(),
             ],
             category: ArticleCategory::Engineering,
-            timestamp_info_str: None,
+            created_at: None,
+            written_on: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -112,7 +124,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "recommendations".into(),
             ],
             category: ArticleCategory::Engineering,
-            timestamp_info_str: None,
+            created_at: None,
+            written_on: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -128,7 +141,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "sean rowe".into(),
             ],
             category: ArticleCategory::Poetry,
-            timestamp_info_str: Some("written_on:08/04/24".into()),
+            created_at: None,
+            written_on: d(2024, 4, 8),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -139,7 +153,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
             description: None,
             tags: vec!["photography".into()],
             category: ArticleCategory::Life,
-            timestamp_info_str: None,
+            created_at: None,
+            written_on: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -157,7 +172,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "flowers".into(),
             ],
             category: ArticleCategory::Life,
-            timestamp_info_str: None,
+            created_at: None,
+            written_on: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -173,7 +189,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "flowers".into(),
             ],
             category: ArticleCategory::Life,
-            timestamp_info_str: Some("created_at:30/05/25;".into()),
+            created_at: d(2025, 5, 30),
+            written_on: None,
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -190,7 +207,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "with photos".into(),
             ],
             category: ArticleCategory::Poetry,
-            timestamp_info_str: Some("created_at:05/06/25;written_on:07/08/23".into()),
+            created_at: d(2025, 6, 5),
+            written_on: d(2023, 8, 7),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -204,7 +222,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "alexander tokar".into(),
             ],
             category: ArticleCategory::Poetry,
-            timestamp_info_str: Some("created_at:11/06/25;written_on:10-11/06/25".into()),
+            created_at: d(2025, 6, 11),
+            written_on: d(2025, 6, 10),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -221,7 +240,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "rust lang".into(),
             ],
             category: ArticleCategory::Engineering,
-            timestamp_info_str: Some("created_at:14/06/25;written_on:13-14/06/25".into()),
+            created_at: d(2025, 6, 14),
+            written_on: d(2025, 6, 13),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -235,7 +255,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "alexander tokar".into(),
                 ],
                 category: ArticleCategory::Poetry,
-                timestamp_info_str: Some("created_at:20/06/25;written_on:19-20/06/25".into()),
+                created_at: d(2025, 6, 20),
+                written_on: d(2025, 6, 19),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -249,7 +270,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "best wishes".into(),
                 ],
                 category: ArticleCategory::Life,
-                timestamp_info_str: Some("created_at:22/06/25;written_on:22/06/25".into()),
+                created_at: d(2025, 6, 22),
+                written_on: d(2025, 6, 22),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -263,7 +285,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "alexander tokar".into(),
             ],
             category: ArticleCategory::Poetry,
-            timestamp_info_str: Some("created_at:25/06/25;written_on:25/06/25".into()),
+            created_at: d(2025, 6, 25),
+            written_on: d(2025, 6, 25),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -277,7 +300,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "alexander tokar".into(),
             ],
             category: ArticleCategory::Poetry,
-            timestamp_info_str: Some("created_at:12/07/25;written_on:12/07/25".into()),
+            created_at: d(2025, 7, 12),
+            written_on: d(2025, 7, 12),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -291,7 +315,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "alexander tokar".into(),
             ],
             category: ArticleCategory::Poetry,
-            timestamp_info_str: Some("created_at:18/07/25;written_on:18/07/25".into()),
+            created_at: d(2025, 7, 18),
+            written_on: d(2025, 7, 18),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -305,7 +330,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "alexander tokar".into(),
             ],
             category: ArticleCategory::Poetry,
-            timestamp_info_str: Some("created_at:28/07/25;written_on:24-27/07/25".into()),
+            created_at: d(2025, 7, 28),
+            written_on: d(2025, 7, 24),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -319,7 +345,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "alexander tokar".into(),
             ],
             category: ArticleCategory::Poetry,
-            timestamp_info_str: Some("created_at:07/08/25;written_on:06/08/25".into()),
+            created_at: d(2025, 8, 7),
+            written_on: d(2025, 8, 6),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -332,7 +359,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "thoughts".into(),
             ],
             category: ArticleCategory::Life,
-            timestamp_info_str: Some("created_at:26/08/25;written_on:26/08/25".into()),
+            created_at: d(2025, 8, 26),
+            written_on: d(2025, 8, 26),
         },
         Article {
             relative_source: RelativeLocalArticleSource {
@@ -346,7 +374,8 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "alexander tokar".into(),
             ],
             category: ArticleCategory::Poetry,
-            timestamp_info_str: Some("created_at:27/05/26;written_on:27/05/26".into()),
+            created_at: d(2026, 5, 27),
+            written_on: d(2026, 5, 27),
         },
     ]
 }
@@ -383,6 +412,7 @@ pub fn get_not_found_article() -> Article {
         description: Some("Sentinel article for 404".into()),
         tags: vec![],
         category: ArticleCategory::Noop,
-        timestamp_info_str: None,
+        created_at: None,
+        written_on: None,
     }
 }

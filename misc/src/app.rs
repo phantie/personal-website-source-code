@@ -41,8 +41,7 @@ pub fn App() -> impl IntoView {
         <Stylesheet href="https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css"/>
 
 
-        // sets the document title
-        <Title text="Welcome to Leptos"/>
+        <Title text="Alexander Tokar's Blog"/>
 
         // content for this welcome page
         <Router>
