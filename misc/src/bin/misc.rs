@@ -1,5 +1,3 @@
-use leptos::logging::log;
-
 fn site_url() -> String {
     std::env::var("SITE_URL").unwrap_or_else(|_| "http://localhost:3000".into())
 }
