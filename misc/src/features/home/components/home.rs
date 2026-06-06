@@ -1,7 +1,7 @@
 #![allow(unused)]
 
 use leptos::prelude::*;
-use leptos_meta::{provide_meta_context, Meta, MetaTags, Stylesheet, Title};
+use leptos_meta::{provide_meta_context, Link, Meta, MetaTags, Stylesheet, Title};
 use leptos_router::{
     components::{ParentRoute, Redirect, Route, Router, Routes},
     path, MatchNestedRoutes, StaticSegment,
@@ -9,8 +9,14 @@ use leptos_router::{
 
 #[component]
 pub fn Home() -> impl IntoView {
+    let canonical = format!(
+        "{}/",
+        std::env::var("SITE_URL").unwrap_or_else(|_| "http://localhost:3000".into())
+    );
+
     view! {
         <Title text="Alexander Tokar's Blog" />
+        <Link rel="canonical" href={canonical}/>
 
         <Meta name="description" content="Blog about life and software engineering" />
         <Meta
