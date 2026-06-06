@@ -310,7 +310,7 @@ fn parse_md(markdown_input: &str) -> String {
     html_output
 }
 
-fn build_article_json_ld(
+pub(crate) fn build_article_json_ld(
     title: &str,
     description: &str,
     url: &str,
@@ -351,4 +351,59 @@ fn build_article_json_ld(
     }
 
     format!("{{{}}}", fields.join(","))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::build_article_json_ld;
+    use chrono::NaiveDate;
+
+    fn date(y: i32, m: u32, d: u32) -> Option<NaiveDate> {
+        NaiveDate::from_ymd_opt(y, m, d)
+    }
+
+    #[test]
+    fn required_fields_present() {
+        let json = build_article_json_ld("Title", "Desc", "https://phantie.dev/articles/foo", &[], None, None);
+        assert!(json.starts_with('{') && json.ends_with('}'));
+        assert!(json.contains(r#""@context":"https://schema.org""#));
+        assert!(json.contains(r#""@type":"BlogPosting""#));
+        assert!(json.contains(r#""headline":"Title""#));
+        assert!(json.contains(r#""description":"Desc""#));
+        assert!(json.contains(r#""url":"https://phantie.dev/articles/foo""#));
+        assert!(json.contains(r#""author""#));
+    }
+
+    #[test]
+    fn special_chars_escaped() {
+        let json = build_article_json_ld(r#"He said "hello""#, "line1\nline2", "https://e.com", &[], None, None);
+        assert!(json.contains(r#""headline":"He said \"hello\"""#));
+        assert!(json.contains(r#""description":"line1\nline2""#));
+    }
+
+    #[test]
+    fn dates_formatted_iso() {
+        let json = build_article_json_ld("T", "", "https://e.com", &[], date(2025, 6, 5), date(2023, 8, 7));
+        assert!(json.contains(r#""datePublished":"2025-06-05""#));
+        assert!(json.contains(r#""dateCreated":"2023-08-07""#));
+    }
+
+    #[test]
+    fn no_date_fields_when_none() {
+        let json = build_article_json_ld("T", "", "https://e.com", &[], None, None);
+        assert!(!json.contains("datePublished"));
+        assert!(!json.contains("dateCreated"));
+    }
+
+    #[test]
+    fn tags_serialized_as_array() {
+        let json = build_article_json_ld("T", "", "https://e.com", &["rust".into(), "leptos".into()], None, None);
+        assert!(json.contains(r#""keywords":["rust","leptos"]"#));
+    }
+
+    #[test]
+    fn empty_tags_no_keywords_field() {
+        let json = build_article_json_ld("T", "", "https://e.com", &[], None, None);
+        assert!(!json.contains("keywords"));
+    }
 }

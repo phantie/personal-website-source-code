@@ -1,35 +1,6 @@
-<picture>
-    <source srcset="https://raw.githubusercontent.com/leptos-rs/leptos/main/docs/logos/Leptos_logo_Solid_White.svg" media="(prefers-color-scheme: dark)">
-    <img src="https://raw.githubusercontent.com/leptos-rs/leptos/main/docs/logos/Leptos_logo_RGB.svg" alt="Leptos Logo">
-</picture>
+# misc
 
-# Leptos Axum Starter Template
-
-This is a template for use with the [Leptos](https://github.com/leptos-rs/leptos) web framework and the [cargo-leptos](https://github.com/akesson/cargo-leptos) tool using [Axum](https://github.com/tokio-rs/axum).
-
-## Creating your template repo
-
-If you don't have `cargo-leptos` installed you can install it with
-
-```bash
-cargo install cargo-leptos --locked
-```
-
-Then run
-
-```bash
-cargo leptos new --git https://github.com/leptos-rs/start-axum-0.7
-```
-
-to generate a new project template.
-
-```bash
-cd misc
-```
-
-to go to your newly created project.  
-Feel free to explore the project structure, but the best place to start with your application code is in `src/app.rs`.  
-Addtionally, Cargo.toml may need updating as new versions of the dependencies are released, especially if things are not working after a `cargo update`.
+Leptos + Axum SSR app powering [phantie.dev](https://phantie.dev).
 
 ## Running your project
 
@@ -55,18 +26,74 @@ cargo leptos build --release
 
 Will generate your server binary in target/server/release and your site package in target/site
 
-## Testing Your Project
+## Testing
+
+### Unit tests
+
+No server needed. Tests run on the host target with the `ssr` feature:
 
 ```bash
-cargo leptos end-to-end
+cargo test --features ssr
 ```
+
+**What is covered:**
+
+- `features::articles::defs` — `ArticleCategory`
+  - `try_from` maps all valid strings (`engineering`, `life`, `poetry`, `noop`) to the correct variant
+  - `try_from` returns `Err` for unknown or wrong-case strings
+  - `to_string` → `try_from` roundtrip holds for every variant
+
+- `features::articles::instances` — article registry integrity
+  - List is non-empty
+  - All article IDs are unique
+  - No article has an empty `id`, `title`, or `relative_path`
+  - `written_on` is never a later date than `created_at`
+  - `get_not_found_article()` carries the sentinel ID `"not_found"`
+  - `Articles::get_by_id` returns the correct article for a known ID
+  - `Articles::get_by_id` returns the not-found article for an unknown ID
+
+- `features::articles::components::article` — `build_article_json_ld`
+  - Required JSON-LD fields are present (`@context`, `@type`, `headline`, `description`, `url`, `author`)
+  - Special characters in title/description are escaped (`"`, `\`, newlines)
+  - Dates are formatted as ISO 8601 (`YYYY-MM-DD`)
+  - `datePublished` / `dateCreated` fields absent when dates are `None`
+  - Tags serialised as a JSON array under `keywords`; field omitted when no tags
+
+### End-to-end tests (Playwright)
+
+Requires the dev server to be running:
 
 ```bash
-cargo leptos end-to-end --release
+cd misc && cargo leptos watch
 ```
 
-Cargo-leptos uses Playwright as the end-to-end test tool.  
-Tests are located in end2end/tests directory.
+Then in a separate terminal:
+
+```bash
+# First time only
+cd misc/end2end && npm install && npx playwright install
+
+npx playwright test --project=chromium
+```
+
+To run against a different origin (e.g. production):
+
+```bash
+BASE_URL=https://phantie.dev npx playwright test --project=chromium
+```
+
+**What is covered** (`end2end/tests/seo.spec.ts`):
+
+- `robots.txt` — correct `Content-Type`, `User-agent: *`, `Allow: /`, `Sitemap:` line present
+- `sitemap.xml` — correct `Content-Type`, valid XML structure, known article IDs present, all `<loc>` entries share a single origin (no mixed localhost/prod URLs)
+- Homepage — correct `<title>`, canonical `<link>` present and well-formed, canonical origin matches the page origin after client-side hydration
+- Article page — title differs from site default, canonical contains article ID in SSR HTML, canonical origin matches page origin after hydration, `<script type="application/ld+json">` present with `BlogPosting` type, `og:url` present in SSR HTML, article content present in SSR HTML (not dependent on JavaScript)
+
+**What is covered** (`end2end/tests/app.spec.ts`):
+
+- Homepage — all three category section links (Engineering, Poetry, Life) are visible
+- Article list — engineering category renders at least one article link; unknown category redirects to home
+- Article page — unknown article ID redirects to home; header home link points to `/`; reading progress bar is present in the DOM
 
 ## Executing a Server on a Remote Machine Without the Toolchain
 

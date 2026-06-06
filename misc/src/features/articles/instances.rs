@@ -138,7 +138,6 @@ pub fn get_articles_chronological_order() -> ArticleList {
                 "original poem".into(),
                 "alexander tokar".into(),
                 "uncertainty".into(),
-                "sean rowe".into(),
             ],
             category: ArticleCategory::Poetry,
             created_at: None,
@@ -396,6 +395,77 @@ impl Default for Articles {
                 .collect(),
             not_found_article,
             ordered_articles,
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn articles_list_non_empty() {
+        assert!(!get_articles_chronological_order().is_empty());
+    }
+
+    #[test]
+    fn all_article_ids_unique() {
+        let articles = get_articles_chronological_order();
+        let count = articles.len();
+        let mut ids: Vec<&str> = articles.iter().map(|a| a.id.as_str()).collect();
+        ids.sort_unstable();
+        ids.dedup();
+        assert_eq!(ids.len(), count, "duplicate article IDs detected");
+    }
+
+    #[test]
+    fn no_article_has_empty_id_or_title() {
+        for a in get_articles_chronological_order() {
+            assert!(!a.id.is_empty(), "article has empty id");
+            assert!(!a.title.is_empty(), "article '{}' has empty title", a.id);
+        }
+    }
+
+    #[test]
+    fn no_article_has_empty_relative_path() {
+        for a in get_articles_chronological_order() {
+            assert!(
+                !a.relative_source.relative_path.is_empty(),
+                "article '{}' has empty relative_path",
+                a.id
+            );
+        }
+    }
+
+    #[test]
+    fn not_found_article_has_sentinel_id() {
+        assert_eq!(get_not_found_article().id, NOT_FOUND_ARTICLE_ID);
+    }
+
+    #[test]
+    fn get_by_id_known_returns_correct_article() {
+        let articles = Articles::default();
+        let a = articles.get_by_id("about_site".to_owned());
+        assert_eq!(a.id, "about_site");
+    }
+
+    #[test]
+    fn get_by_id_unknown_returns_not_found() {
+        let articles = Articles::default();
+        let a = articles.get_by_id("this_id_does_not_exist_xyzabc".to_owned());
+        assert_eq!(a.id, NOT_FOUND_ARTICLE_ID);
+    }
+
+    #[test]
+    fn written_on_not_after_created_at() {
+        for a in get_articles_chronological_order() {
+            if let (Some(written), Some(created)) = (a.written_on, a.created_at) {
+                assert!(
+                    written <= created,
+                    "article '{}': written_on ({}) is after created_at ({})",
+                    a.id, written, created
+                );
+            }
         }
     }
 }
