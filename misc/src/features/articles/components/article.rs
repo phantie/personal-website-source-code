@@ -122,8 +122,6 @@ pub fn Article() -> impl IntoView {
                         }
                     }
 
-                    // Save before values are consumed by the view macros below
-                    #[cfg(feature = "ssr")]
                     let (description_for_ld, tags_for_ld, created_at_ld, written_on_ld) = (
                         article.description.clone().unwrap_or_default(),
                         article.tags.clone(),
@@ -132,56 +130,39 @@ pub fn Article() -> impl IntoView {
                     );
 
                     let meta_tags = view! {
-                        // Standard Meta
-                        <Meta name="description" content={article.description.clone().unwrap_or_default()}/>
+                        <Meta name="description" content={description_for_ld.clone()}/>
                         <Title text={article.title.clone()}/>
-
-                        // Open Graph
                         <Meta property="og:type" content="website"/>
                         <Meta property="og:title" content={article.title.clone()}/>
-                        <Meta property="og:description" content={article.description.clone().unwrap_or_default()}/>
-
-                        // Twitter Card (summary for text-only)
+                        <Meta property="og:description" content={description_for_ld.clone()}/>
                         <Meta name="twitter:card" content="summary"/>
                         <Meta name="twitter:title" content={article.title.clone()}/>
-                        <Meta name="twitter:description" content={article.description.unwrap_or_default()}/>
+                        <Meta name="twitter:description" content={description_for_ld.clone()}/>
                     };
 
+                    let keywords_meta = view! { <Meta name="keywords" content={tags_for_ld.join(", ")} /> };
 
-                    let keywords_meta = view! { <Meta name="keywords" content={article.tags.join(", ")} /> };
+                    let site_url = std::env::var("SITE_URL")
+                        .unwrap_or_else(|_| "http://localhost:3000".into());
+                    let article_url = format!("{}/articles/{}", site_url, article.id);
 
-                    // only apply meta tags on SSR
-                    #[cfg(feature = "ssr")]
-                    {
-                        let site_url = std::env::var("SITE_URL")
-                            .unwrap_or_else(|_| "http://localhost:3000".into());
-                        let article_url = format!("{}/articles/{}", site_url, article.id);
+                    let json_ld = build_article_json_ld(
+                        &article.title,
+                        &description_for_ld,
+                        &article_url,
+                        &tags_for_ld,
+                        created_at_ld,
+                        written_on_ld,
+                    );
 
-                        let json_ld = build_article_json_ld(
-                            &article.title,
-                            &description_for_ld,
-                            &article_url,
-                            &tags_for_ld,
-                            created_at_ld,
-                            written_on_ld,
-                        );
-
-                        return view! {
-                            <Title text={article.title} />
-                            {meta_tags}
-                            {keywords_meta}
-                            <Meta property="og:url" content={article_url.clone()}/>
-                            <Link rel="canonical" href={article_url}/>
-                            <script type="application/ld+json" inner_html={json_ld}></script>
-                        }.into_any()
-                    }
-
-                    #[cfg(not(feature = "ssr"))]
-                    {
-                        return view! {
-                            <Title text={article.title} />
-                        }.into_any()
-                    }
+                    view! {
+                        <Title text={article.title} />
+                        {meta_tags}
+                        {keywords_meta}
+                        <Meta property="og:url" content={article_url.clone()}/>
+                        <Link rel="canonical" href={article_url}/>
+                        <script type="application/ld+json" inner_html={json_ld}></script>
+                    }.into_any()
 
                 } else {
                     ().into_any()
@@ -330,7 +311,6 @@ fn parse_md(markdown_input: &str) -> String {
     html_output
 }
 
-#[cfg(feature = "ssr")]
 fn build_article_json_ld(
     title: &str,
     description: &str,

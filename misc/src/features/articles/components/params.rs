@@ -19,13 +19,19 @@ struct ArticleParams {
 pub fn article_id() -> impl Fn() -> Option<String> {
     let params = use_params::<ArticleParams>();
 
-    let id_memo = move || {
+    move || {
         params
             .read()
             .as_ref()
             .ok()
             .and_then(|params| params.id.clone())
-    };
+    }
+}
 
-    id_memo
+pub fn article_id_untracked() -> Option<String> {
+    use_params::<ArticleParams>()
+        .read_untracked()
+        .as_ref()
+        .ok()
+        .and_then(|params| params.id.clone())
 }

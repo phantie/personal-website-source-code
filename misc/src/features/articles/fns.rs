@@ -10,7 +10,7 @@ use leptos_router::hooks::use_query_map;
 pub fn get_article_category_from_query_params() -> Option<ArticleCategory> {
     let query = use_query_map();
     let value = query
-        .with(|q| q.get("category"))
+        .with_untracked(|q| q.get("category"))
         .map(|v| ArticleCategory::try_from(v.as_str()).ok())
         .flatten();
 
