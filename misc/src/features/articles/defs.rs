@@ -95,3 +95,32 @@ impl Articles {
             .unwrap_or(&self.not_found_article)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn article_category_try_from_all_variants() {
+        assert_eq!(ArticleCategory::try_from("engineering"), Ok(ArticleCategory::Engineering));
+        assert_eq!(ArticleCategory::try_from("life"), Ok(ArticleCategory::Life));
+        assert_eq!(ArticleCategory::try_from("poetry"), Ok(ArticleCategory::Poetry));
+        assert_eq!(ArticleCategory::try_from("noop"), Ok(ArticleCategory::Noop));
+    }
+
+    #[test]
+    fn article_category_try_from_invalid() {
+        assert!(ArticleCategory::try_from("unknown").is_err());
+        assert!(ArticleCategory::try_from("").is_err());
+        assert!(ArticleCategory::try_from("Engineering").is_err()); // case-sensitive
+    }
+
+    #[test]
+    fn article_category_to_string_roundtrip() {
+        for cat in [ArticleCategory::Engineering, ArticleCategory::Life, ArticleCategory::Poetry, ArticleCategory::Noop] {
+            let s = cat.to_string();
+            let parsed = ArticleCategory::try_from(s.as_str()).expect("roundtrip failed");
+            assert_eq!(parsed, cat, "roundtrip failed for {:?}", cat);
+        }
+    }
+}
