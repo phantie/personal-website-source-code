@@ -1,4 +1,4 @@
-use crate::features::articles::components::params::article_id;
+use crate::features::articles::components::params::{article_id, article_id_untracked};
 use crate::features::articles::defs::*;
 use crate::features::articles::server_fns::get_preload_images_links;
 use leptos::{logging::log, prelude::*};
@@ -18,7 +18,7 @@ pub fn ArticleList() -> impl IntoView {
 
     let articles: Articles = Articles::default();
 
-    let article_category = if let Some(article_id) = article_id()() {
+    let article_category = if let Some(article_id) = article_id_untracked() {
         let article = articles.get_by_id(article_id);
         article.category
     } else {
