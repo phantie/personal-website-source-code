@@ -19,3 +19,10 @@ pub fn is_prod() -> bool {
     let is_prod = env::var("IS_PROD").unwrap_or_else(|_| "0".into());
     is_prod == "1"
 }
+
+pub fn site_url() -> String {
+    #[cfg(feature = "ssr")]
+    { std::env::var("SITE_URL").unwrap_or_else(|_| "http://localhost:3000".into()) }
+    #[cfg(not(feature = "ssr"))]
+    { web_sys::window().unwrap().location().origin().unwrap_or_else(|_| "http://localhost:3000".into()) }
+}

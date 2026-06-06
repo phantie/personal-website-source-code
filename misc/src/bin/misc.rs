@@ -1,6 +1,4 @@
-fn site_url() -> String {
-    std::env::var("SITE_URL").unwrap_or_else(|_| "http://localhost:3000".into())
-}
+use misc::site_url;
 
 #[cfg(feature = "ssr")]
 async fn robots_txt_handler() -> impl axum::response::IntoResponse {

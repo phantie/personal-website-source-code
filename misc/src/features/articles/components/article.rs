@@ -142,8 +142,7 @@ pub fn Article() -> impl IntoView {
 
                     let keywords_meta = view! { <Meta name="keywords" content={tags_for_ld.join(", ")} /> };
 
-                    let site_url = std::env::var("SITE_URL")
-                        .unwrap_or_else(|_| "http://localhost:3000".into());
+                    let site_url = crate::site_url();
                     let article_url = format!("{}/articles/{}", site_url, article.id);
 
                     let json_ld = build_article_json_ld(
