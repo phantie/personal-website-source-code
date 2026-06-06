@@ -1,5 +1,56 @@
 use leptos::logging::log;
 
+fn site_url() -> String {
+    std::env::var("SITE_URL").unwrap_or_else(|_| "http://localhost:3000".into())
+}
+
+#[cfg(feature = "ssr")]
+async fn robots_txt_handler() -> impl axum::response::IntoResponse {
+    (
+        [(
+            axum::http::header::CONTENT_TYPE,
+            "text/plain; charset=utf-8",
+        )],
+        format!(
+            "User-agent: *\nAllow: /\n\nSitemap: {}/sitemap.xml\n",
+            site_url()
+        ),
+    )
+}
+
+#[cfg(feature = "ssr")]
+async fn sitemap_xml_handler() -> impl axum::response::IntoResponse {
+    use misc::features::articles::instances::get_articles_chronological_order;
+
+    let base = site_url();
+    let articles = get_articles_chronological_order();
+
+    let urls: String = articles
+        .iter()
+        .map(|a| {
+            format!(
+                "  <url>\n    <loc>{base}/articles/{id}</loc>\n  </url>\n",
+                id = a.id
+            )
+        })
+        .chain(std::iter::once(format!(
+            "  <url>\n    <loc>{base}/</loc>\n  </url>\n"
+        )))
+        .collect();
+
+    let xml = format!(
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n{urls}</urlset>"
+    );
+
+    (
+        [(
+            axum::http::header::CONTENT_TYPE,
+            "application/xml; charset=utf-8",
+        )],
+        xml,
+    )
+}
+
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
@@ -16,6 +67,8 @@ async fn main() {
     let routes = generate_route_list(App);
 
     let app = Router::new()
+        .route("/robots.txt", axum::routing::get(robots_txt_handler))
+        .route("/sitemap.xml", axum::routing::get(sitemap_xml_handler))
         .leptos_routes(&leptos_options, routes, {
             let leptos_options = leptos_options.clone();
             move || shell(leptos_options.clone())

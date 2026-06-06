@@ -20,6 +20,7 @@ wasm-bindgen = "0.2.108"
 thiserror = "2"
 http = "1"
 serde = { version = "1.0.228", features = ["derive"] }
+chrono = { version = "0.4", features = ["serde"] }
 pulldown-cmark = "0.13.0"
 web-sys= { version = "0.3", features = ["Element", "ScrollBehavior", "ScrollIntoViewOptions", "DataTransfer", "FileList", "File"] }
 regex = "1.12.2"

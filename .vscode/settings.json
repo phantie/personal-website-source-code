@@ -55,5 +55,13 @@
         "static": true
     },
     "markdown.validate.enabled": true,
-    "markdown.validate.referenceLinks.enabled": "ignore"
+    "markdown.validate.referenceLinks.enabled": "ignore",
+    "quickCommandButtons.buttons": [
+        {
+            "command": "cargo leptos watch",
+            "insertOnly": false,
+            "name": "$(debug-start) Start app",
+            "useVsCodeApi": false
+        }
+    ]
 }

@@ -1,3 +1,4 @@
+use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -73,7 +74,10 @@ pub struct Article {
     pub tags: Vec<ArticleTag>,
     pub description: Option<String>,
     pub category: ArticleCategory,
-    pub timestamp_info_str: Option<String>, // TEMP to keep track of post timings, refactor later
+    /// When the article was published/posted to the site.
+    pub created_at: Option<NaiveDate>,
+    /// When the content was originally written (may predate publication).
+    pub written_on: Option<NaiveDate>,
 }
 
 pub struct Articles {

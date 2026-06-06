@@ -1,6 +1,7 @@
 use leptos::logging::log;
 use leptos::prelude::*;
 use leptos::Params;
+use leptos_meta::Link;
 use leptos_meta::Meta;
 use leptos_meta::Stylesheet;
 use leptos_meta::Title;
@@ -37,8 +38,7 @@ pub fn Article() -> impl IntoView {
         id
     });
 
-    // let get_article_content_resource = Resource::new_blocking(id_memo, |id| async move {
-    let get_article_content_resource = Resource::new(article_id(), move |id| async move {
+    let get_article_content_resource = Resource::new_blocking(article_id(), move |id| async move {
         let id = if let Some(id) = id {
             Ok(id)
         } else {
@@ -122,6 +122,15 @@ pub fn Article() -> impl IntoView {
                         }
                     }
 
+                    // Save before values are consumed by the view macros below
+                    #[cfg(feature = "ssr")]
+                    let (description_for_ld, tags_for_ld, created_at_ld, written_on_ld) = (
+                        article.description.clone().unwrap_or_default(),
+                        article.tags.clone(),
+                        article.created_at,
+                        article.written_on,
+                    );
+
                     let meta_tags = view! {
                         // Standard Meta
                         <Meta name="description" content={article.description.clone().unwrap_or_default()}/>
@@ -141,15 +150,29 @@ pub fn Article() -> impl IntoView {
 
                     let keywords_meta = view! { <Meta name="keywords" content={article.tags.join(", ")} /> };
 
-                    // log!("applying suspense");
-
                     // only apply meta tags on SSR
                     #[cfg(feature = "ssr")]
                     {
+                        let site_url = std::env::var("SITE_URL")
+                            .unwrap_or_else(|_| "http://localhost:3000".into());
+                        let article_url = format!("{}/articles/{}", site_url, article.id);
+
+                        let json_ld = build_article_json_ld(
+                            &article.title,
+                            &description_for_ld,
+                            &article_url,
+                            &tags_for_ld,
+                            created_at_ld,
+                            written_on_ld,
+                        );
+
                         return view! {
                             <Title text={article.title} />
                             {meta_tags}
                             {keywords_meta}
+                            <Meta property="og:url" content={article_url.clone()}/>
+                            <Link rel="canonical" href={article_url}/>
+                            <script type="application/ld+json" inner_html={json_ld}></script>
                         }.into_any()
                     }
 
@@ -305,4 +328,48 @@ fn parse_md(markdown_input: &str) -> String {
     html::push_html(&mut html_output, parser);
 
     html_output
+}
+
+#[cfg(feature = "ssr")]
+fn build_article_json_ld(
+    title: &str,
+    description: &str,
+    url: &str,
+    tags: &[String],
+    created_at: Option<chrono::NaiveDate>,
+    written_on: Option<chrono::NaiveDate>,
+) -> String {
+    fn esc(s: &str) -> String {
+        s.replace('\\', "\\\\")
+            .replace('"', "\\\"")
+            .replace('\n', "\\n")
+            .replace('\r', "\\r")
+    }
+
+    let keywords_arr = tags
+        .iter()
+        .map(|t| format!("\"{}\"", esc(t)))
+        .collect::<Vec<_>>()
+        .join(",");
+
+    let mut fields = vec![
+        r#""@context":"https://schema.org""#.to_owned(),
+        r#""@type":"BlogPosting""#.to_owned(),
+        format!(r#""headline":"{}""#, esc(title)),
+        format!(r#""description":"{}""#, esc(description)),
+        r#""author":{"@type":"Person","name":"Alexander Tokar","url":"https://github.com/phantie"}"#.to_owned(),
+        format!(r#""url":"{url}""#),
+    ];
+
+    if !keywords_arr.is_empty() {
+        fields.push(format!(r#""keywords":[{keywords_arr}]"#));
+    }
+    if let Some(date) = created_at {
+        fields.push(format!(r#""datePublished":"{}""#, date.format("%Y-%m-%d")));
+    }
+    if let Some(date) = written_on {
+        fields.push(format!(r#""dateCreated":"{}""#, date.format("%Y-%m-%d")));
+    }
+
+    format!("{{{}}}", fields.join(","))
 }
