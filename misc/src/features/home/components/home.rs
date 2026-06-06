@@ -9,10 +9,7 @@ use leptos_router::{
 
 #[component]
 pub fn Home() -> impl IntoView {
-    let canonical = format!(
-        "{}/",
-        std::env::var("SITE_URL").unwrap_or_else(|_| "http://localhost:3000".into())
-    );
+    let canonical = format!("{}/", crate::site_url());
 
     view! {
         <Title text="Alexander Tokar's Blog" />
